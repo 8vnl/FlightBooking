@@ -23,9 +23,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     "Malaysia Airlines": "/images/MH.jpg",
                     "AirAsia": "/images/AK.jpg",
                     "Singapore Airlines": "/images/SQ.jpg",
-                    "Philippines Airlines": "/images/PR.jpg",
+                    "Philippine Airlines": "/images/PR.jpg",
                     "Thai Airways": "/images/TG.jpg",
-                    "Garuda Indonesia": "/images/GA.jpg"
+                    "Garuda Indonesia": "/images/GA.jpg",
+                    "Vietnam Airlines": "/images/VN.jpg",
 
                 };
 
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // Define randomSeats as a random number between 1 and 10
                     const randomSeats = Math.floor(Math.random() * 10) + 1;
+
 
                     flightCard.innerHTML = `
                         <div class="flight-card-left">
@@ -78,13 +80,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     const businessDiv = flightCard.querySelector('.business-class');
 
                     function selectFlight(fareClass) {
+                        const tripType = new URLSearchParams(window.location.search).get('tripType') || 'one-way';
+                        const returnDate = new URLSearchParams(window.location.search).get('returnDate') || '';
                         const selectedFlight = {
                             flightNumber: flight.flight_number,
                             airline: flight.airline,
                             fareClass: fareClass,
                             departure: flight.departure_airport,
                             destination: flight.arrival_airport,
-                            departureDate: flight.departure_time.split('T')[0] // Use flight's actual departure date
+                            departureDate: flight.departure_time.split('T')[0], // Use flight's actual departure date
+                            tripType: tripType,
+                            returnDate: returnDate
                         };
                         const params = new URLSearchParams(selectedFlight);
                         window.location.href = `/booking.html?${params.toString()}`;
@@ -106,11 +112,53 @@ document.addEventListener('DOMContentLoaded', function () {
         const departure = urlParams.get('departure') || '';
         const destination = urlParams.get('destination') || '';
         const departureDate = urlParams.get('departureDate') || '';
+        const passengers = urlParams.get('passengers') || '1';
+
+        // Update the flights header bar route-from-to span dynamically
+        const routeFromToSpan = document.querySelector('.route-from-to');
+        if (routeFromToSpan && departure && destination) {
+            routeFromToSpan.textContent = `${departure} → ${destination}`;
+        }
+
+        // Update the flights header bar route-date span dynamically
+        const routeDateSpan = document.querySelector('.route-date');
+        if (routeDateSpan && departureDate) {
+            const dateObj = new Date(departureDate);
+            const options = { weekday: 'short', day: 'numeric', month: 'short' };
+            const formattedDate = new Intl.DateTimeFormat('en-US', options).format(dateObj);
+            routeDateSpan.innerHTML = `<i class="far fa-calendar-alt"></i> ${formattedDate}`;
+        }
+
+        // Update the flights header bar route-passengers span dynamically
+        const routePassengersSpan = document.querySelector('.route-passengers');
+        if (routePassengersSpan && passengers) {
+            routePassengersSpan.innerHTML = `<i class="fas fa-user"></i> ${passengers}`;
+        }
 
         if (departure && destination && departureDate) {
             fetchFlights({ departure, destination, departureDate });
         } else {
             flightsContainer.innerHTML = '<p>Missing search parameters. Please search from the home page.</p>';
+        }
+
+        // Fix: Update header details with actual search params or stored selected flight after flight selection
+        const storedFlight = localStorage.getItem('selectedFlight');
+        if (storedFlight) {
+            const flight = JSON.parse(storedFlight);
+            if (routeFromToSpan) {
+                routeFromToSpan.textContent = `${flight.departure} → ${flight.destination}`;
+            }
+            if (routeDateSpan) {
+                const dateObj = new Date(flight.departureDate);
+                const options = { weekday: 'short', day: 'numeric', month: 'short' };
+                const formattedDate = new Intl.DateTimeFormat('en-US', options).format(dateObj);
+                routeDateSpan.innerHTML = `<i class="far fa-calendar-alt"></i> ${formattedDate}`;
+            }
+            if (routePassengersSpan) {
+                // Passengers count is not stored in selectedFlight, keep previous or default to 1
+                const passengersCount = passengers || '1';
+                routePassengersSpan.innerHTML = `<i class="fas fa-user"></i> ${passengersCount}`;
+            }
         }
     }
 
@@ -124,15 +172,36 @@ document.addEventListener('DOMContentLoaded', function () {
                 fareClass: urlParams.get('fareClass'),
                 departure: urlParams.get('departure'),
                 destination: urlParams.get('destination'),
-                departureDate: urlParams.get('departureDate')
+                departureDate: urlParams.get('departureDate'),
+                tripType: urlParams.get('tripType') || 'one-way',
+                returnDate: urlParams.get('returnDate') || ''
             };
             flightInfoDiv.innerHTML = `
                 <p><strong>${selectedFlight.airline} ${selectedFlight.flightNumber} - ${selectedFlight.fareClass}</strong></p>
                 <p>From: ${selectedFlight.departure}</p>
                 <p>To: ${selectedFlight.destination}</p>
-                <p>Date: ${selectedFlight.departureDate}</p>
+                <p>Departure Date: ${selectedFlight.departureDate}</p>
+                ${selectedFlight.tripType === 'roundtrip' ? `<p>Return Date: ${selectedFlight.returnDate}</p>` : ''}
             `;
             localStorage.setItem('selectedFlight', JSON.stringify(selectedFlight));
+
+            // Update booking.html header spans dynamically
+            const routeFromToSpan = document.getElementById('routeFromTo');
+            if (routeFromToSpan) {
+                routeFromToSpan.textContent = `${selectedFlight.departure} → ${selectedFlight.destination}`;
+            }
+            const routeDateSpan = document.getElementById('routeDate');
+            if (routeDateSpan) {
+                const dateObj = new Date(selectedFlight.departureDate);
+                const options = { weekday: 'short', day: 'numeric', month: 'short' };
+                const formattedDate = new Intl.DateTimeFormat('en-US', options).format(dateObj);
+                routeDateSpan.innerHTML = `<i class="far fa-calendar-alt"></i> ${formattedDate}`;
+            }
+            const routePassengersSpan = document.getElementById('routePassengers');
+            if (routePassengersSpan) {
+                // Passengers count is not in URL params, default to 1 Passenger
+                routePassengersSpan.innerHTML = `<i class="fas fa-user"></i> 1 Passenger`;
+            }
         } else {
             flightInfoDiv.innerHTML = '<p>No flight selected. Please select a flight first.</p>';
         }
@@ -158,6 +227,16 @@ document.addEventListener('DOMContentLoaded', function () {
             prevBtn.style.display = step === 1 ? 'none' : 'inline-block';
             nextBtn.style.display = step === totalSteps ? 'none' : 'inline-block';
             submitBtn.style.display = step === totalSteps ? 'inline-block' : 'none';
+
+            // Update active step button in header booking steps
+            const headerSteps = document.querySelectorAll('header .booking-steps .step');
+            headerSteps.forEach((btn, index) => {
+                if (index === step - 1) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
         }
 
         function validateStep(step) {
@@ -188,45 +267,53 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        bookingForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            if (!validateStep(currentStep)) {
-                return;
-            }
+            bookingForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                if (!validateStep(currentStep)) {
+                    return;
+                }
 
-            // Collect all form data
-            const bookingId = Date.now();
-            const bookingData = {
-                id: bookingId,
-                passengerName: document.getElementById('passengerName').value,
-                passengerPassport: document.getElementById('passengerPassport').value,
-                frequentFlyerProgram: document.getElementById('frequentFlyerProgram').value,
-                passengerEmail: document.getElementById('passengerEmail').value,
-                passengerPhone: document.getElementById('passengerPhone').value,
-                additionalServices: {
-                    extraBaggage: document.getElementById('extraBaggage').checked,
-                    mealPreference: document.getElementById('mealPreference').checked,
-                    seatSelection: document.getElementById('seatSelection').checked,
-                    specialRequests: document.getElementById('specialRequests').value
-                },
-                payment: {
-                    cardName: document.getElementById('cardName').value,
-                    cardNumber: document.getElementById('cardNumber').value,
-                    expiryDate: document.getElementById('expiryDate').value,
-                    cvv: document.getElementById('cvv').value
-                },
-                flight: JSON.parse(localStorage.getItem('selectedFlight'))
-            };
+                // Collect all form data
+                const bookingId = Date.now();
+                const selectedFlight = JSON.parse(localStorage.getItem('selectedFlight'));
+                let totalPrice = 0;
+                if (selectedFlight.tripType === 'roundtrip') {
+                    totalPrice = selectedFlight.price * 1.6; // Adjusted price for return trip
+                } else {
+                    totalPrice = selectedFlight.price;
+                }
+                const bookingData = {
+                    id: bookingId,
+                    passengerName: document.getElementById('passengerName').value,
+                    passengerPassport: document.getElementById('passengerPassport').value,
+                    frequentFlyerProgram: document.getElementById('frequentFlyerProgram').value,
+                    passengerEmail: document.getElementById('passengerEmail').value,
+                    passengerPhone: document.getElementById('passengerPhone').value,
+                    additionalServices: {
+                        extraBaggage: document.getElementById('extraBaggage').checked,
+                        mealPreference: document.getElementById('mealPreference').checked,
+                        seatSelection: document.getElementById('seatSelection').checked,
+                        specialRequests: document.getElementById('specialRequests').value
+                    },
+                    payment: {
+                        cardName: document.getElementById('cardName').value,
+                        cardNumber: document.getElementById('cardNumber').value,
+                        expiryDate: document.getElementById('expiryDate').value,
+                        cvv: document.getElementById('cvv').value
+                    },
+                    flight: selectedFlight,
+                    totalPrice: totalPrice
+                };
 
-            // Store booking in bookings array in localStorage
-            let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-            bookings.push(bookingData);
-            localStorage.setItem('bookings', JSON.stringify(bookings));
-            localStorage.setItem('bookingData', JSON.stringify(bookingData));
+                // Store booking in bookings array in localStorage
+                let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+                bookings.push(bookingData);
+                localStorage.setItem('bookings', JSON.stringify(bookings));
+                localStorage.setItem('bookingData', JSON.stringify(bookingData));
 
-            // Redirect to receipt page after successful booking
-            window.location.href = `/receipt.html?booking=${bookingId}`;
-        });
+                // Redirect to receipt page after successful booking
+                window.location.href = `/receipt.html?booking=${bookingId}`;
+            });
 
         showStep(currentStep);
     }
@@ -237,5 +324,32 @@ document.addEventListener('DOMContentLoaded', function () {
         const hours = Math.floor(diffMs / (1000 * 60 * 60));
         const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
         return `${hours}h ${minutes}m`;
+    }
+
+    // New code to toggle return date input visibility based on tripType selection
+    const flightSearchForm = document.getElementById('flightSearchForm');
+    if (flightSearchForm) {
+        const returnDateContainer = document.getElementById('returnDateContainer');
+        const tripTypeRadios = flightSearchForm.querySelectorAll('input[name="tripType"]');
+
+        function toggleReturnDate() {
+            const selectedTripType = flightSearchForm.querySelector('input[name="tripType"]:checked').value;
+            if (selectedTripType === 'roundtrip') {
+                returnDateContainer.style.display = 'block';
+                // Make returnDate input required when visible
+                returnDateContainer.querySelector('input').required = true;
+            } else {
+                returnDateContainer.style.display = 'none';
+                // Remove required attribute when hidden
+                returnDateContainer.querySelector('input').required = false;
+            }
+        }
+
+        tripTypeRadios.forEach(radio => {
+            radio.addEventListener('change', toggleReturnDate);
+        });
+
+        // Initialize on page load
+        toggleReturnDate();
     }
 });

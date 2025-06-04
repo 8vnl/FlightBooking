@@ -6,198 +6,16 @@
   <title>Book Flight | Galaxy</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
-  <style>
-    :root {
-      --primary-color: #007bff; 
-      --secondary-color: #f8f9fa;
-      --text-color: #333;
-      --border-radius: 10px;
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #f4f6f8;
-      color: var(--text-color);
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    header {
-      background: white;
-      padding: 1rem 0;
-      box-shadow: var(--shadow);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .flights-header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .flights-logo {
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: var(--primary-color);
-    }
-
-    .route-from-to,
-    .route-date,
-    .route-passengers {
-      margin: 0 10px;
-      font-size: 0.95rem;
-    }
-
-    .btn-modify {
-      background: none;
-      color: var(--primary-color);
-      border: none;
-      cursor: pointer;
-    }
-
-    .booking-steps {
-      display: flex;
-      gap: 10px;
-    }
-
-    .booking-steps button {
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: var(--border-radius);
-      background-color: #e9ecef;
-      color: #495057;
-      cursor: default;
-    }
-
-    .booking-steps button.active {
-      background-color: var(--primary-color);
-      color: white;
-      font-weight: bold;
-    }
-
-    main {
-      margin-top: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .flight-details-card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow);
-    }
-
-    .flight-details-card h2 {
-      margin-bottom: 1rem;
-    }
-
-    .booking-steps-section {
-      background: white;
-      padding: 1.5rem;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow);
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    label {
-      font-weight: 500;
-      margin-bottom: 0.3rem;
-    }
-
-    input,
-    select,
-    textarea {
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: var(--border-radius);
-      width: 100%;
-    }
-
-    .booking-actions {
-      margin-top: 2rem;
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-    }
-
-    .btn {
-      padding: 0.6rem 1.2rem;
-      border: none;
-      border-radius: var(--border-radius);
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s ease;
-    }
-
-    .btn-primary {
-      background: var(--primary-color);
-      color: white;
-    }
-
-    .btn-secondary {
-      background: #adb5bd;
-      color: white;
-    }
-
-    .btn-success {
-      background: #28a745;
-      color: white;
-    }
-
-    .btn:hover {
-      opacity: 0.9;
-    }
-
-    @media (max-width: 600px) {
-      .booking-steps {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .booking-steps button {
-        text-align: left;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
   <header class="flights-header-bar">
     <div class="container flights-header-container">
       <div class="flights-route">
-        <span class="flights-logo">Galaxy</span>
+        <img src="/images/placeholder.gif" alt="Galaxy Logo" class="flights-logo" />
         <span class="route-from-to" id="routeFromTo">KUL → SIN</span>
         <span class="route-date" id="routeDate"><i class="far fa-calendar-alt"></i> May 25, 2025</span>
         <span class="route-passengers" id="routePassengers"><i class="fas fa-user"></i> 1 Passenger</span>
-        <button class="btn btn-link btn-modify">Modify</button>
       </div>
       <nav class="booking-steps">
         <button class="step active">1 Flight</button>
@@ -216,6 +34,21 @@
         <p><strong>Departure:</strong> 10:30 AM</p>
         <p><strong>Arrival:</strong> 11:45 AM</p>
         <p><strong>Price:</strong> $120</p>
+      </div>
+    </section>
+    <section id="returnFlightDetails" class="flight-details-card" style="display:none;">
+      <h2>Return Flight</h2>
+      <div id="returnFlightInfo">
+        <p><strong>Airline:</strong> Malaysia Airlines</p>
+        <p><strong>Departure:</strong> 10:30 AM</p>
+        <p><strong>Arrival:</strong> 11:45 AM</p>
+        <p><strong>Price:</strong> $120</p>
+      </div>
+    </section>
+    <section id="totalPriceSection" class="flight-details-card" style="display:none;">
+      <h2>Total Price</h2>
+      <div id="totalPriceInfo">
+        <p><strong>Total:</strong> $240</p>
       </div>
     </section>
 

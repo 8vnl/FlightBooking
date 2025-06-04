@@ -537,7 +537,74 @@ const predefinedFlights = [
         price: 125.00,
         available_seats: 150,
         aircraft_type: 'Airbus A321'
+    },
+    {
+        flight_number: 'SQ201',
+        airline: 'Singapore Airlines',
+        departure_airport: 'Singapore',
+        arrival_airport: 'Kuala Lumpur',
+        departure_times: ['09:30', '15:30', '21:30'],
+        arrival_times: ['10:30', '16:30', '22:30'],
+        price: 105.00,
+        available_seats: 180,
+        aircraft_type: 'Airbus A350'
+    },
+    {
+        flight_number: 'AK201',
+        airline: 'AirAsia',
+        departure_airport: 'Singapore',
+        arrival_airport: 'Jakarta',
+        departure_times: ['07:30', '13:30', '19:30'],
+        arrival_times: ['09:00', '15:00', '21:00'],
+        price: 95.00,
+        available_seats: 160,
+        aircraft_type: 'Airbus A320'
+    },
+    {
+        flight_number: 'GA464',
+        airline: 'Garuda Indonesia',
+        departure_airport: 'Singapore',
+        arrival_airport: 'Jakarta',
+        departure_times: ['08:30', '14:30', '20:30'],
+        arrival_times: ['10:00', '16:00', '22:00'],
+        price: 130.00,
+        available_seats: 150,
+        aircraft_type: 'Boeing 737'
+    },
+    {
+        flight_number: 'PR799',
+        airline: 'Philippine Airlines',
+        departure_airport: 'Singapore',
+        arrival_airport: 'Manila',
+        departure_times: ['07:30', '13:30', '19:30'],
+        arrival_times: ['10:00', '16:00', '22:00'],
+        price: 140.00,
+        available_seats: 160,
+        aircraft_type: 'Airbus A321'
+    },
+    {
+        flight_number: 'AK300',
+        airline: 'AirAsia',
+        departure_airport: 'Singapore',
+        arrival_airport: 'Ho Chi Minh City',
+        departure_times: ['08:30', '14:30', '20:30'],
+        arrival_times: ['10:00', '16:00', '22:00'],
+        price: 95.00,
+        available_seats: 160,
+        aircraft_type: 'Airbus A320'
+    },
+    {
+        flight_number: 'VN329',
+        airline: 'Vietnam Airlines',
+        departure_airport: 'Singapore',
+        arrival_airport: 'Ho Chi Minh City',
+        departure_times: ['10:30', '16:30', '22:30'],
+        arrival_times: ['12:00', '18:00', '00:00'],
+        price: 115.00,
+        available_seats: 150,
+        aircraft_type: 'Airbus A321'
     }
+        
 ];
 
 module.exports = predefinedFlights;

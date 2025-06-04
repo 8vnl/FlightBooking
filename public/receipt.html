@@ -69,8 +69,10 @@
           <p><strong>From:</strong> ${booking.flight?.departure || booking.departure_airport}</p>
           <p><strong>To:</strong> ${booking.flight?.destination || booking.arrival_airport}</p>
           <p><strong>Departure:</strong> ${booking.flight?.departureDate || (booking.departure_time ? new Date(booking.departure_time).toLocaleString() : '')}</p>
+          ${booking.flight?.tripType === 'roundtrip' ? `<p><strong>Return Date:</strong> ${booking.flight.returnDate}</p>` : ''}
           <p><strong>Arrival:</strong> ${booking.flight?.arrivalDate || (booking.arrival_time ? new Date(booking.arrival_time).toLocaleString() : '')}</p>
           <p><strong>Status:</strong> ${booking.status || 'Confirmed'}</p>
+          <p><strong>Total Price:</strong> MYR ${booking.totalPrice?.toFixed(2) || 'N/A'}</p>
         `;
 
         const viewBtn = document.getElementById('viewBoardingPassBtn');
