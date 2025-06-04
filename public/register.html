@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Register</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <form id="registerForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required />
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required />
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+
+            <label for="full_name">Full Name:</label>
+            <input type="text" id="full_name" name="full_name" />
+
+            <button type="submit">Register</button>
+        </form>
+        <p id="message" class="message"></p>
+        <p>Already have an account? <a href="login.html">Login here</a></p>
+    </div>
+
+    <script>
+        const registerForm = document.getElementById('registerForm');
+        const message = document.getElementById('message');
+
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            message.textContent = '';
+
+            const username = registerForm.username.value.trim();
+            const password = registerForm.password.value;
+            const email = registerForm.email.value.trim();
+            const full_name = registerForm.full_name.value.trim();
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password, email, full_name })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    message.style.color = 'green';
+                    message.textContent = 'Registration successful! Redirecting to login...';
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 1500);
+                } else {
+                    message.style.color = 'red';
+                    message.textContent = data.error || 'Registration failed';
+                }
+            } catch (error) {
+                message.style.color = 'red';
+                message.textContent = 'An error occurred. Please try again.';
+            }
+        });
+    </script>
+</body>
+</html>

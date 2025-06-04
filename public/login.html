@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required />
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required />
+            
+            <button type="submit">Login</button>
+        </form>
+        <p id="message" class="message"></p>
+        <p>Don't have an account? <a href="register.html">Register here</a></p>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const message = document.getElementById('message');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            message.textContent = '';
+
+            const username = loginForm.username.value.trim();
+            const password = loginForm.password.value;
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    message.style.color = 'green';
+                    message.textContent = data.message || 'Login successful!';
+                    // Redirect to index page after login
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                } else {
+                    message.style.color = 'red';
+                    message.textContent = data.error || 'Login failed';
+                }
+            } catch (error) {
+                message.style.color = 'red';
+                message.textContent = 'An error occurred. Please try again.';
+            }
+        });
+    </script>
+</body>
+</html>

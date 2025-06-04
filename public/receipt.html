@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Booking Receipt | Galaxy</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+  <nav class="main-nav">
+    <a href="/" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+    <h1><i class="fas fa-receipt"></i> Booking Receipt</h1>
+  </nav>
+
+  <div class="container">
+    <div id="receiptContainer" class="receipt-container">
+      <p>Loading booking receipt...</p>
+    </div>
+    <div class="receipt-actions">
+      <button id="viewBoardingPassBtn" class="btn btn-primary" style="display:none;">
+        <i class="fas fa-plane"></i> View Boarding Pass
+      </button>
+      <a href="/profile.html" class="btn btn-secondary">
+        <i class="fas fa-list"></i> Manage Bookings
+      </a>
+    </div>
+  </div>
+
+  <script>
+    async function loadReceipt() {
+      const container = document.getElementById('receiptContainer');
+      const urlParams = new URLSearchParams(window.location.search);
+      const bookingId = urlParams.get('booking');
+
+      if (!bookingId) {
+        container.innerHTML = '<p>Booking ID is missing.</p>';
+        return;
+      }
+
+      try {
+        // First try to get bookingData from localStorage
+        const bookingIdNum = Number(bookingId);
+        const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+        let booking = bookings.find(b => b.id === bookingIdNum);
+
+        if (!booking) {
+          // Fallback to fetch from backend API
+          const response = await fetch('/api/bookings');
+          if (!response.ok) {
+            container.innerHTML = '<p>Error loading booking details.</p>';
+            return;
+          }
+          const backendBookings = await response.json();
+          booking = backendBookings.find(b => b.id === bookingIdNum);
+          if (!booking) {
+            container.innerHTML = '<p>Booking not found.</p>';
+            return;
+          }
+        }
+
+        container.innerHTML = `
+          <h2>Booking Confirmed!</h2>
+          <p><strong>Booking ID:</strong> ${booking.id}</p>
+          <p><strong>Passenger Name:</strong> ${booking.passengerName || booking.passenger_name}</p>
+          <p><strong>Flight:</strong> ${booking.flight?.airline || booking.airline} ${booking.flight?.flightNumber || booking.flight_number}</p>
+          <p><strong>From:</strong> ${booking.flight?.departure || booking.departure_airport}</p>
+          <p><strong>To:</strong> ${booking.flight?.destination || booking.arrival_airport}</p>
+          <p><strong>Departure:</strong> ${booking.flight?.departureDate || (booking.departure_time ? new Date(booking.departure_time).toLocaleString() : '')}</p>
+          <p><strong>Arrival:</strong> ${booking.flight?.arrivalDate || (booking.arrival_time ? new Date(booking.arrival_time).toLocaleString() : '')}</p>
+          <p><strong>Status:</strong> ${booking.status || 'Confirmed'}</p>
+        `;
+
+        const viewBtn = document.getElementById('viewBoardingPassBtn');
+        viewBtn.style.display = 'inline-block';
+        viewBtn.onclick = () => {
+          window.location.href = `/boarding-pass.html?booking=${booking.id}`;
+        };
+      } catch (error) {
+        container.innerHTML = '<p>Error loading booking details.</p>';
+        console.error('Error loading booking details:', error);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadReceipt);
+  </script>
+</body>
+</html>

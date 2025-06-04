@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Boarding Pass | Galaxy</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+  <nav class="main-nav">
+    <a href="/profile.html" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to My Bookings
+    </a>
+    <h1><i class="fas fa-plane"></i> Galaxy Boarding Pass</h1>
+  </nav>
+
+  <div class="container">
+    <div id="boardingPassContainer" class="boarding-pass-container">
+      <p>Loading boarding pass...</p>
+    </div>
+  </div>
+
+  <script>
+    async function loadBoardingPass() {
+      const container = document.getElementById('boardingPassContainer');
+      const urlParams = new URLSearchParams(window.location.search);
+      const bookingId = urlParams.get('booking');
+
+      console.log('Booking ID from URL:', bookingId);
+
+      if (!bookingId) {
+        container.innerHTML = '<p>Booking ID is missing.</p>';
+        return;
+      }
+
+      try {
+        // First try to get bookingData from localStorage
+        const bookingIdNum = Number(bookingId);
+        const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+        let booking = bookings.find(b => b.id === bookingIdNum);
+
+        if (!booking) {
+          // Fallback to fetch from backend API
+          const response = await fetch('/api/bookings');
+          if (!response.ok) {
+            container.innerHTML = '<p>Error loading booking details.</p>';
+            return;
+          }
+          const backendBookings = await response.json();
+          booking = backendBookings.find(b => b.id === bookingIdNum);
+          if (!booking) {
+            container.innerHTML = '<p>Booking not found.</p>';
+            return;
+          }
+        }
+
+        const departureTime = new Date(booking.departure_time);
+        const arrivalTime = new Date(booking.arrival_time);
+
+        container.innerHTML = `
+          <div class="boarding-pass-card">
+            <h2>Boarding Pass</h2>
+            <p><strong>Booking ID:</strong> ${booking.id}</p>
+            <p><strong>Passenger Name:</strong> ${booking.passengerName || booking.passenger_name}</p>
+            <p><strong>Flight:</strong> ${booking.flight?.airline || booking.airline} ${booking.flight?.flightNumber || booking.flight_number}</p>
+            <p><strong>From:</strong> ${booking.flight?.departure || booking.departure_airport}</p>
+            <p><strong>To:</strong> ${booking.flight?.destination || booking.arrival_airport}</p>
+            <p><strong>Departure:</strong> ${booking.flight?.departureDate || (booking.departure_time ? departureTime.toLocaleString() : '')}</p>
+            <p><strong>Arrival:</strong> ${booking.flight?.arrivalDate || (booking.arrival_time ? arrivalTime.toLocaleString() : '')}</p>
+            <p><strong>Seat Number:</strong> ${booking.seat_number || 'Not assigned'}</p>
+            <p><strong>Status:</strong> ${booking.status || 'Confirmed'}</p>
+            <button onclick="window.print()" class="btn btn-primary">
+              <i class="fas fa-print"></i> Print Boarding Pass
+            </button>
+          </div>
+        `;
+      } catch (error) {
+        container.innerHTML = '<p>Error loading booking details.</p>';
+        console.error('Error loading booking details:', error);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadBoardingPass);
+  </script>
+</body>
+</html>

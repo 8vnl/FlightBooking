@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bookings | Galaxy</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <nav class="main-nav">
+    <a href="/" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+    <h1><i class="fas fa-plane"></i> Galaxy</h1>
+    <a href="flights.html" class="btn btn-secondary" style="margin-left: 10px;">
+      <i class="fas fa-search"></i> Find Flights
+    </a>
+    <button id="logoutBtn" class="btn btn-danger" style="margin-left: 10px;">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+  </nav>
+
+  <div class="container">
+    <div class="profile-header">
+      <h2><i class="fas fa-user"></i> My Bookings</h2>
+      <div class="filter-controls">
+        <select id="bookingFilter">
+          <option value="all">All Bookings</option>
+          <option value="upcoming">Upcoming</option>
+          <option value="past">Past</option>
+        </select>
+        <button id="refreshBookings" class="btn btn-secondary">
+          <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+      </div>
+    </div>
+    
+    <div id="bookingsContainer" class="bookings-container"></div>
+  </div>
+
+  <!-- Check-in Modal -->
+  <div id="checkinModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2><i class="fas fa-check-circle"></i> Online Check-in</h2>
+      <div id="seatMap" class="seat-map">
+        <!-- Seat map will be generated here -->
+      </div>
+      <div class="selected-seat">
+        Selected Seat: <span id="selectedSeatDisplay">None</span>
+      </div>
+      <button id="confirmCheckin" class="btn btn-primary">
+        <i class="fas fa-check"></i> Confirm Check-in
+      </button>
+    </div>
+  </div>
+
+  <!-- Boarding Pass Modal -->
+  <div id="boardingPassModal" class="modal">
+    <div class="modal-content boarding-pass-content">
+      <span class="close-modal">&times;</span>
+      <div id="boardingPass" class="boarding-pass">
+        <!-- Boarding pass will be generated here -->
+      </div>
+      <button id="printBoardingPass" class="btn btn-primary">
+        <i class="fas fa-print"></i> Print Boarding Pass
+      </button>
+    </div>
+  </div>
+
+  <script src="/js/booking.js"></script>
+  <script src="/js/profile.js"></script>
+</body>
+</html>
