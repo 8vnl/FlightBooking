@@ -77,11 +77,12 @@ nav a {
 
 /* Hero Banner */
 .hero {
-  background: url('https://www.malaysiaairlines.com//content/dam/mh/my/en/home/hero-banner/mhhospitality/6-24/en_1920x600.jpg') no-repeat center center / cover;
+  background: url('../images/hero1.jpg') no-repeat center center / cover;
   color: white;
   padding: 100px 20px;
   text-align: center;
   position: relative;
+  min-height: 400px;
 }
 
 .hero::after {
@@ -90,7 +91,7 @@ nav a {
   top: 0; left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.0);
   z-index: 1;
 }
 

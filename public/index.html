@@ -31,11 +31,6 @@
 
   <!-- Hero Section -->
   <section class="hero">
-    <div class="hero-content">
-      <h1>Your Journey Starts Here</h1>
-      <p>Book flights across Asia-Pacific and beyond with comfort and care.</p>
-      <button class="btn-primary">Search Flights</button>
-    </div>
   </section>
 
   <!-- Search Form -->
@@ -82,12 +77,23 @@
       </div>
       </div>
 
-      <div class="radio-group">
-        <label><input type="radio" name="tripType" value="one-way" checked /> One Way</label>
-        <label><input type="radio" name="tripType" value="roundtrip" /> Round Trip</label>
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div class="radio-group" style="margin: 0;">
+          <label><input type="radio" name="tripType" value="one-way" checked /> One Way</label>
+          <label><input type="radio" name="tripType" value="roundtrip" /> Round Trip</label>
+        </div>
+        <button type="submit" class="btn-primary" style="margin: 0;">
+          Search Flights
+        </button>
       </div>
-
-      <button type="submit" class="btn-primary">Search Flights</button>
+      <div class="member-points-info" style="margin-top: 15px; font-size: 0.8rem; color: #333;">
+        <div style="background-color: #d9f0ff; border-radius: 12px; padding: 10px 15px; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.2rem; color: #3178c6; flex-shrink: 0;">&#8505;</span>
+          <div class="text-sm" style="flex-grow: 1;">
+            Did you know? travelgo members will get a point for every money they spent. <a href="login.html" class="text-primary-blue-base font-semibold underline">Login now</a> to get better fares.
+          </div>
+        </div>
+      </div>
     </form>
 </section>
 
