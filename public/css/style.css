@@ -1,4 +1,88 @@
-/* Base Variables */
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialThin.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialThinItalic.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialLight.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialLightItalic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialRegular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialItalic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialDemibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialDemiboldItalic.otf') format('opentype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialBold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialBoldItalic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialBlack.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialBlackItalic.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
   --primary-color: #3498db;
   --secondary-color: #2d3556;
@@ -11,6 +95,7 @@
   --border-radius: 8px;
   --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   --transition: all 0.3s ease;
+  --font-family: 'Mundial', sans-serif;
 }
 
 /* Base Reset */
@@ -22,7 +107,7 @@
 
 /* Body Styles */
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font-family);
   line-height: 1.6;
   color: #333;
   background-color: #f5f7fa;

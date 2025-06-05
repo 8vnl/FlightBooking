@@ -1,3 +1,88 @@
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialThin.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialThinItalic.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialLight.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialLightItalic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialRegular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialItalic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialDemibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialDemiboldItalic.otf') format('opentype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialBold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialBoldItalic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialBlack.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mundial';
+  src: url('../fonts/MundialBlackItalic.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
   --primary-color: #007cc2; 
   --accent-color: #0d4689;
@@ -6,7 +91,7 @@
   --white: #fff;
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   --radius: 8px;
-  --font-family: 'Roboto', sans-serif;
+  --font-family: 'Mundial', sans-serif;
 }
 
 * {
@@ -20,6 +105,12 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   line-height: 1.6;
+}
+
+button,
+select,
+input {
+  font-family: var(--font-family);
 }
 
 /* Header */
@@ -120,7 +211,7 @@ nav a {
   font-size: 1rem;
   border-radius: 25px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: regular;
   transition: background 0.3s ease;
 }
 
