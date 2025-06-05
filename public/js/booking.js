@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     "Thai Airways": "/images/TG.jpg",
                     "Garuda Indonesia": "/images/GA.jpg",
                     "Vietnam Airlines": "/images/VN.jpg",
+                    "AirAsia Philippines": "/images/AK.jpg",
+
 
                 };
 

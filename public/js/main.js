@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('User data received:', user);
             if (user && authButtonsDiv) {
                 authButtonsDiv.innerHTML = `
-                    <span><i class="fas fa-user"></i> Welcome <strong>${user.username}</strong></span>
+                    <span><i class="fas fa-user"></i> Welcome<strong>${user.username}</strong></span>
                     <button id="logoutBtn" class="btn btn-secondary">Logout</button>
                 `;
                 // Add logout handler to new button

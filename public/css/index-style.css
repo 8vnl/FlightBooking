@@ -116,14 +116,14 @@ input {
 /* Header */
 header.flights-header-bar {
   background-color: var(--accent-color);
-  padding: 10px 20px;
+  padding: 10px 10px 10px 5px; /* reduced left padding */
   color: white;
 }
 
 .flights-header-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 15px;
+  padding: 0 5px; /* reduced left and right padding */
 }
 
 .flights-route {
@@ -133,7 +133,7 @@ header.flights-header-bar {
 }
 
 .flights-logo {
-  height: 40px;
+  height: 60px; /* increased logo height */
   width: auto;
 }
 

@@ -20,8 +20,9 @@
   position: relative;
   background: none;
   border: none;
-  padding: 10px 20px;
-  font-weight: 600;
+  padding: 10px 20px; 
+  font-family: var(--font-family);
+  font-weight: Regular;
   color: #6c757d;
   cursor: default;
   outline: none;
