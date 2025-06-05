@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Book Flight | Galaxy</title>
+  <title>Book Flight | travelgo</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/booking-steps.css" />
 </head>
 <body>
   <header class="flights-header-bar">
     <div class="container flights-header-container">
       <div class="flights-route">
-        <img src="/images/placeholder.gif" alt="Galaxy Logo" class="flights-logo" />
+        <a href="index.html"><img src="/images/placeholder.gif" alt="travelgo Logo" class="flights-logo" /></a>
         <span class="route-from-to" id="routeFromTo">KUL → SIN</span>
         <span class="route-date" id="routeDate"><i class="far fa-calendar-alt"></i> May 25, 2025</span>
         <span class="route-passengers" id="routePassengers"><i class="fas fa-user"></i> 1 Passenger</span>
       </div>
-      <nav class="booking-steps">
-        <button class="step active">1 Flight</button>
-        <button class="step">2 Passenger</button>
-        <button class="step">3 Extra Services</button>
-        <button class="step">4 Payment</button>
-      </nav>
     </div>
   </header>
+  <section class="progression-bar-container">
+    <nav class="booking-steps">
+      <button class="step active">1 Flight</button>
+      <button class="step">2 Passenger</button>
+      <button class="step">3 Extra Services</button>
+      <button class="step">4 Payment</button>
+    </nav>
+  </section>
 
   <main class="container flights-results-section">
     <section id="selectedFlightDetails" class="flight-details-card">

@@ -1,63 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Login</title>
-    <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/index-style.css" />
 </head>
 <body>
-    <div class="container">
-        <h2>Login</h2>
-        <form id="loginForm">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required />
-            
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required />
-            
-            <button type="submit">Login</button>
-        </form>
-        <p id="message" class="message"></p>
-        <p>Don't have an account? <a href="register.html">Register here</a></p>
+
+  <!-- Header -->
+  <header class="flights-header-bar">
+    <div class="container flights-header-container">
+      <div class="flights-route">
+        <div class="logo"><a href="index.html"><img src="/images/placeholder.gif" alt="travelgo Logo" class="flights-logo" /></a></div>
+        <nav style="display: flex; align-items: center; gap: 20px; width: 100%;">
+          <a href="#">Flights</a>
+          <a href="#">Hotels</a>
+          <a href="#">Holidays</a>
+          <a href="#" id="myBookingsBtn">My Bookings</a>
+          <div class="auth-buttons" style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
+            <a href="login.html" style="color: white; text-decoration: none; font-weight: 500;">Login</a>
+            <a href="register.html" style="color: white; text-decoration: none; font-weight: 500;">Register</a>
+          </div>
+        </nav>
+      </div>
     </div>
+  </header>
 
-    <script>
-        const loginForm = document.getElementById('loginForm');
-        const message = document.getElementById('message');
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Welcome Back</h1>
+      <p>Please login to your account to continue.</p>
+    </div>
+  </section>
 
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            message.textContent = '';
+  <!-- Login Form -->
+  <section class="search-form" style="max-width: 400px;">
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+      <button type="submit" class="btn-primary">Login</button>
+    </form>
+    <p id="message" class="message" style="margin-top: 10px;"></p>
+    <p style="margin-top: 15px;">Don't have an account? <a href="register.html">Register here</a></p>
+  </section>
 
-            const username = loginForm.username.value.trim();
-            const password = loginForm.password.value;
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const message = document.getElementById('message');
 
-            try {
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      message.textContent = '';
 
-                const data = await response.json();
+      const username = loginForm.username.value.trim();
+      const password = loginForm.password.value;
 
-                if (response.ok) {
-                    message.style.color = 'green';
-                    message.textContent = data.message || 'Login successful!';
-                    // Redirect to index page after login
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1000);
-                } else {
-                    message.style.color = 'red';
-                    message.textContent = data.error || 'Login failed';
-                }
-            } catch (error) {
-                message.style.color = 'red';
-                message.textContent = 'An error occurred. Please try again.';
-            }
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
         });
-    </script>
+
+        const data = await response.json();
+
+        if (response.ok) {
+          message.style.color = 'green';
+          message.textContent = data.message || 'Login successful!';
+          // Redirect to index page after login
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1000);
+        } else {
+          message.style.color = 'red';
+          message.textContent = data.error || 'Login failed';
+        }
+      } catch (error) {
+        message.style.color = 'red';
+        message.textContent = 'An error occurred. Please try again.';
+      }
+    });
+  </script>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-columns">
+      <div class="footer-column">
+        <h4>Travel</h4>
+        <a href="#">Flights</a>
+        <a href="#">Hotels</a>
+        <a href="#">Holidays</a>
+        <a href="#">Destinations</a>
+      </div>
+      <div class="footer-column">
+        <h4>About Us</h4>
+        <a href="#">Company</a>
+        <a href="#">Careers</a>
+        <a href="#">Newsroom</a>
+      </div>
+      <div class="footer-column">
+        <h4>Support</h4>
+        <a href="#">Contact Us</a>
+        <a href="#">FAQs</a>
+        <a href="#">Feedback</a>
+      </div>
+    </div>
+    <button id="debugResetBtn" title="Reset all bookings (dev only)" style="background: transparent; border: none; color: white; font-size: 0.7rem; opacity: 0.6; cursor: pointer; margin-top: 10px; padding: 0;">&#9881;</button>
+    <div class="copyright">
+      &copy; 2025 travelgo Airlines. All rights reserved.
+    </div>
+  </footer>
+
 </body>
 </html>

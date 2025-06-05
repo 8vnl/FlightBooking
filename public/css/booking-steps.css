@@ -1,0 +1,61 @@
+/* Booking steps progression bar styles */
+.progression-bar-container {
+  background-color: #f0f2f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+
+.booking-steps {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.booking-steps .step {
+  position: relative;
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 600;
+  color: #6c757d;
+  cursor: default;
+  outline: none;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Active step */
+.booking-steps .step.active {
+  color: #fff;
+  background-color: #007bff;
+  cursor: default;
+}
+
+/* Completed steps */
+.booking-steps .step.completed {
+  color: #007bff;
+  cursor: pointer;
+}
+
+/* Add connecting lines between steps */
+.booking-steps .step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -15px;
+  width: 30px;
+  height: 2px;
+  background-color: #dee2e6;
+  transform: translateY(-50%);
+  z-index: -1;
+}
+
+/* Completed step connecting line */
+.booking-steps .step.completed:not(:last-child)::after {
+  background-color: #007bff;
+}

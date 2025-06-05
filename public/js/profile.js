@@ -3,17 +3,38 @@ document.addEventListener('DOMContentLoaded', function() {
     const filterSelect = document.getElementById('bookingFilter');
     const refreshButton = document.getElementById('refreshBookings');
 
-    function loadBookings() {
+    async function loadBookings() {
+        // Fetch logged-in user info
+        let username = null;
+        try {
+            const response = await fetch('/api/me', { credentials: 'include', cache: 'no-store' });
+            if (response.ok) {
+                const user = await response.json();
+                username = user.username;
+            }
+        } catch (error) {
+            console.error('Error fetching user info:', error);
+        }
+
         const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
         const filterValue = filterSelect ? filterSelect.value : 'all';
-        
-        let filteredBookings = bookings;
+
+        // Filter bookings by logged-in username
+        let userBookings = bookings;
+        if (username) {
+            userBookings = bookings.filter(b => b.username === username);
+        } else {
+            // If no user logged in, show no bookings
+            userBookings = [];
+        }
+
+        let filteredBookings = userBookings;
         if (filterValue === 'upcoming') {
-            filteredBookings = bookings.filter(b => 
+            filteredBookings = userBookings.filter(b => 
                 new Date(b.flight.departureDate) > new Date()
             );
         } else if (filterValue === 'past') {
-            filteredBookings = bookings.filter(b => 
+            filteredBookings = userBookings.filter(b => 
                 new Date(b.flight.departureDate) <= new Date()
             );
         }

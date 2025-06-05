@@ -79,8 +79,26 @@ app.use(session({
     secret: 'your_secret_key',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false } // set to true if using HTTPS
+    cookie: { secure: false, sameSite: 'lax' } // set to true if using HTTPS
 }));
+
+// User info endpoint
+app.get('/api/me', (req, res) => {
+    console.log('API /api/me called, session userId:', req.session.userId);
+    if (!req.session.userId) {
+        return res.status(401).json({ error: 'Unauthorized: Please log in' });
+    }
+    const query = `SELECT id, username, email, full_name FROM users WHERE id = ?`;
+    db.get(query, [req.session.userId], (err, user) => {
+        if (err) {
+            return res.status(500).json({ error: 'Database error' });
+        }
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.json(user);
+    });
+});
 
 // Authentication middleware
 const requireLogin = (req, res, next) => {
@@ -97,6 +115,23 @@ const requireLogin = (req, res, next) => {
 // Routes
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
+});
+
+// User info endpoint
+app.get('/api/me', (req, res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ error: 'Unauthorized: Please log in' });
+    }
+    const query = `SELECT id, username, email, full_name FROM users WHERE id = ?`;
+    db.get(query, [req.session.userId], (err, user) => {
+        if (err) {
+            return res.status(500).json({ error: 'Database error' });
+        }
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.json(user);
+    });
 });
 
 // User registration endpoint
@@ -244,6 +279,16 @@ app.post('/api/bookings', requireLogin, (req, res) => {
             res.json({ id: this.lastID });
         }
     );
+});
+
+app.post('/api/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ error: 'Logout failed' });
+        }
+        res.clearCookie('connect.sid');
+        res.json({ message: 'Logout successful' });
+    });
 });
 
 // Other existing routes and server start code remain unchanged

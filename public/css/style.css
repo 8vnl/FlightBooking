@@ -1513,23 +1513,25 @@ body.dark-mode {
   gap: 20px;
 }
 
-/* Enhanced Flight Card */
+/* Enhanced Flight Card with Arrow Timeline */
 .flight-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #e0e3e7;
+  background-color: white;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
   transition: all 0.3s ease;
   position: relative;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
 }
 
 .flight-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   border-color: #3b82f6;
 }
 

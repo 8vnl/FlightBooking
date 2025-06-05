@@ -82,18 +82,22 @@ document.addEventListener('DOMContentLoaded', function () {
                     function selectFlight(fareClass) {
                         const tripType = new URLSearchParams(window.location.search).get('tripType') || 'one-way';
                         const returnDate = new URLSearchParams(window.location.search).get('returnDate') || '';
-                        const selectedFlight = {
-                            flightNumber: flight.flight_number,
-                            airline: flight.airline,
-                            fareClass: fareClass,
-                            departure: flight.departure_airport,
-                            destination: flight.arrival_airport,
-                            departureDate: flight.departure_time.split('T')[0], // Use flight's actual departure date
-                            tripType: tripType,
-                            returnDate: returnDate
-                        };
-                        const params = new URLSearchParams(selectedFlight);
-                        window.location.href = `/booking.html?${params.toString()}`;
+                    const selectedFlight = {
+                        flightNumber: flight.flight_number,
+                        airline: flight.airline,
+                        fareClass: fareClass,
+                        departure: flight.departure_airport,
+                        destination: flight.arrival_airport,
+                        departureDate: flight.departure_time.split('T')[0], // Use flight's actual departure date
+                        tripType: tripType,
+                        returnDate: returnDate
+                    };
+                    // Add passengers count from URL params to selectedFlight if available
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const passengers = urlParams.get('passengers') || '1';
+                    selectedFlight.passengers = passengers;
+                    const params = new URLSearchParams(selectedFlight);
+                    window.location.href = `/booking.html?${params.toString()}`;
                     }
 
                     economyDiv.addEventListener('click', () => selectFlight('Economy'));
@@ -113,6 +117,20 @@ document.addEventListener('DOMContentLoaded', function () {
         const destination = urlParams.get('destination') || '';
         const departureDate = urlParams.get('departureDate') || '';
         const passengers = urlParams.get('passengers') || '1';
+
+        // Clear localStorage 'selectedFlight' if essential params are missing to avoid stale header data
+        if (!departure || !destination || !departureDate) {
+            localStorage.removeItem('selectedFlight');
+        } else {
+            // Update localStorage 'selectedFlight' with current search params
+            const selectedFlight = {
+                departure: departure,
+                destination: destination,
+                departureDate: departureDate,
+                passengers: passengers
+            };
+            localStorage.setItem('selectedFlight', JSON.stringify(selectedFlight));
+        }
 
         // Update the flights header bar route-from-to span dynamically
         const routeFromToSpan = document.querySelector('.route-from-to');
@@ -139,26 +157,6 @@ document.addEventListener('DOMContentLoaded', function () {
             fetchFlights({ departure, destination, departureDate });
         } else {
             flightsContainer.innerHTML = '<p>Missing search parameters. Please search from the home page.</p>';
-        }
-
-        // Fix: Update header details with actual search params or stored selected flight after flight selection
-        const storedFlight = localStorage.getItem('selectedFlight');
-        if (storedFlight) {
-            const flight = JSON.parse(storedFlight);
-            if (routeFromToSpan) {
-                routeFromToSpan.textContent = `${flight.departure} → ${flight.destination}`;
-            }
-            if (routeDateSpan) {
-                const dateObj = new Date(flight.departureDate);
-                const options = { weekday: 'short', day: 'numeric', month: 'short' };
-                const formattedDate = new Intl.DateTimeFormat('en-US', options).format(dateObj);
-                routeDateSpan.innerHTML = `<i class="far fa-calendar-alt"></i> ${formattedDate}`;
-            }
-            if (routePassengersSpan) {
-                // Passengers count is not stored in selectedFlight, keep previous or default to 1
-                const passengersCount = passengers || '1';
-                routePassengersSpan.innerHTML = `<i class="fas fa-user"></i> ${passengersCount}`;
-            }
         }
     }
 
@@ -199,8 +197,21 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             const routePassengersSpan = document.getElementById('routePassengers');
             if (routePassengersSpan) {
-                // Passengers count is not in URL params, default to 1 Passenger
-                routePassengersSpan.innerHTML = `<i class="fas fa-user"></i> 1 Passenger`;
+                // Passengers count is not in URL params, try to get from localStorage or default to 1 Passenger
+                let passengersCount = '1 Passenger';
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('passengers')) {
+                    passengersCount = urlParams.get('passengers') + (urlParams.get('passengers') === '1' ? ' Passenger' : ' Passengers');
+                } else {
+                    const storedFlight = localStorage.getItem('selectedFlight');
+                    if (storedFlight) {
+                        const flight = JSON.parse(storedFlight);
+                        if (flight.passengers) {
+                            passengersCount = flight.passengers + (flight.passengers === '1' ? ' Passenger' : ' Passengers');
+                        }
+                    }
+                }
+                routePassengersSpan.innerHTML = `<i class="fas fa-user"></i> ${passengersCount}`;
             }
         } else {
             flightInfoDiv.innerHTML = '<p>No flight selected. Please select a flight first.</p>';
@@ -228,8 +239,8 @@ document.addEventListener('DOMContentLoaded', function () {
             nextBtn.style.display = step === totalSteps ? 'none' : 'inline-block';
             submitBtn.style.display = step === totalSteps ? 'inline-block' : 'none';
 
-            // Update active step button in header booking steps
-            const headerSteps = document.querySelectorAll('header .booking-steps .step');
+            // Update active step button in progression bar booking steps
+            const headerSteps = document.querySelectorAll('.progression-bar-container .booking-steps .step');
             headerSteps.forEach((btn, index) => {
                 if (index === step - 1) {
                     btn.classList.add('active');
@@ -267,10 +278,22 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-            bookingForm.addEventListener('submit', function (e) {
+            bookingForm.addEventListener('submit', async function (e) {
                 e.preventDefault();
                 if (!validateStep(currentStep)) {
                     return;
+                }
+
+                // Fetch logged-in user info
+                let username = null;
+                try {
+                    const response = await fetch('/api/me', { credentials: 'include', cache: 'no-store' });
+                    if (response.ok) {
+                        const user = await response.json();
+                        username = user.username;
+                    }
+                } catch (error) {
+                    console.error('Error fetching user info:', error);
                 }
 
                 // Collect all form data
@@ -302,7 +325,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         cvv: document.getElementById('cvv').value
                     },
                     flight: selectedFlight,
-                    totalPrice: totalPrice
+                    totalPrice: totalPrice,
+                    username: username // Add username to booking data
                 };
 
                 // Store booking in bookings array in localStorage

@@ -1,0 +1,366 @@
+:root {
+  --primary-color: #007cc2; 
+  --accent-color: #0d4689;
+  --text-color: #333;
+  --bg-color: #fff;
+  --white: #fff;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --radius: 8px;
+  --font-family: 'Roboto', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+/* Header */
+header.flights-header-bar {
+  background-color: var(--accent-color);
+  padding: 10px 20px;
+  color: white;
+}
+
+.flights-header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.flights-route {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.flights-logo {
+  height: 40px;
+  width: auto;
+}
+
+.route-from-to,
+.route-date,
+.route-passengers {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.route-date i,
+.route-passengers i {
+  margin-right: 5px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+  font-size: 0.9rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Hero Banner */
+.hero {
+  background: url('https://www.malaysiaairlines.com//content/dam/mh/my/en/home/hero-banner/mhhospitality/6-24/en_1920x600.jpg') no-repeat center center / cover;
+  color: white;
+  padding: 100px 20px;
+  text-align: center;
+  position: relative;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: auto;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: var(--white);
+  border: none;
+  padding: 12px 25px;
+  font-size: 1rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: var(--accent-color);
+}
+
+/* Search Form */
+.search-form {
+  background: #f4f6f8; 
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 900px;
+  margin: -60px auto 50px;
+  box-shadow: var(--shadow);
+  z-index: 2;
+  position: relative;
+}
+
+.form-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.form-control {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-control label {
+  font-size: 0.85rem;
+  margin-bottom: 5px;
+  color: #555;
+  font-weight: 500;
+}
+
+.form-control input,
+.form-control select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.radio-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.radio-group input[type="radio"] {
+  position: static;
+  opacity: 1;
+  width: auto;
+  height: auto;
+}
+
+.radio-group label {
+  position: static;
+  padding-left: 0;
+  cursor: default;
+  user-select: none;
+  color: inherit;
+  font-weight: normal;
+}
+
+.radio-group label::before,
+.radio-group label::after {
+  content: none;
+  position: static;
+  width: auto;
+  height: auto;
+  border: none;
+  background: none;
+  box-shadow: none;
+  transition: none;
+}
+
+/* Footer */
+footer {
+  background: var(--accent-color);
+  color: white;
+  padding: 40px 20px;
+  font-size: 0.9rem;
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.footer-column h4 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.footer-column a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  margin-bottom: 5px;
+}
+
+.copyright {
+  margin-top: 30px;
+  font-size: 0.8rem;
+  color: #ccc;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 20px;
+}
+
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+}
+
+/* Profile card styles */
+.auth-buttons span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  font-weight: 500;
+}
+
+.auth-buttons span i {
+  font-size: 1.2rem;
+}
+
+.auth-buttons button#logoutBtn {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.auth-buttons button#logoutBtn:hover {
+  background-color: white;
+  color: var(--accent-color);
+}
+
+/* Date group for departure and return dates side by side */
+.date-group {
+  display: flex;
+  gap: 15px;
+}
+
+.date-control {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.date-control label {
+  font-size: 0.85rem;
+  margin-bottom: 5px;
+  color: #555;
+  font-weight: 500;
+}
+
+.date-control input[type="date"] {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  font-family: var(--font-family);
+  color: var(--text-color);
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 100%;
+  height: 40px;
+}
+
+/* Promotions Section */
+.promotions {
+  max-width: 1200px;
+  margin: 60px auto 50px;
+  padding: 0 20px;
+}
+
+.promotions h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-align: center;
+  color: var(--primary-color);
+}
+
+.promotions-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.promo-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  max-width: 350px;
+  flex: 1 1 300px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.promo-card:hover {
+  transform: translateY(-10px);
+}
+
+.promo-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.promo-content {
+  padding: 15px 20px;
+}
+
+.promo-content h3 {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  color: var(--accent-color);
+}
+
+.promo-content p {
+  font-size: 1rem;
+  color: var(--text-color);
+  line-height: 1.4;
+}

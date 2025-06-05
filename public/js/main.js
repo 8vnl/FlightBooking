@@ -70,15 +70,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const authButtonsDiv = document.querySelector('.auth-buttons');
     async function updateAuthButtons() {
         try {
-            const response = await fetch('/api/me');
+            console.log('Fetching /api/me to update auth buttons...');
+            const response = await fetch('/api/me', { credentials: 'include', cache: 'no-store' });
             if (!response.ok) {
+                console.log('User not logged in or error fetching /api/me:', response.status);
                 // Not logged in or error
                 return;
             }
             const user = await response.json();
+            console.log('User data received:', user);
             if (user && authButtonsDiv) {
                 authButtonsDiv.innerHTML = `
-                    <span>Logged in as <strong>${user.username}</strong></span>
+                    <span><i class="fas fa-user"></i> Welcome <strong>${user.username}</strong></span>
                     <button id="logoutBtn" class="btn btn-secondary">Logout</button>
                 `;
                 // Add logout handler to new button
@@ -102,10 +105,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         } catch (error) {
-            // Ignore errors
+            console.error('Error in updateAuthButtons:', error);
         }
     }
     updateAuthButtons();
+
+    // Add event listener for My Bookings button
+    const myBookingsBtn = document.getElementById('myBookingsBtn');
+    if (myBookingsBtn) {
+        myBookingsBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                const response = await fetch('/api/me', { credentials: 'include', cache: 'no-store' });
+                if (response.ok) {
+                    // User is logged in, redirect to profile.html (My Bookings page)
+                    window.location.href = 'profile.html';
+                } else {
+                    // Not logged in, redirect to login.html
+                    window.location.href = 'login.html';
+                }
+            } catch (error) {
+                console.error('Error checking login status:', error);
+                // On error, redirect to login page as fallback
+                window.location.href = 'login.html';
+            }
+        });
+    }
 
     // Navigation toggle for mobile menu
     const navToggle = document.querySelector('.nav-toggle');
@@ -137,4 +162,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize on page load
     updateReturnDateVisibility();
+
+    // Debug reset button handler
+    const debugResetBtn = document.getElementById('debugResetBtn');
+    if (debugResetBtn) {
+        debugResetBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset all bookings? This action cannot be undone.')) {
+                localStorage.removeItem('bookings');
+                alert('All bookings have been reset.');
+            }
+        });
+    }
 });
