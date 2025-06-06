@@ -168,12 +168,20 @@ nav a {
 
 /* Hero Banner */
 .hero {
-  background: url('../images/hero1.jpg') no-repeat center center / cover;
+  background: none;
   color: white;
-  padding: 100px 20px;
+  padding: 0;
   text-align: center;
   position: relative;
   min-height: 400px;
+}
+
+.hero-inner {
+  padding: 100px 20px;
+  background: url('../images/hero1.jpg') no-repeat center center / cover;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .hero::after {
