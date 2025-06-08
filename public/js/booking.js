@@ -20,14 +20,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 flightsContainer.innerHTML = ''; // Clear previous flights
 
                 const airlineLogos = {
-                    "Malaysia Airlines": "/images/MH.jpg",
-                    "AirAsia": "/images/AK.jpg",
-                    "Singapore Airlines": "/images/SQ.jpg",
-                    "Philippine Airlines": "/images/PR.jpg",
-                    "Thai Airways": "/images/TG.jpg",
-                    "Garuda Indonesia": "/images/GA.jpg",
-                    "Vietnam Airlines": "/images/VN.jpg",
-                    "AirAsia Philippines": "/images/AK.jpg",
+                    "Malaysia Airlines": "/images/airlines/MH.jpg",
+                    "AirAsia": "/images/airlines/AK.jpg",
+                    "Singapore Airlines": "/images/airlines/SQ.jpg",
+                    "Philippine Airlines": "/images/airlines/PR.jpg",
+                    "Thai Airways": "/images/airlines/TG.jpg",
+                    "Garuda Indonesia": "/images/airlines/GA.jpg",
+                    "Vietnam Airlines": "/images/airlines/VN.jpg",
+                    "AirAsia Philippines": "/images/airlines/AK.jpg",
 
 
                 };
