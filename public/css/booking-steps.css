@@ -60,3 +60,27 @@
 .booking-steps .step.completed:not(:last-child)::after {
   background-color: #007bff;
 }
+
+/* for the modify flights button */
+
+.btn-toggle-search {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 15px;
+  transition: all 0.3s ease;
+}
+
+.btn-toggle-search:hover {
+  background: #e9ecef;
+}
+
+.search-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}

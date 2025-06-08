@@ -30,8 +30,17 @@
     </nav>
   </section>
 
-  <!-- Flight Search Form copied from index.html -->
-  <section class="search-form">
+  <!-- Flight Results Section -->
+  <main class="container flights-results-section">
+    <div class="search-header">
+      <h2>Select your flight</h2>
+      <button id="toggleSearchForm" class="btn-toggle-search">
+        <i class="fas fa-search"></i> Modify Search
+      </button>
+    </div>
+    
+    <!-- Collapsible Flight Search Form -->
+    <section class="search-form" id="searchFormContainer" style="display:none;">
       <form action="/flights.html" method="GET" id="flightSearchForm">
         <div class="form-group">
           <div class="form-control">
@@ -72,21 +81,29 @@
           </div>
         </div>
 
-      <div class="radio-group">
-        <label><input type="radio" name="tripType" value="one-way" checked /> One Way</label>
-        <label><input type="radio" name="tripType" value="roundtrip" /> Round Trip</label>
-      </div>
+        <div class="radio-group">
+          <label><input type="radio" name="tripType" value="one-way" checked /> One Way</label>
+          <label><input type="radio" name="tripType" value="roundtrip" /> Round Trip</label>
+        </div>
 
-      <button type="submit" class="btn-primary">Search Flights</button>
-    </form>
-  </section>
+        <button type="submit" class="btn-primary">Search Flights</button>
+      </form>
+    </section>
 
-  <!-- Flight Results Section -->
-  <main class="container flights-results-section">
-    <h2>Select your flight</h2>
     <div id="flightsContainer" class="flights-container"></div>
   </main>
 
+  <script>
+    // Toggle search form visibility
+    document.getElementById('toggleSearchForm').addEventListener('click', function() {
+      const formContainer = document.getElementById('searchFormContainer');
+      const isHidden = formContainer.style.display === 'none';
+      formContainer.style.display = isHidden ? 'block' : 'none';
+      this.innerHTML = isHidden 
+        ? '<i class="fas fa-times"></i> Close Search' 
+        : '<i class="fas fa-search"></i> Modify Search';
+    });
+  </script>
   <script src="/js/booking.js"></script>
 </body>
 </html>
