@@ -133,6 +133,7 @@
   min-height: 60px;
 }
 
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
   .addon-section {
@@ -140,5 +141,77 @@
   }
   .addon-group {
     flex: 1 1 100%;
+  }
+}
+
+/* New styles for booking page two-column layout */
+.booking-main-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.booking-content-wrapper {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+/* Booking form section takes 2/3 width */
+.booking-steps-section {
+  flex: 2;
+}
+
+/* Price breakdown container on right side */
+.price-breakdown-container {
+  flex: 0 0 250px; /* fixed narrower width */
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+  font-family: var(--font-family);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.price-breakdown h4 {
+  margin-bottom: 15px;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #0a488a;
+  border-bottom: 2px solid #0a488a;
+  padding-bottom: 5px;
+}
+
+.price-breakdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.price-breakdown ul li {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  color: #333;
+}
+
+.price-breakdown ul li strong {
+  font-weight: 700;
+  color: #000;
+}
+
+/* Responsive adjustments for two-column layout */
+@media (max-width: 900px) {
+  .booking-content-wrapper {
+    flex-direction: column;
+  }
+  .price-breakdown-container {
+    position: static;
+    width: 100%;
+    margin-top: 20px;
   }
 }

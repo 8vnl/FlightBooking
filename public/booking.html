@@ -55,126 +55,113 @@
       </div>
     </section>
 
-    <section id="bookingSteps" class="booking-steps-section">
-      <form id="bookingForm">
-        <!-- Step 1: Passenger Details -->
-        <div class="step" id="step1">
-          <h3><i class="fas fa-user"></i> Passenger Details</h3>
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="passengerName">Full Name</label>
-              <input type="text" id="passengerName" required />
-            </div>
-            <div class="form-group">
-              <label for="passengerPassport">Passport Number / NRIC</label>
-              <input type="text" id="passengerPassport" required />
-            </div>
-            <div class="form-group">
-              <label for="frequentFlyerProgram">Frequent Flyer Program</label>
-              <select id="frequentFlyerProgram">
-                <option value="">None</option>
-                <option value="Malaysia Airlines">Malaysia Airlines</option>
-                <option value="AirAsia">AirAsia</option>
-                <option value="Singapore Airlines">Singapore Airlines</option>
-                <option value="Philippines Airlines">Philippines Airlines</option>
-                <option value="Thai Airways">Thai Airways</option>
-              </select>
+    <div class="booking-content-wrapper">
+      <section id="bookingSteps" class="booking-steps-section">
+        <form id="bookingForm">
+          <!-- Step 1: Passenger Details -->
+          <div class="step" id="step1">
+            <h3><i class="fas fa-user"></i> Passenger Details</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="passengerName">Full Name</label>
+                <input type="text" id="passengerName" required />
+              </div>
+              <div class="form-group">
+                <label for="passengerPassport">Passport Number / NRIC</label>
+                <input type="text" id="passengerPassport" required />
+              </div>
+              <div class="form-group">
+                <label for="frequentFlyerProgram">Frequent Flyer Program</label>
+                <select id="frequentFlyerProgram">
+                  <option value="">None</option>
+                  <option value="Malaysia Airlines">Malaysia Airlines</option>
+                  <option value="AirAsia">AirAsia</option>
+                  <option value="Singapore Airlines">Singapore Airlines</option>
+                  <option value="Philippines Airlines">Philippines Airlines</option>
+                  <option value="Thai Airways">Thai Airways</option>
+                </select>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Step 2: Contact Information -->
-        <div class="step" id="step2" style="display:none;">
-          <h3><i class="fas fa-address-book"></i> Contact Information</h3>
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="passengerEmail">Email</label>
-              <input type="email" id="passengerEmail" required />
-            </div>
-            <div class="form-group">
-              <label for="passengerPhone">Phone Number</label>
-              <input type="tel" id="passengerPhone" required />
+          <!-- Step 2: Contact Information -->
+          <div class="step" id="step2" style="display:none;">
+            <h3><i class="fas fa-address-book"></i> Contact Information</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="passengerEmail">Email</label>
+                <input type="email" id="passengerEmail" required />
+              </div>
+              <div class="form-group">
+                <label for="passengerPhone">Phone Number</label>
+                <input type="tel" id="passengerPhone" required />
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Step 3: Additional Services -->
-        <div class="step" id="step3" style="display:none;">
-          <h3><i class="fas fa-concierge-bell"></i> Additional Services</h3>
-          <div class="addon-section">
-            <div class="addon-group">
-              <label>Meal Selection</label>
-              <select id="mealSelection" name="mealSelection">
-                <option value="">No Meal</option>
-                <option value="standard">Standard Meal</option>
-                <option value="vegetarian">Vegetarian Meal</option>
-                <option value="vegan">Vegan Meal</option>
-                <option value="glutenFree">Gluten-Free Meal</option>
-                <option value="kosher">Kosher Meal</option>
-                <option value="halal">Halal Meal</option>
-              </select>
-            </div>
-            <div class="addon-group">
-              <label>Extra Baggage</label>
-              <select id="baggageSelection" name="baggageSelection">
-                <option value="0">No Extra Baggage</option>
-                <option value="1">1 Extra Bag (up to 23kg)</option>
-                <option value="2">2 Extra Bags (up to 23kg each)</option>
-                <option value="3">3 Extra Bags (up to 23kg each)</option>
-              </select>
-            </div>
-            <div class="addon-group">
-              <label><input type="checkbox" id="priorityBoarding" name="priorityBoarding" /> Priority Boarding</label>
-            </div>
-            <div class="addon-group">
-              <label for="specialRequests">Other Requests</label>
-              <textarea id="specialRequests" rows="3"></textarea>
+          <!-- Step 3: Additional Services -->
+          <div class="step" id="step3" style="display:none;">
+            <h3><i class="fas fa-concierge-bell"></i> Additional Services</h3>
+            <div class="addon-section">
+              <div class="addon-group">
+                <label>Meal Selection</label>
+                <select id="mealSelection" name="mealSelection">
+                  <option value="">No Meal</option>
+                  <option value="standard">Standard Meal</option>
+                  <option value="vegetarian">Vegetarian Meal</option>
+                  <option value="vegan">Vegan Meal</option>
+                  <option value="glutenFree">Gluten-Free Meal</option>
+                  <option value="kosher">Kosher Meal</option>
+                  <option value="halal">Halal Meal</option>
+                </select>
+              </div>
+              <div class="addon-group">
+                <label>Extra Baggage</label>
+                <select id="baggageSelection" name="baggageSelection">
+                  <option value="0">No Extra Baggage</option>
+                  <option value="1">1 Extra Bag (up to 23kg)</option>
+                  <option value="2">2 Extra Bags (up to 23kg each)</option>
+                  <option value="3">3 Extra Bags (up to 23kg each)</option>
+                </select>
+              </div>
+              <div class="addon-group">
+                <label><input type="checkbox" id="priorityBoarding" name="priorityBoarding" /> Priority Boarding</label>
+              </div>
+              <div class="addon-group">
+                <label for="specialRequests">Other Requests</label>
+                <textarea id="specialRequests" rows="3"></textarea>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Step 4: Payment -->
-        <div class="step" id="step4" style="display:none;">
-          <h3><i class="fas fa-credit-card"></i> Payment</h3>
-          <div id="priceBreakdown" class="price-breakdown">
-            <h4>Price Breakdown</h4>
-            <ul>
-              <li>Ticket Price: <span id="ticketPriceDisplay">MYR 0.00</span></li>
-              <li>Meal: <span id="mealPriceDisplay">MYR 0.00</span></li>
-              <li>Extra Baggage: <span id="baggagePriceDisplay">MYR 0.00</span></li>
-              <li>Priority Boarding: <span id="priorityBoardingPriceDisplay">MYR 0.00</span></li>
-              <li><strong>Total: <span id="totalPriceDisplay">MYR 0.00</span></strong></li>
-            </ul>
+          <!-- Step 4: Payment -->
+          <div class="step" id="step4" style="display:none;">
+            <h3><i class="fas fa-credit-card"></i> Payment</h3>
           </div>
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="cardName">Name on Card</label>
-              <input type="text" id="cardName" required />
-            </div>
-            <div class="form-group">
-              <label for="cardNumber">Card Number</label>
-              <input type="text" id="cardNumber" required maxlength="19" />
-            </div>
-            <div class="form-group">
-              <label for="expiryDate">Expiry Date</label>
-              <input type="month" id="expiryDate" required />
-            </div>
-            <div class="form-group">
-              <label for="cvv">CVV</label>
-              <input type="text" id="cvv" required maxlength="4" />
-            </div>
-          </div>
-        </div>
 
-        <div class="booking-actions">
-          <button type="button" id="prevBtn" class="btn btn-secondary" style="display:none;">Previous</button>
-          <button type="button" id="nextBtn" class="btn btn-primary">Next</button>
-          <button type="submit" id="submitBooking" class="btn btn-success" style="display:none;">
-            <i class="fas fa-check"></i> Confirm Booking
-          </button>
+          <div class="booking-actions">
+            <button type="button" id="prevBtn" class="btn btn-secondary" style="display:none;">Previous</button>
+            <button type="button" id="nextBtn" class="btn btn-primary">Next</button>
+            <button type="submit" id="submitBooking" class="btn btn-success" style="display:none;">
+              <i class="fas fa-check"></i> Confirm Booking
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="price-breakdown-container">
+        <div id="priceBreakdown" class="price-breakdown">
+          <h4>Booking Summary</h4>
+          <ul>
+            <li>Ticket Price: <span id="ticketPriceDisplay">MYR 0.00</span></li>
+            <li>Meal: <span id="mealPriceDisplay">MYR 0.00</span></li>
+            <li>Extra Baggage: <span id="baggagePriceDisplay">MYR 0.00</span></li>
+            <li>Priority Boarding: <span id="priorityBoardingPriceDisplay">MYR 0.00</span></li>
+            <li><strong>Total: <span id="totalPriceDisplay">MYR 0.00</span></strong></li>
+          </ul>
         </div>
-      </form>
-    </section>
+      </aside>
+    </div>
   </main>
 
   <script src="/js/booking.js"></script>
