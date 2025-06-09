@@ -84,3 +84,61 @@
   justify-content: space-between;
   margin-bottom: 20px;
 }
+
+/* Addon selection styles */
+.addon-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.addon-group {
+  flex: 1 1 250px;
+  display: flex;
+  flex-direction: column;
+}
+
+.addon-group label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+  color: #333;
+}
+
+.addon-group select,
+.addon-group textarea {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: var(--font-family);
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+
+.addon-group select:focus,
+.addon-group textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.addon-group input[type="checkbox"] {
+  margin-right: 8px;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.addon-group textarea {
+  min-height: 60px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .addon-section {
+    flex-direction: column;
+  }
+  .addon-group {
+    flex: 1 1 100%;
+  }
+}

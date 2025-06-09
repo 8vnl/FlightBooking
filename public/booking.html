@@ -101,24 +101,51 @@
         <!-- Step 3: Additional Services -->
         <div class="step" id="step3" style="display:none;">
           <h3><i class="fas fa-concierge-bell"></i> Additional Services</h3>
-          <div class="form-group">
-            <label><input type="checkbox" id="extraBaggage" /> Extra Baggage</label>
-          </div>
-          <div class="form-group">
-            <label><input type="checkbox" id="mealPreference" /> Special Meal</label>
-          </div>
-          <div class="form-group">
-            <label><input type="checkbox" id="seatSelection" /> Seat Selection</label>
-          </div>
-          <div class="form-group">
-            <label for="specialRequests">Other Requests</label>
-            <textarea id="specialRequests" rows="3"></textarea>
+          <div class="addon-section">
+            <div class="addon-group">
+              <label>Meal Selection</label>
+              <select id="mealSelection" name="mealSelection">
+                <option value="">No Meal</option>
+                <option value="standard">Standard Meal</option>
+                <option value="vegetarian">Vegetarian Meal</option>
+                <option value="vegan">Vegan Meal</option>
+                <option value="glutenFree">Gluten-Free Meal</option>
+                <option value="kosher">Kosher Meal</option>
+                <option value="halal">Halal Meal</option>
+              </select>
+            </div>
+            <div class="addon-group">
+              <label>Extra Baggage</label>
+              <select id="baggageSelection" name="baggageSelection">
+                <option value="0">No Extra Baggage</option>
+                <option value="1">1 Extra Bag (up to 23kg)</option>
+                <option value="2">2 Extra Bags (up to 23kg each)</option>
+                <option value="3">3 Extra Bags (up to 23kg each)</option>
+              </select>
+            </div>
+            <div class="addon-group">
+              <label><input type="checkbox" id="priorityBoarding" name="priorityBoarding" /> Priority Boarding</label>
+            </div>
+            <div class="addon-group">
+              <label for="specialRequests">Other Requests</label>
+              <textarea id="specialRequests" rows="3"></textarea>
+            </div>
           </div>
         </div>
 
         <!-- Step 4: Payment -->
         <div class="step" id="step4" style="display:none;">
           <h3><i class="fas fa-credit-card"></i> Payment</h3>
+          <div id="priceBreakdown" class="price-breakdown">
+            <h4>Price Breakdown</h4>
+            <ul>
+              <li>Ticket Price: <span id="ticketPriceDisplay">MYR 0.00</span></li>
+              <li>Meal: <span id="mealPriceDisplay">MYR 0.00</span></li>
+              <li>Extra Baggage: <span id="baggagePriceDisplay">MYR 0.00</span></li>
+              <li>Priority Boarding: <span id="priorityBoardingPriceDisplay">MYR 0.00</span></li>
+              <li><strong>Total: <span id="totalPriceDisplay">MYR 0.00</span></strong></li>
+            </ul>
+          </div>
           <div class="form-grid">
             <div class="form-group">
               <label for="cardName">Name on Card</label>

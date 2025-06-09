@@ -92,7 +92,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         destination: flight.arrival_airport,
                         departureDate: flight.departure_time.split('T')[0], // Use flight's actual departure date
                         tripType: tripType,
-                        returnDate: returnDate
+                        returnDate: returnDate,
+                        price: flight.price
                     };
                     // Add passengers count from URL params to selectedFlight if available
                     const urlParams = new URLSearchParams(window.location.search);
@@ -174,13 +175,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 destination: urlParams.get('destination'),
                 departureDate: urlParams.get('departureDate'),
                 tripType: urlParams.get('tripType') || 'one-way',
-                returnDate: urlParams.get('returnDate') || ''
+                returnDate: urlParams.get('returnDate') || '',
+                price: parseFloat(urlParams.get('price')) || 0
             };
             flightInfoDiv.innerHTML = `
                 <p><strong>${selectedFlight.airline} ${selectedFlight.flightNumber} - ${selectedFlight.fareClass}</strong></p>
                 <p>From: ${selectedFlight.departure}</p>
                 <p>To: ${selectedFlight.destination}</p>
                 <p>Departure Date: ${selectedFlight.departureDate}</p>
+                <p>Price: MYR ${selectedFlight.price.toFixed(2)}</p>
                 ${selectedFlight.tripType === 'roundtrip' ? `<p>Return Date: ${selectedFlight.returnDate}</p>` : ''}
             `;
             localStorage.setItem('selectedFlight', JSON.stringify(selectedFlight));
@@ -227,6 +230,77 @@ document.addEventListener('DOMContentLoaded', function () {
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const submitBtn = document.getElementById('submitBooking');
+
+        // Addon prices
+        const addonPrices = {
+            meal: {
+                standard: 10,
+                vegetarian: 12,
+                vegan: 15,
+                glutenFree: 14,
+                kosher: 18,
+                halal: 16
+            },
+            baggage: {
+                0: 0,
+                1: 30,
+                2: 55,
+                3: 75
+            },
+            priorityBoarding: 20
+        };
+
+        // Update price breakdown UI
+        function updatePriceBreakdown() {
+            const ticketPriceDisplay = document.getElementById('ticketPriceDisplay');
+            const mealPriceDisplay = document.getElementById('mealPriceDisplay');
+            const baggagePriceDisplay = document.getElementById('baggagePriceDisplay');
+            const priorityBoardingPriceDisplay = document.getElementById('priorityBoardingPriceDisplay');
+            const totalPriceDisplay = document.getElementById('totalPriceDisplay');
+
+            // Get base ticket price from selected flight info
+            const flightInfoDiv = document.getElementById('flightInfo');
+            let ticketPrice = 0;
+            if (flightInfoDiv) {
+                // Get price from localStorage selectedFlight object
+                const storedFlight = localStorage.getItem('selectedFlight');
+                if (storedFlight) {
+                    const flight = JSON.parse(storedFlight);
+                    if (flight.price) {
+                        ticketPrice = flight.price;
+                    }
+                }
+            }
+
+            // Get selected addon prices
+            const mealSelection = document.getElementById('mealSelection').value;
+            const baggageSelection = document.getElementById('baggageSelection').value;
+            const priorityBoardingChecked = document.getElementById('priorityBoarding').checked;
+
+            const mealPrice = addonPrices.meal[mealSelection] || 0;
+            const baggagePrice = addonPrices.baggage[baggageSelection] || 0;
+            const priorityBoardingPrice = priorityBoardingChecked ? addonPrices.priorityBoarding : 0;
+
+            const totalPrice = ticketPrice + mealPrice + baggagePrice + priorityBoardingPrice;
+
+            //  match flight price display
+            ticketPriceDisplay.textContent = `MYR ${ticketPrice.toFixed(2)}`;
+            mealPriceDisplay.textContent = `MYR ${mealPrice.toFixed(2)}`;
+            baggagePriceDisplay.textContent = `MYR ${baggagePrice.toFixed(2)}`;
+            priorityBoardingPriceDisplay.textContent = `MYR ${priorityBoardingPrice.toFixed(2)}`;
+            totalPriceDisplay.textContent = `MYR ${totalPrice.toFixed(2)}`;
+        }
+
+        // Attach event listeners to addon inputs to update price breakdown dynamically
+        function attachAddonListeners() {
+            const mealSelection = document.getElementById('mealSelection');
+            const baggageSelection = document.getElementById('baggageSelection');
+            const priorityBoarding = document.getElementById('priorityBoarding');
+
+            mealSelection.addEventListener('change', updatePriceBreakdown);
+            baggageSelection.addEventListener('change', updatePriceBreakdown);
+            priorityBoarding.addEventListener('change', updatePriceBreakdown);
+        }
 
         function showStep(step) {
             for (let i = 1; i <= totalSteps; i++) {
@@ -307,6 +381,37 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     totalPrice = selectedFlight.price;
                 }
+
+                // Calculate addon prices
+                const mealSelection = document.getElementById('mealSelection').value;
+                const baggageSelection = document.getElementById('baggageSelection').value;
+                const priorityBoardingChecked = document.getElementById('priorityBoarding').checked;
+
+                const addonPrices = {
+                    meal: {
+                        standard: 10,
+                        vegetarian: 12,
+                        vegan: 15,
+                        glutenFree: 14,
+                        kosher: 18,
+                        halal: 16
+                    },
+                    baggage: {
+                        0: 0,
+                        1: 30,
+                        2: 55,
+                        3: 75
+                    },
+                    priorityBoarding: 20
+                };
+
+                const mealPrice = addonPrices.meal[mealSelection] || 0;
+                const baggagePrice = addonPrices.baggage[baggageSelection] || 0;
+                const priorityBoardingPrice = priorityBoardingChecked ? addonPrices.priorityBoarding : 0;
+
+                const totalAddonPrice = mealPrice + baggagePrice + priorityBoardingPrice;
+                totalPrice += totalAddonPrice;
+
                 const bookingData = {
                     id: bookingId,
                     passengerName: document.getElementById('passengerName').value,
@@ -315,9 +420,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     passengerEmail: document.getElementById('passengerEmail').value,
                     passengerPhone: document.getElementById('passengerPhone').value,
                     additionalServices: {
-                        extraBaggage: document.getElementById('extraBaggage').checked,
-                        mealPreference: document.getElementById('mealPreference').checked,
-                        seatSelection: document.getElementById('seatSelection').checked,
+                        mealSelection: mealSelection,
+                        baggageSelection: baggageSelection,
+                        priorityBoarding: priorityBoardingChecked,
                         specialRequests: document.getElementById('specialRequests').value
                     },
                     payment: {
@@ -342,6 +447,8 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
         showStep(currentStep);
+        attachAddonListeners();
+        updatePriceBreakdown();
     }
 
     // Utility function to calculate duration
