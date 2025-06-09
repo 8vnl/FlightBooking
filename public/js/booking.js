@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const flightsContainer = document.getElementById('flightsContainer');
     const flightInfoDiv = document.getElementById('flightInfo');
     const bookingForm = document.getElementById('bookingForm');
+    const passengerDetailsContainer = document.getElementById('passengerDetailsContainer');
 
     // Function to fetch and display flights with optional filters
     function fetchFlights(filters = {}) {
@@ -29,8 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     "Vietnam Airlines": "/images/airlines/VN.jpg",
                     "AirAsia Philippines": "/images/airlines/AK.jpg",
                     "Charter Airlines": "/images/airlines/TG.jpg",
-
-
                 };
 
                 flights.forEach(flight => {
@@ -45,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // Define randomSeats as a random number between 1 and 10
                     const randomSeats = Math.floor(Math.random() * 10) + 1;
-
 
                     flightCard.innerHTML = `
                         <div class="flight-card-left">
@@ -85,23 +83,23 @@ document.addEventListener('DOMContentLoaded', function () {
                     function selectFlight(fareClass) {
                         const tripType = new URLSearchParams(window.location.search).get('tripType') || 'one-way';
                         const returnDate = new URLSearchParams(window.location.search).get('returnDate') || '';
-                    const selectedFlight = {
-                        flightNumber: flight.flight_number,
-                        airline: flight.airline,
-                        fareClass: fareClass,
-                        departure: flight.departure_airport,
-                        destination: flight.arrival_airport,
-                        departureDate: flight.departure_time.split('T')[0], // Use flight's actual departure date
-                        tripType: tripType,
-                        returnDate: returnDate,
-                        price: flight.price
-                    };
-                    // Add passengers count from URL params to selectedFlight if available
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const passengers = urlParams.get('passengers') || '1';
-                    selectedFlight.passengers = passengers;
-                    const params = new URLSearchParams(selectedFlight);
-                    window.location.href = `/booking.html?${params.toString()}`;
+                        const selectedFlight = {
+                            flightNumber: flight.flight_number,
+                            airline: flight.airline,
+                            fareClass: fareClass,
+                            departure: flight.departure_airport,
+                            destination: flight.arrival_airport,
+                            departureDate: flight.departure_time.split('T')[0], // Use flight's actual departure date
+                            tripType: tripType,
+                            returnDate: returnDate,
+                            price: flight.price
+                        };
+                        // Add passengers count from URL params to selectedFlight if available
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const passengers = urlParams.get('passengers') || '1';
+                        selectedFlight.passengers = passengers;
+                        const params = new URLSearchParams(selectedFlight);
+                        window.location.href = `/booking.html?${params.toString()}`;
                     }
 
                     economyDiv.addEventListener('click', () => selectFlight('Economy'));
@@ -164,8 +162,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Display selected flight info on booking.html
-    if (flightInfoDiv) {
+    // Display selected flight info on booking.html and generate passenger forms
+    if (flightInfoDiv && passengerDetailsContainer) {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('flightNumber') && urlParams.has('airline') && urlParams.has('fareClass')) {
             const selectedFlight = {
@@ -177,7 +175,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 departureDate: urlParams.get('departureDate'),
                 tripType: urlParams.get('tripType') || 'one-way',
                 returnDate: urlParams.get('returnDate') || '',
-                price: parseFloat(urlParams.get('price')) || 0
+                price: parseFloat(urlParams.get('price')) || 0,
+                passengers: parseInt(urlParams.get('passengers')) || 1
             };
             flightInfoDiv.innerHTML = `
                 <p><strong>${selectedFlight.airline} ${selectedFlight.flightNumber} - ${selectedFlight.fareClass}</strong></p>
@@ -186,6 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <p>Departure Date: ${selectedFlight.departureDate}</p>
                 <p>Price: MYR ${selectedFlight.price.toFixed(2)}</p>
                 ${selectedFlight.tripType === 'roundtrip' ? `<p>Return Date: ${selectedFlight.returnDate}</p>` : ''}
+                <p>Passengers: ${selectedFlight.passengers}</p>
             `;
             localStorage.setItem('selectedFlight', JSON.stringify(selectedFlight));
 
@@ -203,21 +203,70 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             const routePassengersSpan = document.getElementById('routePassengers');
             if (routePassengersSpan) {
-                // Passengers count is not in URL params, try to get from localStorage or default to 1 Passenger
-                let passengersCount = '1 Passenger';
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.has('passengers')) {
-                    passengersCount = urlParams.get('passengers') + (urlParams.get('passengers') === '1' ? ' Passenger' : ' Passengers');
-                } else {
-                    const storedFlight = localStorage.getItem('selectedFlight');
-                    if (storedFlight) {
-                        const flight = JSON.parse(storedFlight);
-                        if (flight.passengers) {
-                            passengersCount = flight.passengers + (flight.passengers === '1' ? ' Passenger' : ' Passengers');
-                        }
-                    }
-                }
-                routePassengersSpan.innerHTML = `<i class="fas fa-user"></i> ${passengersCount}`;
+                const passengersText = selectedFlight.passengers === 1 ? '1 Passenger' : `${selectedFlight.passengers} Passengers`;
+                routePassengersSpan.innerHTML = `<i class="fas fa-user"></i> ${passengersText}`;
+            }
+
+            // Generate passenger detail forms based on number of passengers
+            passengerDetailsContainer.innerHTML = '';
+            for (let i = 1; i <= selectedFlight.passengers; i++) {
+                const passengerForm = document.createElement('div');
+                passengerForm.className = 'passenger-form';
+                passengerForm.innerHTML = `
+                    <h4>Passenger ${i}</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="passengerTitle${i}">Title</label>
+                            <select id="passengerTitle${i}" required>
+                                <option value="">Select</option>
+                                <option value="Mr">Mr</option>
+                                <option value="Mrs">Mrs</option>
+                                <option value="Ms">Ms</option>
+                                <option value="Miss">Miss</option>
+                                <option value="Dr">Dr</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="passengerFirstName${i}">First Name</label>
+                            <input type="text" id="passengerFirstName${i}" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="passengerLastName${i}">Last Name</label>
+                            <input type="text" id="passengerLastName${i}" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="passengerPassport${i}">Passport Number</label>
+                            <input type="text" id="passengerPassport${i}" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="passengerNationality${i}">Nationality</label>
+                            <input type="text" id="passengerNationality${i}" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="passengerDOB${i}">Date of Birth</label>
+                            <input type="date" id="passengerDOB${i}" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="passengerGender${i}">Gender</label>
+                            <select id="passengerGender${i}" required>
+                                <option value="">Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                                <option value="Prefer not to say">Prefer not to say</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="frequentFlyerProgram${i}">Frequent Flyer Program (Optional)</label>
+                            <input type="text" id="frequentFlyerProgram${i}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="frequentFlyerNumber${i}">Frequent Flyer Number (Optional)</label>
+                            <input type="text" id="frequentFlyerNumber${i}" />
+                        </div>
+                    </div>
+                `;
+                passengerDetailsContainer.appendChild(passengerForm);
             }
         } else {
             flightInfoDiv.innerHTML = '<p>No flight selected. Please select a flight first.</p>';
@@ -260,16 +309,17 @@ document.addEventListener('DOMContentLoaded', function () {
             const totalPriceDisplay = document.getElementById('totalPriceDisplay');
 
             // Get base ticket price from selected flight info
-            const flightInfoDiv = document.getElementById('flightInfo');
+            const storedFlight = localStorage.getItem('selectedFlight');
             let ticketPrice = 0;
-            if (flightInfoDiv) {
-                // Get price from localStorage selectedFlight object
-                const storedFlight = localStorage.getItem('selectedFlight');
-                if (storedFlight) {
-                    const flight = JSON.parse(storedFlight);
-                    if (flight.price) {
-                        ticketPrice = flight.price;
-                    }
+            let passengerCount = 1;
+            
+            if (storedFlight) {
+                const flight = JSON.parse(storedFlight);
+                if (flight.price) {
+                    ticketPrice = flight.price;
+                }
+                if (flight.passengers) {
+                    passengerCount = parseInt(flight.passengers) || 1;
                 }
             }
 
@@ -278,14 +328,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const baggageSelection = document.getElementById('baggageSelection').value;
             const priorityBoardingChecked = document.getElementById('priorityBoarding').checked;
 
-            const mealPrice = addonPrices.meal[mealSelection] || 0;
-            const baggagePrice = addonPrices.baggage[baggageSelection] || 0;
-            const priorityBoardingPrice = priorityBoardingChecked ? addonPrices.priorityBoarding : 0;
+            const mealPrice = (addonPrices.meal[mealSelection] || 0) * passengerCount;
+            const baggagePrice = (addonPrices.baggage[baggageSelection] || 0) * passengerCount;
+            const priorityBoardingPrice = priorityBoardingChecked ? (addonPrices.priorityBoarding * passengerCount) : 0;
 
-            const totalPrice = ticketPrice + mealPrice + baggagePrice + priorityBoardingPrice;
+            const totalPrice = (ticketPrice * passengerCount) + mealPrice + baggagePrice + priorityBoardingPrice;
 
-            //  match flight price display
-            ticketPriceDisplay.textContent = `MYR ${ticketPrice.toFixed(2)}`;
+            // Update price displays
+            ticketPriceDisplay.textContent = `MYR ${(ticketPrice * passengerCount).toFixed(2)}`;
             mealPriceDisplay.textContent = `MYR ${mealPrice.toFixed(2)}`;
             baggagePriceDisplay.textContent = `MYR ${baggagePrice.toFixed(2)}`;
             priorityBoardingPriceDisplay.textContent = `MYR ${priorityBoardingPrice.toFixed(2)}`;
@@ -329,14 +379,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function validateStep(step) {
             const stepDiv = document.getElementById('step' + step);
-            const inputs = stepDiv.querySelectorAll('input, select, textarea');
+            const inputs = stepDiv.querySelectorAll('input[required], select[required], textarea[required]');
+            
+            let isValid = true;
             for (const input of inputs) {
                 if (!input.checkValidity()) {
                     input.reportValidity();
-                    return false;
+                    isValid = false;
+                    // Scroll to the first invalid input
+                    if (isValid) {
+                        input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                 }
             }
-            return true;
+            return isValid;
         }
 
         prevBtn.addEventListener('click', () => {
@@ -355,97 +411,95 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-            bookingForm.addEventListener('submit', async function (e) {
-                e.preventDefault();
-                if (!validateStep(currentStep)) {
-                    return;
+        bookingForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            if (!validateStep(currentStep)) {
+                return;
+            }
+
+            // Fetch logged-in user info
+            let username = null;
+            try {
+                const response = await fetch('/api/me', { credentials: 'include', cache: 'no-store' });
+                if (response.ok) {
+                    const user = await response.json();
+                    username = user.username;
                 }
+            } catch (error) {
+                console.error('Error fetching user info:', error);
+            }
 
-                // Fetch logged-in user info
-                let username = null;
-                try {
-                    const response = await fetch('/api/me', { credentials: 'include', cache: 'no-store' });
-                    if (response.ok) {
-                        const user = await response.json();
-                        username = user.username;
-                    }
-                } catch (error) {
-                    console.error('Error fetching user info:', error);
-                }
+            // Collect all form data
+            const bookingId = Date.now();
+            const selectedFlight = JSON.parse(localStorage.getItem('selectedFlight'));
+            const passengerCount = selectedFlight.passengers || 1;
+            
+            // Calculate base price
+            let totalPrice = selectedFlight.price * passengerCount;
+            if (selectedFlight.tripType === 'roundtrip') {
+                totalPrice *= 1.6; // Adjusted price for return trip
+            }
 
-                // Collect all form data
-                const bookingId = Date.now();
-                const selectedFlight = JSON.parse(localStorage.getItem('selectedFlight'));
-                let totalPrice = 0;
-                if (selectedFlight.tripType === 'roundtrip') {
-                    totalPrice = selectedFlight.price * 1.6; // Adjusted price for return trip
-                } else {
-                    totalPrice = selectedFlight.price;
-                }
+            // Calculate addon prices
+            const mealSelection = document.getElementById('mealSelection').value;
+            const baggageSelection = document.getElementById('baggageSelection').value;
+            const priorityBoardingChecked = document.getElementById('priorityBoarding').checked;
 
-                // Calculate addon prices
-                const mealSelection = document.getElementById('mealSelection').value;
-                const baggageSelection = document.getElementById('baggageSelection').value;
-                const priorityBoardingChecked = document.getElementById('priorityBoarding').checked;
+            const mealPrice = (addonPrices.meal[mealSelection] || 0) * passengerCount;
+            const baggagePrice = (addonPrices.baggage[baggageSelection] || 0) * passengerCount;
+            const priorityBoardingPrice = priorityBoardingChecked ? (addonPrices.priorityBoarding * passengerCount) : 0;
 
-                const addonPrices = {
-                    meal: {
-                        standard: 10,
-                        vegetarian: 12,
-                        vegan: 15,
-                        glutenFree: 14,
-                        kosher: 18,
-                        halal: 16
-                    },
-                    baggage: {
-                        0: 0,
-                        1: 30,
-                        2: 55,
-                        3: 75
-                    },
-                    priorityBoarding: 20
-                };
+            totalPrice += mealPrice + baggagePrice + priorityBoardingPrice;
 
-                const mealPrice = addonPrices.meal[mealSelection] || 0;
-                const baggagePrice = addonPrices.baggage[baggageSelection] || 0;
-                const priorityBoardingPrice = priorityBoardingChecked ? addonPrices.priorityBoarding : 0;
+            // Collect passenger details
+            const passengers = [];
+            for (let i = 1; i <= passengerCount; i++) {
+                passengers.push({
+                    title: document.getElementById(`passengerTitle${i}`).value,
+                    firstName: document.getElementById(`passengerFirstName${i}`).value,
+                    lastName: document.getElementById(`passengerLastName${i}`).value,
+                    passportNumber: document.getElementById(`passengerPassport${i}`).value,
+                    nationality: document.getElementById(`passengerNationality${i}`).value,
+                    dateOfBirth: document.getElementById(`passengerDOB${i}`).value,
+                    gender: document.getElementById(`passengerGender${i}`).value,
+                    frequentFlyerProgram: document.getElementById(`frequentFlyerProgram${i}`).value,
+                    frequentFlyerNumber: document.getElementById(`frequentFlyerNumber${i}`).value
+                });
+            }
 
-                const totalAddonPrice = mealPrice + baggagePrice + priorityBoardingPrice;
-                totalPrice += totalAddonPrice;
+            const bookingData = {
+                id: bookingId,
+                passengers: passengers,
+                contactInfo: {
+                    email: document.getElementById('passengerEmail').value,
+                    phone: document.getElementById('passengerPhone').value
+                },
+                additionalServices: {
+                    mealSelection: mealSelection,
+                    baggageSelection: baggageSelection,
+                    priorityBoarding: priorityBoardingChecked,
+                    specialRequests: document.getElementById('specialRequests').value
+                },
+                payment: {
+                    cardName: document.getElementById('cardName').value,
+                    cardNumber: document.getElementById('cardNumber').value,
+                    expiryDate: document.getElementById('expiryDate').value,
+                    cvv: document.getElementById('cvv').value
+                },
+                flight: selectedFlight,
+                totalPrice: totalPrice,
+                username: username // Add username to booking data
+            };
 
-                const bookingData = {
-                    id: bookingId,
-                    passengerName: document.getElementById('passengerName').value,
-                    passengerPassport: document.getElementById('passengerPassport').value,
-                    frequentFlyerProgram: document.getElementById('frequentFlyerProgram').value,
-                    passengerEmail: document.getElementById('passengerEmail').value,
-                    passengerPhone: document.getElementById('passengerPhone').value,
-                    additionalServices: {
-                        mealSelection: mealSelection,
-                        baggageSelection: baggageSelection,
-                        priorityBoarding: priorityBoardingChecked,
-                        specialRequests: document.getElementById('specialRequests').value
-                    },
-                    payment: {
-                        cardName: document.getElementById('cardName').value,
-                        cardNumber: document.getElementById('cardNumber').value,
-                        expiryDate: document.getElementById('expiryDate').value,
-                        cvv: document.getElementById('cvv').value
-                    },
-                    flight: selectedFlight,
-                    totalPrice: totalPrice,
-                    username: username // Add username to booking data
-                };
+            // Store booking in bookings array in localStorage
+            let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            bookings.push(bookingData);
+            localStorage.setItem('bookings', JSON.stringify(bookings));
+            localStorage.setItem('bookingData', JSON.stringify(bookingData));
 
-                // Store booking in bookings array in localStorage
-                let bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-                bookings.push(bookingData);
-                localStorage.setItem('bookings', JSON.stringify(bookings));
-                localStorage.setItem('bookingData', JSON.stringify(bookingData));
-
-                // Redirect to receipt page after successful booking
-                window.location.href = `/receipt.html?booking=${bookingId}`;
-            });
+            // Redirect to receipt page after successful booking
+            window.location.href = `/receipt.html?booking=${bookingId}`;
+        });
 
         showStep(currentStep);
         attachAddonListeners();

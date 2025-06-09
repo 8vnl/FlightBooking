@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Boarding Pass | travelgo</title>
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/boarding-pass.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
 </head>
 <body>
   <nav class="main-nav">
-    <a href="/profile.html" class="btn btn-secondary">
-      <i class="fas fa-arrow-left"></i> Back to My Bookings
+    <a href="/receipt.html?booking=${new URLSearchParams(window.location.search).get('booking')}" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to Receipt
     </a>
     <h1><i class="fas fa-plane"></i> travelgo Boarding Pass</h1>
   </nav>
@@ -19,15 +20,103 @@
     <div id="boardingPassContainer" class="boarding-pass-container">
       <p>Loading boarding pass...</p>
     </div>
+    <div class="boarding-pass-actions">
+      <button onclick="window.print()" class="btn btn-primary">
+        <i class="fas fa-print"></i> Print All Boarding Passes
+      </button>
+    </div>
   </div>
 
   <script>
+    function generateBoardingPass(booking, passenger, index) {
+      const departureTime = booking.flight.departureTime || '10:30 AM';
+      const arrivalTime = booking.flight.arrivalTime || '11:45 AM';
+      const gate = booking.flight.gate || Math.floor(Math.random() * 50) + 1;
+      const seat = `${String.fromCharCode(65 + Math.floor(Math.random() * 6))}${Math.floor(Math.random() * 30) + 1}`;
+
+      const airlineLogos = {
+                    "Malaysia Airlines": "/images/airlines/MH.jpg",
+                    "AirAsia": "/images/airlines/AK.jpg",
+                    "Singapore Airlines": "/images/airlines/SQ.jpg",
+                    "Philippine Airlines": "/images/airlines/PR.jpg",
+                    "Thai Airways": "/images/airlines/TG.jpg",
+                    "Garuda Indonesia": "/images/airlines/GA.jpg",
+                    "Vietnam Airlines": "/images/airlines/VN.jpg",
+                    "AirAsia Philippines": "/images/airlines/AK.jpg",
+                    "Charter Airlines": "/images/airlines/TG.jpg",
+                };
+
+      const logoSrc = airlineLogos[booking.flight.airline] || "/images/default-airline-logo.png";
+      
+      return `
+        <div class="boarding-pass-card">
+          <div class="boarding-pass-header">
+            <img src="/images/travelgo.png" alt="travelgo" class="boarding-pass-logo">
+            <div class="boarding-pass-airline">
+              <img src="${logoSrc}" alt="${booking.flight.airline}">
+              <span>${booking.flight.airline} ${booking.flight.flightNumber}</span>
+            </div>
+          </div>
+          
+          <div class="boarding-pass-body">
+            <div class="boarding-pass-section passenger-info">
+              <h3>Passenger ${index + 1}</h3>
+              <p class="passenger-name">${passenger.title} ${passenger.firstName} ${passenger.lastName}</p>
+              <p><strong>Passport:</strong> ${passenger.passportNumber}</p>
+            </div>
+            
+            <div class="boarding-pass-section flight-info">
+              <div class="flight-info-row">
+                <div class="flight-info-col">
+                  <p class="flight-info-label">From</p>
+                  <p class="flight-info-value">${booking.flight.departure}</p>
+                </div>
+                <div class="flight-info-col">
+                  <p class="flight-info-label">To</p>
+                  <p class="flight-info-value">${booking.flight.destination}</p>
+                </div>
+              </div>
+              
+              <div class="flight-info-row">
+                <div class="flight-info-col">
+                  <p class="flight-info-label">Departure</p>
+                  <p class="flight-info-value">${departureTime}</p>
+                </div>
+                <div class="flight-info-col">
+                  <p class="flight-info-label">Arrival</p>
+                  <p class="flight-info-value">${arrivalTime}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="boarding-pass-section seat-info">
+              <div class="seat-info-col">
+                <p class="seat-info-label">Seat</p>
+                <p class="seat-info-value">${seat}</p>
+              </div>
+              <div class="seat-info-col">
+                <p class="seat-info-label">Gate</p>
+                <p class="seat-info-value">${gate}</p>
+              </div>
+              <div class="seat-info-col">
+                <p class="seat-info-label">Boarding</p>
+                <p class="seat-info-value">${departureTime.replace(/:00 /, ' ').replace(' AM', '').replace(' PM', '')}</p>
+              </div>
+            </div>
+            
+            <div class="boarding-pass-barcode">
+              <div class="barcode">${booking.id}${index.toString().padStart(2, '0')}</div>
+              <p class="barcode-number">${booking.id}${index.toString().padStart(2, '0')}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     async function loadBoardingPass() {
       const container = document.getElementById('boardingPassContainer');
       const urlParams = new URLSearchParams(window.location.search);
       const bookingId = urlParams.get('booking');
-
-      console.log('Booking ID from URL:', bookingId);
 
       if (!bookingId) {
         container.innerHTML = '<p>Booking ID is missing.</p>';
@@ -42,39 +131,21 @@
 
         if (!booking) {
           // Fallback to fetch from backend API
-          const response = await fetch('/api/bookings');
+          const response = await fetch(`/api/bookings/${bookingId}`);
           if (!response.ok) {
             container.innerHTML = '<p>Error loading booking details.</p>';
             return;
           }
-          const backendBookings = await response.json();
-          booking = backendBookings.find(b => b.id === bookingIdNum);
-          if (!booking) {
-            container.innerHTML = '<p>Booking not found.</p>';
-            return;
-          }
+          booking = await response.json();
         }
 
-        const departureTime = new Date(booking.departure_time);
-        const arrivalTime = new Date(booking.arrival_time);
+        // Generate boarding passes for each passenger
+        let boardingPassesHTML = '';
+        booking.passengers.forEach((passenger, index) => {
+          boardingPassesHTML += generateBoardingPass(booking, passenger, index);
+        });
 
-        container.innerHTML = `
-          <div class="boarding-pass-card">
-            <h2>Boarding Pass</h2>
-            <p><strong>Booking ID:</strong> ${booking.id}</p>
-            <p><strong>Passenger Name:</strong> ${booking.passengerName || booking.passenger_name}</p>
-            <p><strong>Flight:</strong> ${booking.flight?.airline || booking.airline} ${booking.flight?.flightNumber || booking.flight_number}</p>
-            <p><strong>From:</strong> ${booking.flight?.departure || booking.departure_airport}</p>
-            <p><strong>To:</strong> ${booking.flight?.destination || booking.arrival_airport}</p>
-            <p><strong>Departure:</strong> ${booking.flight?.departureDate || (booking.departure_time ? departureTime.toLocaleString() : '')}</p>
-            <p><strong>Arrival:</strong> ${booking.flight?.arrivalDate || (booking.arrival_time ? arrivalTime.toLocaleString() : '')}</p>
-            <p><strong>Seat Number:</strong> ${booking.seat_number || 'Not assigned'}</p>
-            <p><strong>Status:</strong> ${booking.status || 'Confirmed'}</p>
-            <button onclick="window.print()" class="btn btn-primary">
-              <i class="fas fa-print"></i> Print Boarding Pass
-            </button>
-          </div>
-        `;
+        container.innerHTML = boardingPassesHTML;
       } catch (error) {
         container.innerHTML = '<p>Error loading booking details.</p>';
         console.error('Error loading booking details:', error);

@@ -28,7 +28,7 @@
       <button class="step">4 Payment</button>
     </nav>
   </section>
-`
+
   <main class="container flights-results-section">
     <section id="selectedFlightDetails" class="flight-details-card">
       <h2>Selected Flight</h2>
@@ -61,26 +61,8 @@
           <!-- Step 1: Passenger Details -->
           <div class="step" id="step1">
             <h3><i class="fas fa-user"></i> Passenger Details</h3>
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="passengerName">Full Name</label>
-                <input type="text" id="passengerName" required />
-              </div>
-              <div class="form-group">
-                <label for="passengerPassport">Passport Number / NRIC</label>
-                <input type="text" id="passengerPassport" required />
-              </div>
-              <div class="form-group">
-                <label for="frequentFlyerProgram">Frequent Flyer Program</label>
-                <select id="frequentFlyerProgram">
-                  <option value="">None</option>
-                  <option value="Malaysia Airlines">Malaysia Airlines</option>
-                  <option value="AirAsia">AirAsia</option>
-                  <option value="Singapore Airlines">Singapore Airlines</option>
-                  <option value="Philippines Airlines">Philippines Airlines</option>
-                  <option value="Thai Airways">Thai Airways</option>
-                </select>
-              </div>
+            <div id="passengerDetailsContainer">
+              <!-- Passenger detail forms will be dynamically generated here -->
             </div>
           </div>
 
@@ -108,11 +90,11 @@
                 <select id="mealSelection" name="mealSelection">
                   <option value="">No Meal</option>
                   <option value="standard">Standard Meal</option>
-                  <option value="vegetarian">Vegetarian Meal</option>
-                  <option value="vegan">Vegan Meal</option>
-                  <option value="glutenFree">Gluten-Free Meal</option>
-                  <option value="kosher">Kosher Meal</option>
-                  <option value="halal">Halal Meal</option>
+                  <option value="vegetarian">Vegetarian</option>
+                  <option value="vegan">Vegan</option>
+                  <option value="glutenFree">Gluten-Free</option>
+                  <option value="kosher">Kosher</option>
+                  <option value="halal">Halal</option>
                 </select>
               </div>
               <div class="addon-group">
@@ -137,6 +119,24 @@
           <!-- Step 4: Payment -->
           <div class="step" id="step4" style="display:none;">
             <h3><i class="fas fa-credit-card"></i> Payment</h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="cardName">Name on Card</label>
+                <input type="text" id="cardName" required />
+              </div>
+              <div class="form-group">
+                <label for="cardNumber">Card Number</label>
+                <input type="text" id="cardNumber" required />
+              </div>
+              <div class="form-group">
+                <label for="expiryDate">Expiry Date</label>
+                <input type="month" id="expiryDate" required />
+              </div>
+              <div class="form-group">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" required />
+              </div>
+            </div>
           </div>
 
           <div class="booking-actions">

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hotel Results | travelgo</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/booking-steps.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  </head>
+  <body>
+    <!-- Top Header Bar -->
+    <header class="flights-header-bar">
+      <div class="container flights-header-container">
+        <div class="flights-route">
+          <div class="logo"><a href="index.html"><img src="/images/travelgo.png" class="flights-logo" /></a></div>
+          <nav style="display: flex; align-items: center; gap: 20px; width: 100%;">
+            <a href="flights.html">Flights</a>
+            <a href="hotels.html">Hotels</a>
+            <a href="#">Holidays</a>
+            <a href="#" id="myBookingsBtn">My Bookings</a>
+            <div class="auth-buttons" style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
+              <a href="login.html" style="color: white; text-decoration: none; font-weight: 500;">Login</a>
+              <a href="register.html" style="color: white; text-decoration: none; font-weight: 500;">Register</a>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <section class="progression-bar-container">
+      <nav class="booking-steps">
+        <button class="step active">1 Hotel</button>
+        <button class="step">2 Guest</button>
+        <button class="step">3 Extra Services</button>
+        <button class="step">4 Payment</button>
+      </nav>
+    </section>
+
+    <!-- Hotel Results Section -->
+    <main class="container hotels-results-section">
+      <div class="search-header">
+        <h2>Hotel Results</h2>
+        <button id="modifySearchBtn" class="btn-toggle-search">
+          <i class="fas fa-search"></i> Modify Search
+        </button>
+      </div>
+
+      <section class="search-form" id="searchFormContainer" style="display:none;">
+        <form action="/hotel_results.html" method="GET" id="hotelSearchForm">
+          <div class="form-group">
+            <div class="form-control">
+              <label for="location">Location</label>
+              <select id="location" name="location" required>
+                <option value="">Select a city</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Bangkok">Bangkok</option>
+                <option value="Kuala Lumpur">Kuala Lumpur</option>
+                <option value="Jakarta">Jakarta</option>
+                <option value="Manila">Manila</option>
+                <option value="Ho Chi Minh City">Ho Chi Minh City</option>
+              </select>
+            </div>
+            <div class="form-control">
+              <label for="checkinDate">Check-in Date</label>
+              <input type="date" id="checkinDate" name="checkinDate" required />
+            </div>
+            <div class="form-control">
+              <label for="checkoutDate">Check-out Date</label>
+              <input type="date" id="checkoutDate" name="checkoutDate" required />
+            </div>
+            <div class="form-control">
+              <label for="guests">Guests</label>
+              <input type="number" id="guests" name="guests" value="1" min="1" />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary">Search Hotels</button>
+        </form>
+      </section>
+
+      <div id="hotelsContainer" class="hotels-container"></div>
+    </main>
+
+    <script>
+      // Toggle search form visibility
+      document.getElementById('modifySearchBtn').addEventListener('click', function() {
+        const formContainer = document.getElementById('searchFormContainer');
+        const isHidden = formContainer.style.display === 'none';
+        formContainer.style.display = isHidden ? 'block' : 'none';
+        this.innerHTML = isHidden 
+          ? '<i class="fas fa-times"></i> Close Search' 
+          : '<i class="fas fa-search"></i> Modify Search';
+      });
+    </script>
+    <script src="/js/hotel_results.js"></script>
+  </body>
+</html>

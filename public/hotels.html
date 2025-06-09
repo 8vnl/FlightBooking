@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>travelgo Airlines</title>
+  <title>travelgo Hotels</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <link rel="stylesheet" href="css/index-style.css" />
   <link rel="stylesheet" href="css/hero-slide.css" />
@@ -16,7 +16,7 @@
       <div class="flights-route">
         <div class="logo"><a href="index.html"><img src="/images/travelgo.png" class="flights-logo" /></a></div>
 <nav style="display: flex; align-items: center; gap: 20px; width: 100%;">
-  <a href="index.html">Flights</a>
+  <a href="flights.html">Flights</a>
   <a href="hotels.html">Hotels</a>
   <a href="#">Holidays</a>
   <a href="#" id="myBookingsBtn">My Bookings</a>
@@ -45,11 +45,11 @@
 
   <!-- Search Form -->
   <section class="search-form">
-    <form action="/flights.html" method="GET" id="flightSearchForm">
+    <form action="/hotel_results.html" method="GET" id="hotelSearchForm">
       <div class="form-group">
         <div class="form-control">
-          <label for="from">From</label>
-          <select id="from" name="departure" required>
+          <label for="location">Location</label>
+          <select id="location" name="location" required>
             <option value="">Select a city</option>
             <option value="Singapore">Singapore</option>
             <option value="Batam">Batam</option>
@@ -61,53 +61,22 @@
           </select>
         </div>
         <div class="form-control">
-          <label for="to">To</label>
-          <select id="to" name="destination" required>
-            <option value="">Select a city</option>
-            <option value="Singapore">Singapore</option>
-            <option value="Batam">Batam</option>
-            <option value="Bangkok">Bangkok</option>
-            <option value="Kuala Lumpur">Kuala Lumpur</option>
-            <option value="Jakarta">Jakarta</option>
-            <option value="Manila">Manila</option>
-            <option value="Ho Chi Minh City">Ho Chi Minh City</option>
-          </select>
+          <label for="checkinDate">Check-in Date</label>
+          <input type="date" id="checkinDate" name="checkinDate" required />
         </div>
-      <div class="form-control">
-        <label for="passengers">Passengers</label>
-        <input type="number" id="passengers" name="passengers" value="1" min="1" />
-      </div>
-      <div class="form-control date-group">
-        <div class="date-control">
-          <label for="date">Departure Date</label>
-          <input type="date" id="date" name="departureDate" required />
+        <div class="form-control">
+          <label for="checkoutDate">Check-out Date</label>
+          <input type="date" id="checkoutDate" name="checkoutDate" required />
         </div>
-        <div class="date-control" id="returnDateContainer">
-          <label for="returnDate">Return Date</label>
-          <input type="date" id="returnDate" name="returnDate" />
+        <div class="form-control">
+          <label for="guests">Guests</label>
+          <input type="number" id="guests" name="guests" value="1" min="1" />
         </div>
-      </div>
       </div>
 
-      <div style="display: flex; align-items: center; justify-content: space-between;">
-        <div class="radio-group" style="margin: 0;">
-          <label><input type="radio" name="tripType" value="one-way" checked /> One Way</label>
-          <label><input type="radio" name="tripType" value="roundtrip" /> Round Trip</label>
-        </div>
-        <button type="submit" class="btn-primary" style="margin: 0;">
-          Search Flights
-        </button>
-      </div>
-      <div class="member-points-info" style="margin-top: 15px; font-size: 0.8rem; color: #333;">
-        <div style="background-color: #d9f0ff; border-radius: 12px; padding: 10px 15px; display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 1.2rem; color: #3178c6; flex-shrink: 0;">&#8505;</span>
-          <div class="text-sm" style="flex-grow: 1;">
-            Did you know? TravelGo members will get a point for every money they spent. <a href="login.html" class="text-primary-blue-base font-semibold underline">Login now</a> to get better fares.
-          </div>
-        </div>
-      </div>
+      <button type="submit" class="btn-primary">Search Hotels</button>
     </form>
-</section>
+  </section>
 
 <!-- Promotions Section -->
 <section class="promotions">

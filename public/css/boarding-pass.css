@@ -1,0 +1,139 @@
+/* this file is for the boarding pass page */
+
+.boarding-pass-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.boarding-pass-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.boarding-pass-header {
+  background: #3498db;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.boarding-pass-logo {
+  height: 30px;
+}
+
+.boarding-pass-airline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.boarding-pass-airline img {
+  height: 30px;
+}
+
+.boarding-pass-body {
+  padding: 20px;
+}
+
+.boarding-pass-section {
+  margin-bottom: 20px;
+}
+
+.passenger-info h3 {
+  margin-top: 0;
+  color: #555;
+}
+
+.passenger-name {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.flight-info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.flight-info-col {
+  flex: 1;
+}
+
+.flight-info-label {
+  font-size: 0.8em;
+  color: #777;
+  margin: 0;
+}
+
+.flight-info-value {
+  font-weight: bold;
+  margin: 5px 0 0 0;
+}
+
+.seat-info {
+  display: flex;
+  justify-content: space-between;
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.seat-info-col {
+  text-align: center;
+}
+
+.seat-info-label {
+  font-size: 0.8em;
+  color: #777;
+  margin: 0;
+}
+
+.seat-info-value {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 5px 0 0 0;
+}
+
+.boarding-pass-barcode {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px dashed #ccc;
+}
+
+.barcode {
+  font-family: 'Libre Barcode 128', cursive;
+  font-size: 2.5em;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+}
+
+.barcode-number {
+  font-family: monospace;
+  letter-spacing: 2px;
+}
+
+.boarding-pass-actions {
+  text-align: center;
+  margin: 30px 0;
+}
+
+@media print {
+  nav, .boarding-pass-actions {
+    display: none;
+  }
+  
+  .boarding-pass-card {
+    page-break-after: always;
+    box-shadow: none;
+    margin: 0;
+  }
+}

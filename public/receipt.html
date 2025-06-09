@@ -6,6 +6,7 @@
   <title>Booking Receipt | travelgo</title>
   <link rel="stylesheet" href="/css/style.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/receipt.css" />
 </head>
 <body>
   <nav class="main-nav">
@@ -21,15 +22,41 @@
     </div>
     <div class="receipt-actions">
       <button id="viewBoardingPassBtn" class="btn btn-primary" style="display:none;">
-        <i class="fas fa-plane"></i> View Boarding Pass
+        <i class="fas fa-plane"></i> View Boarding Passes
       </button>
       <a href="/profile.html" class="btn btn-secondary">
         <i class="fas fa-list"></i> Manage Bookings
       </a>
+      <button onclick="window.print()" class="btn btn-secondary">
+        <i class="fas fa-print"></i> Print Receipt
+      </button>
     </div>
   </div>
 
   <script>
+    function formatPassengerName(passenger) {
+      return `${passenger.title} ${passenger.firstName} ${passenger.lastName}`;
+    }
+
+    function formatFlightDetails(flight) {
+      const departureDate = new Date(flight.departureDate);
+      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+      
+      let details = `
+        <p><strong>Flight:</strong> ${flight.airline} ${flight.flightNumber}</p>
+        <p><strong>From:</strong> ${flight.departure}</p>
+        <p><strong>To:</strong> ${flight.destination}</p>
+        <p><strong>Departure:</strong> ${departureDate.toLocaleDateString('en-US', options)} at ${flight.departureTime || '10:30 AM'}</p>
+      `;
+      
+      if (flight.tripType === 'roundtrip' && flight.returnDate) {
+        const returnDate = new Date(flight.returnDate);
+        details += `<p><strong>Return:</strong> ${returnDate.toLocaleDateString('en-US', options)}</p>`;
+      }
+      
+      return details;
+    }
+
     async function loadReceipt() {
       const container = document.getElementById('receiptContainer');
       const urlParams = new URLSearchParams(window.location.search);
@@ -48,33 +75,66 @@
 
         if (!booking) {
           // Fallback to fetch from backend API
-          const response = await fetch('/api/bookings');
+          const response = await fetch(`/api/bookings/${bookingId}`);
           if (!response.ok) {
             container.innerHTML = '<p>Error loading booking details.</p>';
             return;
           }
-          const backendBookings = await response.json();
-          booking = backendBookings.find(b => b.id === bookingIdNum);
-          if (!booking) {
-            container.innerHTML = '<p>Booking not found.</p>';
-            return;
-          }
+          booking = await response.json();
         }
 
-        container.innerHTML = `
-          <h2>Booking Confirmed!</h2>
-          <p><strong>Booking ID:</strong> ${booking.id}</p>
-          <p><strong>Passenger Name:</strong> ${booking.passengerName || booking.passenger_name}</p>
-          <p><strong>Flight:</strong> ${booking.flight?.airline || booking.airline} ${booking.flight?.flightNumber || booking.flight_number}</p>
-          <p><strong>From:</strong> ${booking.flight?.departure || booking.departure_airport}</p>
-          <p><strong>To:</strong> ${booking.flight?.destination || booking.arrival_airport}</p>
-          <p><strong>Departure:</strong> ${booking.flight?.departureDate || (booking.departure_time ? new Date(booking.departure_time).toLocaleString() : '')}</p>
-          ${booking.flight?.tripType === 'roundtrip' ? `<p><strong>Return Date:</strong> ${booking.flight.returnDate}</p>` : ''}
-          <p><strong>Arrival:</strong> ${booking.flight?.arrivalDate || (booking.arrival_time ? new Date(booking.arrival_time).toLocaleString() : '')}</p>
-          <p><strong>Status:</strong> ${booking.status || 'Confirmed'}</p>
-          <p><strong>Total Price:</strong> MYR ${booking.totalPrice?.toFixed(2) || 'N/A'}</p>
+        // Generate HTML for the receipt
+        let receiptHTML = `
+          <div class="receipt-header">
+            <h2><i class="fas fa-check-circle"></i> Booking Confirmed!</h2>
+            <p class="booking-reference">Booking Reference: <strong>${booking.id}</strong></p>
+          </div>
+
+          <div class="receipt-section">
+            <h3><i class="fas fa-users"></i> Passengers</h3>
+            <div class="passengers-list">
         `;
 
+        // Add each passenger
+        booking.passengers.forEach((passenger, index) => {
+          receiptHTML += `
+            <div class="passenger-item">
+              <h4>Passenger ${index + 1}</h4>
+              <p><strong>Name:</strong> ${formatPassengerName(passenger)}</p>
+              <p><strong>Passport:</strong> ${passenger.passportNumber}</p>
+              <p><strong>Nationality:</strong> ${passenger.nationality}</p>
+            </div>
+          `;
+        });
+
+        receiptHTML += `
+            </div>
+          </div>
+
+          <div class="receipt-section">
+            <h3><i class="fas fa-plane"></i> Flight Details</h3>
+            ${formatFlightDetails(booking.flight)}
+          </div>
+
+          <div class="receipt-section">
+            <h3><i class="fas fa-concierge-bell"></i> Additional Services</h3>
+            <p><strong>Meal:</strong> ${booking.additionalServices.mealSelection || 'None'}</p>
+            <p><strong>Extra Baggage:</strong> ${booking.additionalServices.baggageSelection || '0'} bags</p>
+            <p><strong>Priority Boarding:</strong> ${booking.additionalServices.priorityBoarding ? 'Yes' : 'No'}</p>
+            ${booking.additionalServices.specialRequests ? `<p><strong>Special Requests:</strong> ${booking.additionalServices.specialRequests}</p>` : ''}
+          </div>
+
+          <div class="receipt-section">
+            <h3><i class="fas fa-credit-card"></i> Payment Summary</h3>
+            <p><strong>Total Price:</strong> MYR ${booking.totalPrice?.toFixed(2) || '0.00'}</p>
+            <p><strong>Payment Method:</strong> Credit Card ending in ${booking.payment?.cardNumber?.slice(-4) || '****'}</p>
+            <p><strong>Booking Date:</strong> ${new Date().toLocaleString()}</p>
+          </div>
+        `;
+
+        container.innerHTML = receiptHTML;
+
+        // Show boarding pass button if flight is upcoming
         const viewBtn = document.getElementById('viewBoardingPassBtn');
         viewBtn.style.display = 'inline-block';
         viewBtn.onclick = () => {

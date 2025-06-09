@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Book Hotel | travelgo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/booking-steps.css" />
+  </head>
+  <body>
+    <header class="flights-header-bar">
+      <div class="container flights-header-container">
+        <div class="flights-route">
+          <a href="index.html"><img src="/images/travelgo.png" class="flights-logo" /></a>
+          <span class="route-from-to" id="hotelLocation">Singapore Hotels</span>
+          <span class="route-date" id="checkinDateDisplay"><i class="far fa-calendar-alt"></i> Check-in Date</span>
+          <span class="route-passengers" id="guestsCount"><i class="fas fa-user"></i> 1 Guest</span>
+        </div>
+      </div>
+    </header>
+    <section class="progression-bar-container">
+      <nav class="booking-steps">
+        <button class="step active">1 Hotel</button>
+        <button class="step">2 Guest</button>
+        <button class="step">3 Extra Services</button>
+        <button class="step">4 Payment</button>
+      </nav>
+    </section>
+
+    <main class="container flights-results-section">
+      <section id="selectedHotelDetails" class="hotel-details-card">
+        <h2>Selected Hotel</h2>
+        <div id="hotelInfo">
+          <p><strong>Hotel Name:</strong> Grand Singapore Hotel</p>
+          <p><strong>Location:</strong> Singapore</p>
+          <p><strong>Room Type:</strong> Standard</p>
+          <p><strong>Price per Night:</strong> $120</p>
+        </div>
+      </section>
+
+      <div class="booking-content-wrapper">
+        <section id="bookingSteps" class="booking-steps-section">
+          <form id="hotelBookingForm">
+            <!-- Step 1: Guest Details -->
+            <div class="step" id="step1">
+              <h3><i class="fas fa-user"></i> Guest Details</h3>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="guestName">Full Name</label>
+                  <input type="text" id="guestName" required />
+                </div>
+                <div class="form-group">
+                  <label for="guestEmail">Email</label>
+                  <input type="email" id="guestEmail" required />
+                </div>
+                <div class="form-group">
+                  <label for="guestPhone">Phone Number</label>
+                  <input type="tel" id="guestPhone" required />
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Contact Information -->
+            <div class="step" id="step2">
+              <h3><i class="fas fa-address-book"></i> Contact Information</h3>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="guestAddress">Address</label>
+                  <input type="text" id="guestAddress" required />
+                </div>
+                <div class="form-group">
+                  <label for="guestCity">City</label>
+                  <input type="text" id="guestCity" required />
+                </div>
+                <div class="form-group">
+                  <label for="guestCountry">Country</label>
+                  <input type="text" id="guestCountry" required />
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Additional Services -->
+            <div class="step" id="step3">
+              <h3><i class="fas fa-concierge-bell"></i> Additional Services</h3>
+              <div class="addon-section">
+                <div class="addon-group">
+                  <label>Room Preferences</label>
+                  <select id="roomPreferences" name="roomPreferences">
+                    <option value="">No Preference</option>
+                    <option value="Non-smoking">Non-smoking</option>
+                    <option value="High Floor">High Floor</option>
+                    <option value="Late Check-out">Late Check-out</option>
+                  </select>
+                </div>
+                <div class="addon-group">
+                  <label>Extra Bed</label>
+                  <select id="extraBed" name="extraBed">
+                    <option value="0">No Extra Bed</option>
+                    <option value="1">1 Extra Bed</option>
+                  </select>
+                </div>
+                <div class="addon-group">
+                  <label><input type="checkbox" id="airportPickup" name="airportPickup" /> Airport Pickup</label>
+                </div>
+                <div class="addon-group">
+                  <label for="specialRequests">Other Requests</label>
+                  <textarea id="specialRequests" rows="3"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: Payment -->
+            <div class="step" id="step4">
+              <h3><i class="fas fa-credit-card"></i> Payment</h3>
+              <div class="form-group">
+                <label for="cardName">Name on Card</label>
+                <input type="text" id="cardName" required />
+              </div>
+              <div class="form-group">
+                <label for="cardNumber">Card Number</label>
+                <input type="text" id="cardNumber" required />
+              </div>
+              <div class="form-group">
+                <label for="expiryDate">Expiry Date</label>
+                <input type="month" id="expiryDate" required />
+              </div>
+              <div class="form-group">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" required />
+              </div>
+            </div>
+
+            <div class="booking-actions">
+              <button type="button" id="prevBtn" class="btn btn-secondary">Previous</button>
+              <button type="button" id="nextBtn" class="btn btn-primary">Next</button>
+              <button type="submit" id="submitBooking" class="btn btn-success" style="display:none;">
+                <i class="fas fa-check"></i> Confirm Booking
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <aside class="price-breakdown-container">
+          <div id="priceBreakdown" class="price-breakdown">
+            <h4>Booking Summary</h4>
+            <ul>
+              <li>Room Price: <span id="roomPriceDisplay">MYR 0.00</span></li>
+              <li>Room Preferences: <span id="roomPreferencesPriceDisplay">MYR 0.00</span></li>
+              <li>Extra Bed: <span id="extraBedPriceDisplay">MYR 0.00</span></li>
+              <li>Airport Pickup: <span id="airportPickupPriceDisplay">MYR 0.00</span></li>
+              <li><strong>Total: <span id="totalPriceDisplay">MYR 0.00</span></strong></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <script src="/js/hotel_booking.js"></script>
+  </body>
+</html>

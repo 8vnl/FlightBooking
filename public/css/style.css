@@ -1599,8 +1599,8 @@ body.dark-mode {
   gap: 20px;
 }
 
-/* Enhanced Flight Card with Arrow Timeline */
-.flight-card {
+/* Hotel Card styled like flight card */
+.hotel-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1615,246 +1615,108 @@ body.dark-mode {
   border: 1px solid #e5e7eb;
 }
 
-.flight-card:hover {
+.hotel-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   border-color: #3b82f6;
 }
 
-.flight-card-left {
+.hotel-card-left {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 100px;
+  width: 200px;
   font-weight: 600;
 }
 
-.departure-time {
+.hotel-name {
   font-size: 1.4rem;
   font-weight: 700;
   color: #111827;
   font-family: 'Montserrat', sans-serif;
+  margin-bottom: 6px;
 }
 
-.departure-airport {
+.hotel-location {
   font-size: 0.9rem;
   color: #6b7280;
-  margin-top: 4px;
+  margin-bottom: 6px;
   font-weight: 500;
 }
 
-.flight-card-center {
+.hotel-amenities {
+  font-size: 0.85rem;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.hotel-card-center {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   flex-grow: 1;
   padding: 0 20px;
 }
 
-.flight-duration {
-  margin-bottom: 6px;
+.room-types-title {
   font-weight: 600;
+  font-size: 1rem;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.room-types-list {
+  list-style: none;
+  padding-left: 0;
   font-size: 0.9rem;
   color: #4b5563;
-  position: relative;
-  display: flex;
-  align-items: center;
 }
 
-.flight-duration:before,
-.flight-duration:after {
-  content: "";
-  height: 1px;
-  background: #d1d5db;
-  flex-grow: 1;
-  margin: 0 10px;
+.room-types-list li {
+  margin-bottom: 4px;
 }
 
-.flight-details-link a {
-  color: #3b82f6;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.85rem;
-  transition: color 0.2s ease;
-}
-
-.flight-details-link a:hover {
-  color: #2563eb;
-  text-decoration: underline;
-}
-
-.flight-card-right {
+.hotel-card-right {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  width: 180px;
+  width: 140px;
 }
 
-.arrival-time {
-  font-size: 1.4rem;
+.select-hotel-btn {
+  padding: 12px 20px;
   font-weight: 700;
-  color: #111827;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.arrival-airport {
-  font-size: 0.9rem;
-  color: #6b7280;
-  margin-top: 4px;
-  font-weight: 500;
-}
-
-.flight-number {
-  display: flex;
-  align-items: center;
-  margin-top: 8px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #374151;
-}
-
-.flight-number img {
-  width: 30px;
-  height: 30px;
-  margin-right: 8px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-/* Enhanced Fare Classes */
-.fare-classes {
-  display: flex;
-  gap: 15px;
-  margin-left: 30px;
-}
-
-.fare-class {
-  border: 1px solid #e0e3e7;
-  border-radius: 10px;
-  padding: 15px;
-  min-width: 140px;
-  text-align: center;
+  font-size: 1rem;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  position: relative;
-  background-color: #f9fafb;
-}
-
-.fare-class:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
-}
-
-.economy-class:hover {
-  border-color: #3b82f6;
-  background-color: #eff6ff;
-}
-
-.business-class:hover {
-  border-color: #f59e0b;
-  background-color: #fffbeb;
-}
-
-.class-name {
-  font-weight: 700;
-  margin-bottom: 8px;
-  font-size: 0.95rem;
-  color: #374151;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.price {
-  font-weight: 700;
-  font-size: 1.3rem;
-  color: #1e40af;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.business-class .price {
-  color: #92400e;
-}
-
-.seats-left-badge {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: #dc2626;
+  border: none;
+  background-color: #3b82f6;
   color: white;
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 4px 8px;
-  border-radius: 12px;
-  white-space: nowrap;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.select-hotel-btn:hover {
+  background-color: #2563eb;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-  .flights-header-container {
-    flex-direction: column;
-    gap: 15px;
-    align-items: flex-start;
-  }
-  
-  .flights-route {
-    flex-wrap: wrap;
-    gap: 15px;
-  }
-  
-  .booking-steps {
-    width: 100%;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    justify-content: flex-start;
-  }
-  
-  .flight-card {
+  .hotel-card {
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
   }
   
-  .flight-card-left,
-  .flight-card-center,
-  .flight-card-right {
+  .hotel-card-left,
+  .hotel-card-center,
+  .hotel-card-right {
     width: 100%;
     align-items: flex-start;
   }
   
-  .flight-card-center {
+  .hotel-card-center {
     padding: 15px 0;
     border-top: 1px dashed #e0e3e7;
     border-bottom: 1px dashed #e0e3e7;
-  }
-  
-  .fare-classes {
-    width: 100%;
-    margin-left: 0;
-    justify-content: space-between;
-  }
-  
-  .fare-class {
-    min-width: calc(50% - 10px);
-  }
-}
-
-@media (max-width: 480px) {
-  .search-form {
-    padding: 20px;
-    margin: 20px auto;
-  }
-  
-  .form-group {
-    gap: 15px;
-  }
-  
-  .fare-class {
-    min-width: 100%;
-  }
-  
-  .flight-card {
-    padding: 15px;
   }
 }
