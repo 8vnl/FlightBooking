@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     "Garuda Indonesia": "/images/airlines/GA.jpg",
                     "Vietnam Airlines": "/images/airlines/VN.jpg",
                     "AirAsia Philippines": "/images/airlines/AK.jpg",
+                    "Charter Airlines": "/images/airlines/TG.jpg",
 
 
                 };
