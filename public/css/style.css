@@ -114,19 +114,69 @@ body {
 }
 
 /* Navigation */
-.main-nav {
+.main-nav, .nav-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 20px;
   background-color: white;
   box-shadow: var(--box-shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.main-nav h1, .logo {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--secondary-color);
+  font-weight: 700;
 }
 
 .main-nav h1 {
-  font-family: 'Montserrat', sans-serif;
-  color: var(--secondary-color);
   font-size: 1.5rem;
+}
+
+.logo {
+  font-size: 1.8rem;
+  text-decoration: none;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 60px;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-menu li a {
+  text-decoration: none;
+  color: var(--secondary-color);
+  font-weight: 600;
+  padding: 8px 12px;
+  transition: var(--transition);
+}
+
+.nav-menu li a:hover,
+.nav-menu li a:focus {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: var(--border-radius);
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--secondary-color);
+  cursor: pointer;
 }
 
 /* Container */
@@ -1066,6 +1116,7 @@ body {
 /* Flight Card */
 .flight-card {
   display: flex;
+  font-family: var(--font-family);
   justify-content: space-between;
   align-items: center;
   border: 1px solid #ddd;
@@ -1082,6 +1133,7 @@ body {
   flex-direction: column;
   align-items: flex-start;
   width: 90px;
+  font-family: var(--font-family);
   font-weight: 600;
   font-size: 1em;
   color: #222;
@@ -1102,12 +1154,13 @@ body {
   font-weight: 500;
 }
 
-/* Center section: duration and flight details link */
+/* OLDCenter section: duration and flight details link */
 .flight-card-center {
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
+  font-family: var(--font-family);
   font-size: 0.8em;
   color: #555;
   font-weight: 500;
@@ -1139,6 +1192,7 @@ body {
   flex-direction: column;
   align-items: flex-end;
   width: 160px;
+  font-family: var(--font-family);
   font-weight: 600;
   font-size: 1em;
   color: #222;
@@ -1156,6 +1210,7 @@ body {
   font-size: 0.8em;
   color: #666;
   margin-top: 2px;
+  font-family: var(--font-family);
   font-weight: 500;
 }
 
@@ -1163,6 +1218,7 @@ body {
   display: flex;
   align-items: center;
   margin-top: 4px;
+  font-family: var(--font-family);
   font-weight: 600;
   font-size: 0.9em;
   color: #333;
@@ -1198,6 +1254,7 @@ body {
 }
 
 .class-name {
+  font-family: var(--font-family);
   font-weight: 700;
   margin-bottom: 6px;
   font-size: 0.9em;
@@ -1205,6 +1262,7 @@ body {
 }
 
 .price {
+  font-family: var(--font-family);
   font-size: 1em;
   font-weight: 600;
   color: #111;
@@ -1217,6 +1275,7 @@ body {
   right: 8px;
   background-color: #d32f2f;
   color: white;
+  font-family: var(--font-family);
   font-size: 0.75em;
   font-weight: 700;
   padding: 4px 8px;

@@ -16,7 +16,7 @@
 }
 
 .boarding-pass-header {
-  background: #3498db;
+  background: #0d4689 !important;
   color: white;
   padding: 15px;
   display: flex;
@@ -135,5 +135,10 @@
     page-break-after: always;
     box-shadow: none;
     margin: 0;
+  }
+
+  .boarding-pass-header {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }

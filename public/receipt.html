@@ -144,6 +144,40 @@
         container.innerHTML = '<p>Error loading booking details.</p>';
         console.error('Error loading booking details:', error);
       }
+
+      // this case for package bookings
+      if (booking.type === 'package') {
+        receiptHTML += `
+          <div class="receipt-section">
+            <h3><i class="fas fa-plane"></i> Flight Details</h3>
+            ${formatFlightDetails(booking.package.flight)}
+          </div>
+          
+          <div class="receipt-section">
+            <h3><i class="fas fa-hotel"></i> Hotel Details</h3>
+            <p><strong>Hotel Name:</strong> ${booking.package.hotel.name}</p>
+            <p><strong>Location:</strong> ${booking.package.hotel.location}</p>
+            <p><strong>Room Type:</strong> ${booking.package.hotel.roomType}</p>
+            <p><strong>Duration:</strong> ${booking.package.hotel.duration} nights</p>
+            <p><strong>Check-in:</strong> ${booking.package.hotel.checkin_time}</p>
+            <p><strong>Check-out:</strong> ${booking.package.hotel.checkout_time}</p>
+          </div>
+          
+          <div class="receipt-section">
+            <h3><i class="fas fa-credit-card"></i> Payment Summary</h3>
+            <p><strong>Total Price:</strong> MYR ${booking.package.totalPrice.toFixed(2)}</p>
+            <p><strong>Package Discount:</strong> MYR ${((booking.package.flight.price * booking.package.guests) + 
+              (booking.package.hotel.price * booking.package.hotel.duration * booking.package.rooms) - 
+              booking.package.totalPrice).toFixed(2)}</p>
+            <p><strong>Payment Method:</strong> Credit Card ending in ${booking.payment?.cardNumber?.slice(-4) || '****'}</p>
+            <p><strong>Booking Date:</strong> ${new Date().toLocaleString()}</p>
+          </div>
+        `;
+        
+        // Hide boarding pass button for packages (or show both flight and hotel vouchers)
+        document.getElementById('viewBoardingPassBtn').style.display = 'none';
+      }
+      
     }
 
     document.addEventListener('DOMContentLoaded', loadReceipt);

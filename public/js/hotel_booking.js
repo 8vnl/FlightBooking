@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const bookingForm = document.getElementById('hotelBookingForm');
 
   // Fetch predefined hotels data
-  import('/js/hotelsData.js').then(module => {
+  import('/hotelsData.js').then(module => {
     const predefinedHotels = module.default;
 
     // Function to fetch and display hotels with optional filters

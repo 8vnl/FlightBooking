@@ -31,11 +31,11 @@
     function generateBoardingPass(booking, passenger, index) {
       const departureTime = booking.flight.departureTime || '10:30 AM';
       const arrivalTime = booking.flight.arrivalTime || '11:45 AM';
-      const gate = booking.flight.gate || Math.floor(Math.random() * 50) + 1;
+      const gate = booking.flight.gate || Math.floor(Math.random() * 15) + 1;
       const seat = `${String.fromCharCode(65 + Math.floor(Math.random() * 6))}${Math.floor(Math.random() * 30) + 1}`;
 
       const airlineLogos = {
-                    "Malaysia Airlines": "/images/airlines/MH.jpg",
+                    "Malaysia Airlines": "/images/airlines/MH-white.jpg",
                     "AirAsia": "/images/airlines/AK.jpg",
                     "Singapore Airlines": "/images/airlines/SQ.jpg",
                     "Philippine Airlines": "/images/airlines/PR.jpg",
@@ -44,7 +44,7 @@
                     "Vietnam Airlines": "/images/airlines/VN.jpg",
                     "AirAsia Philippines": "/images/airlines/AK.jpg",
                     "Charter Airlines": "/images/airlines/TG.jpg",
-                };
+      };
 
       const logoSrc = airlineLogos[booking.flight.airline] || "/images/default-airline-logo.png";
       
@@ -53,8 +53,8 @@
           <div class="boarding-pass-header">
             <img src="/images/travelgo.png" alt="travelgo" class="boarding-pass-logo">
             <div class="boarding-pass-airline">
-              <img src="${logoSrc}" alt="${booking.flight.airline}">
               <span>${booking.flight.airline} ${booking.flight.flightNumber}</span>
+              <img src="${logoSrc}" alt="${booking.flight.airline}">
             </div>
           </div>
           
@@ -105,7 +105,6 @@
             </div>
             
             <div class="boarding-pass-barcode">
-              <div class="barcode">${booking.id}${index.toString().padStart(2, '0')}</div>
               <p class="barcode-number">${booking.id}${index.toString().padStart(2, '0')}</p>
             </div>
           </div>

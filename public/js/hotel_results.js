@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   const hotelsContainer = document.getElementById('hotelsContainer');
 
-  import('/js/hotelsData.js').then(module => {
+  import('/hotelsData.js').then(module => {
     const predefinedHotels = module.default;
 
     function fetchHotels(filters = {}) {
