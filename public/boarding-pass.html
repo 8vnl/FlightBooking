@@ -9,12 +9,19 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
 </head>
 <body>
-  <nav class="main-nav">
-    <a href="/receipt.html?booking=${new URLSearchParams(window.location.search).get('booking')}" class="btn btn-secondary">
-      <i class="fas fa-arrow-left"></i> Back to Receipt
-    </a>
-    <h1><i class="fas fa-plane"></i> travelgo Boarding Pass</h1>
-  </nav>
+  <header class="flights-header-bar">
+    <div class="flights-header-container">
+      <div class="flights-route" style="align-items: center; gap: 20px;">
+        <a href="index.html" class="logo">
+          <img src="/images/travelgo.png" alt="travelgo logo" class="flights-logo" />
+        </a>
+        <h1 style="color: white; font-weight: 400; margin: 0; font-family: 'Mundial', sans-serif; font-size: 1.25rem;">Boarding Pass</h1>
+        <button onclick="window.history.back()" class="btn btn-secondary" style="margin-left: auto;">
+          <i class="fas fa-arrow-left"></i> Back to Receipt
+        </button>
+      </div>
+    </div>
+  </header>
 
   <div class="container">
     <div id="boardingPassContainer" class="boarding-pass-container">
@@ -57,38 +64,40 @@
               <img src="${logoSrc}" alt="${booking.flight.airline}">
             </div>
           </div>
-          
+
           <div class="boarding-pass-body">
             <div class="boarding-pass-section passenger-info">
               <h3>Passenger ${index + 1}</h3>
               <p class="passenger-name">${passenger.title} ${passenger.firstName} ${passenger.lastName}</p>
               <p><strong>Passport:</strong> ${passenger.passportNumber}</p>
             </div>
-            
+
             <div class="boarding-pass-section flight-info">
               <div class="flight-info-row">
+
                 <div class="flight-info-col">
                   <p class="flight-info-label">From</p>
                   <p class="flight-info-value">${booking.flight.departure}</p>
                 </div>
+
                 <div class="flight-info-col">
                   <p class="flight-info-label">To</p>
                   <p class="flight-info-value">${booking.flight.destination}</p>
                 </div>
-              </div>
-              
-              <div class="flight-info-row">
+
                 <div class="flight-info-col">
                   <p class="flight-info-label">Departure</p>
                   <p class="flight-info-value">${departureTime}</p>
                 </div>
+
                 <div class="flight-info-col">
                   <p class="flight-info-label">Arrival</p>
                   <p class="flight-info-value">${arrivalTime}</p>
                 </div>
+
               </div>
             </div>
-            
+
             <div class="boarding-pass-section seat-info">
               <div class="seat-info-col">
                 <p class="seat-info-label">Seat</p>
@@ -103,7 +112,7 @@
                 <p class="seat-info-value">${departureTime.replace(/:00 /, ' ').replace(' AM', '').replace(' PM', '')}</p>
               </div>
             </div>
-            
+
             <div class="boarding-pass-barcode">
               <p class="barcode-number">${booking.id}${index.toString().padStart(2, '0')}</p>
             </div>
