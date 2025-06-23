@@ -1,0 +1,164 @@
+@media print {
+  nav,
+  .boarding-pass-actions {
+    display: none;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .boarding-pass-card {
+    page-break-after: always;
+    box-shadow: none;
+    margin: 0;
+    border: none;
+  }
+
+  .boarding-pass-header {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+=======
+/* PRINT STYLES */
+@media print {
+  nav,
+  .boarding-pass-actions {
+    display: none;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: white;
+    color: black;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    font-family: Arial, sans-serif;
+  }
+
+  .boarding-pass-container {
+    display: block;
+    padding: 0;
+  }
+
+  .boarding-pass-card {
+    page-break-after: always;
+    box-shadow: none;
+    margin: 0 0 20px 0;
+    border: 1px solid #000;
+    border-radius: 0;
+    width: 100%;
+    max-width: none;
+    display: block;
+  }
+
+  .boarding-pass-header {
+    background-color: #0d4689 !important;
+    color: white !important;
+    padding: 10px;
+    text-align: center;
+    width: 100% !important;
+    display: block !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .boarding-pass-logo {
+    height: 25px;
+    margin-bottom: 5px;
+  }
+
+  .boarding-pass-airline {
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .boarding-pass-airline img {
+    height: 20px;
+    margin-top: 4px;
+  }
+
+  .boarding-pass-body {
+    padding: 10px;
+    display: block;
+  }
+
+  .boarding-pass-section {
+    margin-bottom: 10px;
+  }
+
+  .passenger-info h3 {
+    font-size: 1rem;
+    color: #000;
+  }
+
+  .passenger-name {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .flight-info-row {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .flight-info-col {
+    text-align: left;
+    margin-bottom: 5px;
+  }
+
+  .flight-info-label {
+    font-size: 0.8em;
+    color: #333;
+    text-transform: uppercase;
+  }
+
+  .flight-info-value {
+    font-weight: 600;
+    font-size: 1.1em;
+    color: #000;
+    white-space: normal;
+  }
+
+  .seat-info {
+    display: flex;
+    justify-content: space-between;
+    background: #eee;
+    padding: 8px 12px;
+    border-radius: 0;
+    border: none;
+    font-size: 1em;
+  }
+
+  .seat-info-col {
+    min-width: auto;
+    text-align: left;
+  }
+
+  .seat-info-label {
+    font-size: 0.75em;
+    color: #555;
+  }
+
+  .seat-info-value {
+    font-weight: 700;
+    font-size: 1.1em;
+    color: #0d4689;
+  }
+
+  .boarding-pass-barcode {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #000;
+    text-align: center;
+  }
+
+  .barcode-number {
+    font-size: 2.5em;
+    color: #000;
+  }
+}
