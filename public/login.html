@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/index-style.css" />
+  <link rel="stylesheet" href="css/hero-slide.css" />
 </head>
 <body>
 
@@ -30,12 +31,17 @@
     </div>
   </header>
 
-  <!-- Hero section for banner -->
+  <!-- Hero Section -->
   <section class="hero">
-    <div class="hero-content">
-      <h1>Welcome Back</h1>
-      <p>Please login to your account to continue.</p>
+    <div class="hero-slider">
+      <div class="hero-slide" style="background-image: url('images/hero/hero1.jpg');"></div>
+      <div class="hero-slide" style="background-image: url('images/hero/hero2.jpg');"></div>
+      <div class="hero-slide" style="background-image: url('images/hero/hero3.jpg');"></div>
+      <div class="hero-slide" style="background-image: url('images/hero/hero4.jpg');"></div>
+      <div class="hero-slide" style="background-image: url('images/hero/hero5.jpg');"></div>
     </div>
+    <button class="hero-nav hero-prev" aria-label="Previous Slide">&#10094;</button>
+    <button class="hero-nav hero-next" aria-label="Next Slide">&#10095;</button>
   </section>
 
   <!-- Login Form -->
@@ -55,6 +61,7 @@
     <p style="margin-top: 15px;">Don't have an account? <a href="register.html">Register here</a></p>
   </section>
 
+  <script src="/js/main.js"></script>
   <script>
     const loginForm = document.getElementById('loginForm');
     const message = document.getElementById('message');
