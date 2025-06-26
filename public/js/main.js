@@ -1,3 +1,26 @@
+(function() {
+  // Add event listener for debugResetBtn to clear all bookings (dev only)
+  const debugResetBtn = document.getElementById('debugResetBtn');
+  if (debugResetBtn) {
+    debugResetBtn.addEventListener('click', () => {
+      console.log('debugResetBtn clicked');
+      if (confirm('Are you sure you want to reset all bookings? This action cannot be undone.')) {
+        console.log('User confirmed reset');
+        // Clear booking related data from localStorage
+        localStorage.removeItem('flightBookings');
+        localStorage.removeItem('hotelBookings');
+        localStorage.removeItem('packageBookings');
+        // Add any other booking related keys here if needed
+
+        alert('All bookings have been reset.');
+        location.reload();
+      } else {
+        console.log('User cancelled reset');
+      }
+    });
+  }
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
     // Add hover effect for feature cards
     const featureCards = document.querySelectorAll('.feature-card');
@@ -167,9 +190,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const debugResetBtn = document.getElementById('debugResetBtn');
     if (debugResetBtn) {
         debugResetBtn.addEventListener('click', () => {
+            console.log('debugResetBtn clicked');
             if (confirm('Are you sure you want to reset all bookings? This action cannot be undone.')) {
-                localStorage.removeItem('bookings');
+                console.log('User confirmed reset');
+                // Clear booking related data from localStorage
+                localStorage.removeItem('flightBookings');
+                localStorage.removeItem('hotelBookings');
+                localStorage.removeItem('packageBookings');
+                // Add any other booking related keys here if needed
+
                 alert('All bookings have been reset.');
+                location.reload();
+            } else {
+                console.log('User cancelled reset');
             }
         });
     }

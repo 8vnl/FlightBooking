@@ -39,63 +39,18 @@
     </div>
     
     <!-- Package Search Form -->
-    <section class="search-form" id="searchFormContainer">
-      <form id="packageSearchForm">
-        <div class="form-group">
-          <div class="form-control">
-            <label for="packageFrom">From</label>
-            <select id="packageFrom" name="departure" required>
-              <option value="">Select departure city</option>
-              <option value="Singapore">Singapore</option>
-              <option value="Bangkok">Bangkok</option>
-              <option value="Kuala Lumpur">Kuala Lumpur</option>
-              <option value="Jakarta">Jakarta</option>
-              <option value="Manila">Manila</option>
-              <option value="Ho Chi Minh City">Ho Chi Minh City</option>
-            </select>
-          </div>
-          <div class="form-control">
-            <label for="packageTo">Destination</label>
-            <select id="packageTo" name="destination" required>
-              <option value="">Select destination city</option>
-              <option value="Singapore">Singapore</option>
-              <option value="Bangkok">Bangkok</option>
-              <option value="Kuala Lumpur">Kuala Lumpur</option>
-              <option value="Jakarta">Jakarta</option>
-              <option value="Manila">Manila</option>
-              <option value="Ho Chi Minh City">Ho Chi Minh City</option>
-            </select>
-          </div>
-          <div class="form-control">
-            <label for="packageDeparture">Departure Date</label>
-            <input type="date" id="packageDeparture" name="departureDate" required />
-          </div>
-          <div class="form-control">
-            <label for="packageReturn">Return Date</label>
-            <input type="date" id="packageReturn" name="returnDate" />
-          </div>
-          <div class="form-control">
-            <label for="packageGuestsInput">Guests</label>
-            <input type="number" id="packageGuestsInput" name="guests" value="1" min="1" />
-          </div>
-          <div class="form-control">
-            <label for="packageRooms">Rooms</label>
-            <input type="number" id="packageRooms" name="rooms" value="1" min="1" />
-          </div>
-        </div>
+  <section class="package-cards-container" id="packageCardsContainer">
+    <!-- Predefined package cards will be loaded here -->
+  </section>
 
-        <button type="submit" class="btn-primary">Search Packages</button>
-      </form>
-    </section>
-
-    <!-- Package Results Container -->
-    <div id="packageResultsContainer" class="package-results-container">
-      <div class="loading-message">
-        <p>Enter your travel details to see available packages</p>
-      </div>
+  <!-- Package Results Container -->
+  <div id="packageResultsContainer" class="package-results-container" style="display:none;">
+    <div class="loading-message">
+      <p>Enter your travel details to see available packages</p>
     </div>
+  </div>
   </main>
 
-  <script src="/js/package.js"></script>
+  <script type="module" src="/js/package.js"></script>
 </body>
 </html>

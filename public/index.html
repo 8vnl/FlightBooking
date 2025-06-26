@@ -163,7 +163,28 @@
         <a href="#">Feedback</a>
       </div>
     </div>
-    <button id="debugResetBtn" title="Reset all bookings (dev only)" style="background: transparent; border: none; color: white; font-size: 0.7rem; opacity: 0.6; cursor: pointer; margin-top: 10px; padding: 0;">&#9881;</button>
+    <button id="debugResetBtn" title="Reset all bookings (dev only)" style="background: transparent; border: none; color: white; font-size: 0.7rem; opacity: 0.6; cursor: pointer; margin-top: 10px; padding: 0;" onclick="debugResetHandler()">&#9881;</button>
+    <script>
+      function debugResetHandler() {
+        console.log('debugResetBtn clicked');
+        if (confirm('Are you sure you want to reset all bookings? This action cannot be undone.')) {
+          console.log('User confirmed reset');
+          // Reset hotel bookings
+          localStorage.removeItem('hotelBookings');
+          // Reset flight bookings
+          localStorage.removeItem('flights');
+          localStorage.removeItem('flightBookings');
+          localStorage.removeItem('flightBooking');
+          localStorage.removeItem('bookings'); // Clear flight bookings array
+          // Reset package bookings
+          localStorage.removeItem('packageBookings');
+          alert('All bookings have been reset.');
+          location.reload();
+        } else {
+          console.log('User cancelled reset');
+        }
+      }
+    </script>
     <div class="copyright">
       &copy; 2025 travelgo Airlines. All rights reserved.
     </div>

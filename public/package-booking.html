@@ -23,9 +23,10 @@
   
   <section class="progression-bar-container">
     <nav class="booking-steps">
-      <button class="step active">1 Package</button>
-      <button class="step">2 Guest</button>
-      <button class="step">3 Payment</button>
+      <button class="step active">1 Date & Guests</button>
+      <button class="step">2 Guest Details</button>
+      <button class="step">3 Contact Information</button>
+      <button class="step">4 Payment</button>
     </nav>
   </section>
 
@@ -40,16 +41,29 @@
     <div class="booking-content-wrapper">
       <section id="bookingSteps" class="booking-steps-section">
         <form id="packageBookingForm">
-          <!-- Step 1: Guest Details -->
+          <!-- Step 1: Date and Guests -->
           <div class="step" id="step1">
+            <h3><i class="fas fa-calendar-alt"></i> Select Departure Date & Guests</h3>
+            <div class="form-group">
+              <label for="departureDateInput">Departure Date</label>
+              <input type="date" id="departureDateInput" name="departureDate" required />
+            </div>
+            <div class="form-group">
+              <label for="guestsInput">Number of Guests</label>
+              <input type="number" id="guestsInput" name="guests" min="1" value="1" required />
+            </div>
+          </div>
+
+          <!-- Step 2: Guest Details -->
+          <div class="step" id="step2" style="display:none;">
             <h3><i class="fas fa-user"></i> Guest Details</h3>
             <div id="guestDetailsContainer">
               <!-- Guest detail forms will be dynamically generated here -->
             </div>
           </div>
 
-          <!-- Step 2: Contact Information -->
-          <div class="step" id="step2" style="display:none;">
+          <!-- Step 3: Contact Information -->
+          <div class="step" id="step3" style="display:none;">
             <h3><i class="fas fa-address-book"></i> Contact Information</h3>
             <div class="form-grid">
               <div class="form-group">
@@ -67,8 +81,8 @@
             </div>
           </div>
 
-          <!-- Step 3: Payment -->
-          <div class="step" id="step3" style="display:none;">
+          <!-- Step 4: Payment -->
+          <div class="step" id="step4" style="display:none;">
             <h3><i class="fas fa-credit-card"></i> Payment</h3>
             <div class="form-grid">
               <div class="form-group">

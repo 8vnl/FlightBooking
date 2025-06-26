@@ -56,7 +56,10 @@ document.addEventListener('DOMContentLoaded', function () {
               checkout_time: hotel.checkout_time
             };
             localStorage.setItem('selectedHotel', JSON.stringify(selectedHotel));
+            const urlParams = new URLSearchParams(window.location.search);
+            const guests = urlParams.get('guests') || '1';
             const params = new URLSearchParams(selectedHotel);
+            params.set('guests', guests); // Add guests param
             window.location.href = `/hotel_booking.html?${params.toString()}`;
           });
         });

@@ -2,20 +2,27 @@ document.addEventListener('DOMContentLoaded', function() {
   const packageInfoDiv = document.getElementById('packageInfo');
   const guestDetailsContainer = document.getElementById('guestDetailsContainer');
   const bookingForm = document.getElementById('packageBookingForm');
-  
+
   // Load selected package from localStorage
   const selectedPackage = JSON.parse(localStorage.getItem('selectedPackage'));
-  
+
   if (!selectedPackage) {
     window.location.href = '/package.html';
     return;
   }
-  
+
+  // Variables to store user input from step 1
+  let selectedDepartureDate = null;
+  let selectedGuests = selectedPackage.guests || 1;
+
   // Display package details
   function displayPackageDetails() {
-    const departureDate = new Date(selectedPackage.flight.departureDate);
+    const departureDate = selectedDepartureDate ? new Date(selectedDepartureDate) : new Date(selectedPackage.flight.departureDate);
     const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-    
+
+    // Defensive check for totalPrice to avoid undefined error
+    const totalPrice = selectedPackage.totalPrice !== undefined ? selectedPackage.totalPrice : 0;
+
     packageInfoDiv.innerHTML = `
       <div class="package-flight-details">
         <h3>Flight</h3>
@@ -26,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ${selectedPackage.flight.returnDate ? 
           `<p>Return: ${new Date(selectedPackage.flight.returnDate).toLocaleDateString('en-US', options)}</p>` : ''}
       </div>
-      
+
       <div class="package-hotel-details">
         <h3>Hotel</h3>
         <p><strong>${selectedPackage.hotel.name}</strong></p>
@@ -36,43 +43,43 @@ document.addEventListener('DOMContentLoaded', function() {
         <p>Check-in: ${selectedPackage.hotel.checkin_time}</p>
         <p>Check-out: ${selectedPackage.hotel.checkout_time}</p>
       </div>
-      
+
       <div class="package-price-summary">
-        <p><strong>Total for ${selectedPackage.guests} guest${selectedPackage.guests > 1 ? 's' : ''} & ${selectedPackage.rooms} room${selectedPackage.rooms > 1 ? 's' : ''}:</strong> 
-          <span>MYR ${selectedPackage.totalPrice.toFixed(2)}</span>
+        <p><strong>Total for ${selectedGuests} guest${selectedGuests > 1 ? 's' : ''}:</strong> 
+          <span>MYR ${totalPrice.toFixed(2)}</span>
         </p>
       </div>
     `;
-    
+
     // Update price breakdown
-    const flightPrice = selectedPackage.flight.price * selectedPackage.guests;
-    const hotelPrice = selectedPackage.hotel.price * selectedPackage.hotel.duration * selectedPackage.rooms;
+    const flightPrice = selectedPackage.flight.price * selectedGuests;
+    const hotelPrice = selectedPackage.hotel.price * selectedPackage.hotel.duration;
     const discount = (flightPrice + hotelPrice) - selectedPackage.totalPrice;
-    
+
     document.getElementById('flightPriceDisplay').textContent = `MYR ${flightPrice.toFixed(2)}`;
     document.getElementById('hotelPriceDisplay').textContent = `MYR ${hotelPrice.toFixed(2)}`;
     document.getElementById('discountDisplay').textContent = `-MYR ${discount.toFixed(2)}`;
     document.getElementById('totalPriceDisplay').textContent = `MYR ${selectedPackage.totalPrice.toFixed(2)}`;
-    
+
     // Update header info
     document.getElementById('packageRoute').textContent = 
       `${selectedPackage.flight.departure} → ${selectedPackage.hotel.location}`;
-    
+
     document.getElementById('packageDate').innerHTML = 
       `<i class="far fa-calendar-alt"></i> ${departureDate.toLocaleDateString('en-US', options)}`;
-    
+
     document.getElementById('packageGuests').innerHTML = 
-      `<i class="fas fa-user"></i> ${selectedPackage.guests} Guest${selectedPackage.guests > 1 ? 's' : ''}`;
+      `<i class="fas fa-user"></i> ${selectedGuests} Guest${selectedGuests > 1 ? 's' : ''}`;
   }
-  
+
   // Generate guest detail forms
   function generateGuestForms() {
     guestDetailsContainer.innerHTML = '';
-    
-    for (let i = 1; i <= selectedPackage.guests; i++) {
+
+    for (let i = 1; i <= selectedGuests; i++) {
       const guestForm = document.createElement('div');
       guestForm.className = 'guest-form';
-      
+
       guestForm.innerHTML = `
         <h4>Guest ${i}</h4>
         <div class="form-grid">
@@ -109,19 +116,19 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
       `;
-      
+
       guestDetailsContainer.appendChild(guestForm);
     }
   }
-  
+
   // Multi-step form logic
   if (bookingForm) {
     let currentStep = 1;
-    const totalSteps = 3;
+    const totalSteps = 4;
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const submitBtn = document.getElementById('submitBooking');
-    
+
     function showStep(step) {
       for (let i = 1; i <= totalSteps; i++) {
         const stepDiv = document.getElementById('step' + i);
@@ -134,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
       prevBtn.style.display = step === 1 ? 'none' : 'inline-block';
       nextBtn.style.display = step === totalSteps ? 'none' : 'inline-block';
       submitBtn.style.display = step === totalSteps ? 'inline-block' : 'none';
-      
+
       // Update active step button in progression bar booking steps
       const headerSteps = document.querySelectorAll('.progression-bar-container .booking-steps .step');
       headerSteps.forEach((btn, index) => {
@@ -145,11 +152,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
     }
-    
+
     function validateStep(step) {
       const stepDiv = document.getElementById('step' + step);
       const inputs = stepDiv.querySelectorAll('input[required], select[required], textarea[required]');
-      
+
       let isValid = true;
       for (const input of inputs) {
         if (!input.checkValidity()) {
@@ -163,29 +170,40 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       return isValid;
     }
-    
+
     prevBtn.addEventListener('click', () => {
       if (currentStep > 1) {
         currentStep--;
         showStep(currentStep);
       }
     });
-    
+
     nextBtn.addEventListener('click', () => {
-      if (validateStep(currentStep)) {
+      console.log('Next button clicked, currentStep:', currentStep);
+      const isValid = validateStep(currentStep);
+      console.log('Validation result for step', currentStep, ':', isValid);
+      if (isValid) {
+        if (currentStep === 1) {
+          // Save departure date and guests from step 1
+          selectedDepartureDate = document.getElementById('departureDateInput').value;
+          selectedGuests = parseInt(document.getElementById('guestsInput').value, 10) || 1;
+          generateGuestForms();
+          displayPackageDetails();
+        }
         if (currentStep < totalSteps) {
           currentStep++;
+          console.log('Moving to step', currentStep);
           showStep(currentStep);
         }
       }
     });
-    
+
     bookingForm.addEventListener('submit', async function(e) {
       e.preventDefault();
       if (!validateStep(currentStep)) {
         return;
       }
-      
+
       // Fetch logged-in user info
       let username = null;
       try {
@@ -197,13 +215,13 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch (error) {
         console.error('Error fetching user info:', error);
       }
-      
+
       // Collect all form data
       const bookingId = Date.now();
-      
+
       // Collect guest details
       const guests = [];
-      for (let i = 1; i <= selectedPackage.guests; i++) {
+      for (let i = 1; i <= selectedGuests; i++) {
         guests.push({
           title: document.getElementById(`guestTitle${i}`).value,
           firstName: document.getElementById(`guestFirstName${i}`).value,
@@ -213,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
           dateOfBirth: document.getElementById(`guestDOB${i}`).value
         });
       }
-      
+
       const bookingData = {
         id: bookingId,
         type: 'package',
@@ -230,21 +248,23 @@ document.addEventListener('DOMContentLoaded', function() {
           cvv: document.getElementById('cvv').value
         },
         package: selectedPackage,
+        departureDate: selectedDepartureDate,
+        guestsCount: selectedGuests,
         username: username
       };
-      
+
       // Store booking in bookings array in localStorage
       let bookings = JSON.parse(localStorage.getItem('bookings') || []);
       bookings.push(bookingData);
       localStorage.setItem('bookings', JSON.stringify(bookings));
-      
+
       // Redirect to receipt page after successful booking
       window.location.href = `/receipt.html?booking=${bookingId}`;
     });
-    
+
     showStep(currentStep);
   }
-  
+
   // Initialize page
   displayPackageDetails();
   generateGuestForms();

@@ -118,7 +118,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         const guestsCountSpan = document.getElementById('guestsCount');
         if (guestsCountSpan) {
-          guestsCountSpan.innerHTML = `<i class="fas fa-user"></i> 1 Guest`;
+          const urlParams = new URLSearchParams(window.location.search);
+          const guests = urlParams.get('guests') || '1';
+          const guestsNumber = parseInt(guests, 10);
+          guestsCountSpan.innerHTML = `<i class="fas fa-user"></i> ${guestsNumber} Guest${guestsNumber > 1 ? 's' : ''}`;
         }
       } else {
         hotelInfoDiv.innerHTML = '<p>No hotel selected. Please select a hotel first.</p>';
