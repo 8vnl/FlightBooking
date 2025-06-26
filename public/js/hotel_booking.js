@@ -98,11 +98,28 @@ document.addEventListener('DOMContentLoaded', function () {
           checkin_time: urlParams.get('checkin_time') || '',
           checkout_time: urlParams.get('checkout_time') || ''
         };
+
+        // Calculate number of nights
+        const checkinDateStr = urlParams.get('checkinDate');
+        const checkoutDateStr = urlParams.get('checkoutDate');
+        let numberOfNights = 1;
+        if (checkinDateStr && checkoutDateStr) {
+          const checkinDate = new Date(checkinDateStr);
+          const checkoutDate = new Date(checkoutDateStr);
+          const diffTime = checkoutDate - checkinDate;
+          numberOfNights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          if (numberOfNights < 1) numberOfNights = 1;
+        }
+
+        // Calculate total room price
+        const totalRoomPrice = selectedHotel.price * numberOfNights;
+
         hotelInfoDiv.innerHTML = `
           <p><strong>Hotel Name:</strong> ${selectedHotel.name}</p>
           <p><strong>Location:</strong> ${selectedHotel.location}</p>
           <p><strong>Room Type:</strong> ${selectedHotel.roomType}</p>
           <p><strong>Price per Night:</strong> MYR ${selectedHotel.price.toFixed(2)}</p>
+          <p><strong>Number of Nights:</strong> ${numberOfNights}</p>
         `;
         localStorage.setItem('selectedHotel', JSON.stringify(selectedHotel));
 
@@ -113,16 +130,74 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         const checkinDateSpan = document.getElementById('checkinDateDisplay');
         if (checkinDateSpan) {
-          const checkinDate = new Date();
-          checkinDateSpan.innerHTML = `<i class="far fa-calendar-alt"></i> Check-in Date`;
+          checkinDateSpan.innerHTML = `<i class="far fa-calendar-alt"></i> Check-in: ${checkinDateStr}`;
         }
         const guestsCountSpan = document.getElementById('guestsCount');
         if (guestsCountSpan) {
-          const urlParams = new URLSearchParams(window.location.search);
           const guests = urlParams.get('guests') || '1';
           const guestsNumber = parseInt(guests, 10);
           guestsCountSpan.innerHTML = `<i class="fas fa-user"></i> ${guestsNumber} Guest${guestsNumber > 1 ? 's' : ''}`;
         }
+
+        // Update price breakdown with multiplied room price
+        function updatePriceBreakdown() {
+          const roomPriceDisplay = document.getElementById('roomPriceDisplay');
+          const roomPreferencesPriceDisplay = document.getElementById('roomPreferencesPriceDisplay');
+          const extraBedPriceDisplay = document.getElementById('extraBedPriceDisplay');
+          const airportPickupPriceDisplay = document.getElementById('airportPickupPriceDisplay');
+          const totalPriceDisplay = document.getElementById('totalPriceDisplay');
+
+          // Get base room price multiplied by number of nights
+          let roomPrice = totalRoomPrice;
+
+          // Get selected addon prices
+          const roomPreferences = document.getElementById('roomPreferences').value;
+          const extraBed = document.getElementById('extraBed').value;
+          const airportPickupChecked = document.getElementById('airportPickup').checked;
+
+          const addonPrices = {
+            roomPreferences: {
+              'Non-smoking': 0,
+              'High Floor': 10,
+              'Late Check-out': 20
+            },
+            extraBed: {
+              0: 0,
+              1: 50
+            },
+            airportPickup: 30
+          };
+
+          const roomPreferencesPrice = addonPrices.roomPreferences[roomPreferences] || 0;
+          const extraBedPrice = addonPrices.extraBed[extraBed] || 0;
+          const airportPickupPrice = airportPickupChecked ? addonPrices.airportPickup : 0;
+
+          const totalPrice = roomPrice + roomPreferencesPrice + extraBedPrice + airportPickupPrice;
+
+          roomPriceDisplay.textContent = `MYR ${roomPrice.toFixed(2)}`;
+          const numberOfNightsDisplay = document.getElementById('numberOfNightsDisplay');
+          if (numberOfNightsDisplay) {
+            numberOfNightsDisplay.textContent = numberOfNights;
+          }
+          roomPreferencesPriceDisplay.textContent = `MYR ${roomPreferencesPrice.toFixed(2)}`;
+          extraBedPriceDisplay.textContent = `MYR ${extraBedPrice.toFixed(2)}`;
+          airportPickupPriceDisplay.textContent = `MYR ${airportPickupPrice.toFixed(2)}`;
+          totalPriceDisplay.textContent = `MYR ${totalPrice.toFixed(2)}`;
+        }
+
+        // Attach event listeners to addon inputs to update price breakdown dynamically
+        function attachAddonListeners() {
+          const roomPreferences = document.getElementById('roomPreferences');
+          const extraBed = document.getElementById('extraBed');
+          const airportPickup = document.getElementById('airportPickup');
+
+          roomPreferences.addEventListener('change', updatePriceBreakdown);
+          extraBed.addEventListener('change', updatePriceBreakdown);
+          airportPickup.addEventListener('change', updatePriceBreakdown);
+        }
+
+        attachAddonListeners();
+        updatePriceBreakdown();
       } else {
         hotelInfoDiv.innerHTML = '<p>No hotel selected. Please select a hotel first.</p>';
       }
@@ -157,6 +232,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const extraBedPriceDisplay = document.getElementById('extraBedPriceDisplay');
         const airportPickupPriceDisplay = document.getElementById('airportPickupPriceDisplay');
         const totalPriceDisplay = document.getElementById('totalPriceDisplay');
+        const numberOfNightsDisplay = document.getElementById('numberOfNightsDisplay');
 
         // Get base room price from selected hotel info
         let roomPrice = 0;
@@ -168,6 +244,19 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         }
 
+        // Calculate number of nights
+        let numberOfNights = 1;
+        const urlParams = new URLSearchParams(window.location.search);
+        const checkinDateStr = urlParams.get('checkinDate');
+        const checkoutDateStr = urlParams.get('checkoutDate');
+        if (checkinDateStr && checkoutDateStr) {
+          const checkinDate = new Date(checkinDateStr);
+          const checkoutDate = new Date(checkoutDateStr);
+          const diffTime = checkoutDate - checkinDate;
+          numberOfNights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          if (numberOfNights < 1) numberOfNights = 1;
+        }
+
         // Get selected addon prices
         const roomPreferences = document.getElementById('roomPreferences').value;
         const extraBed = document.getElementById('extraBed').value;
@@ -177,9 +266,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const extraBedPrice = addonPrices.extraBed[extraBed] || 0;
         const airportPickupPrice = airportPickupChecked ? addonPrices.airportPickup : 0;
 
-        const totalPrice = roomPrice + roomPreferencesPrice + extraBedPrice + airportPickupPrice;
+        const totalPrice = roomPrice * numberOfNights + roomPreferencesPrice + extraBedPrice + airportPickupPrice;
 
         roomPriceDisplay.textContent = `MYR ${roomPrice.toFixed(2)}`;
+        numberOfNightsDisplay.textContent = numberOfNights;
         roomPreferencesPriceDisplay.textContent = `MYR ${roomPreferencesPrice.toFixed(2)}`;
         extraBedPriceDisplay.textContent = `MYR ${extraBedPrice.toFixed(2)}`;
         airportPickupPriceDisplay.textContent = `MYR ${airportPickupPrice.toFixed(2)}`;

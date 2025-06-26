@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   const hotelsContainer = document.getElementById('hotelsContainer');
 
-  import('/hotelsData.js').then(module => {
+  import('../hotelsData.js').then(module => {
     const predefinedHotels = module.default;
 
     function fetchHotels(filters = {}) {
@@ -42,26 +42,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
           hotelsContainer.appendChild(hotelCard);
 
-          const selectBtn = hotelCard.querySelector('.select-hotel-btn');
-          selectBtn.addEventListener('click', () => {
-            // Select the first room type by default for simplicity
-            const selectedRoom = hotel.room_types[0];
-            const selectedHotel = {
-              hotel_id: hotel.hotel_id,
-              name: hotel.name,
-              location: hotel.location,
-              roomType: selectedRoom.type,
-              price: selectedRoom.price,
-              checkin_time: hotel.checkin_time,
-              checkout_time: hotel.checkout_time
-            };
-            localStorage.setItem('selectedHotel', JSON.stringify(selectedHotel));
-            const urlParams = new URLSearchParams(window.location.search);
-            const guests = urlParams.get('guests') || '1';
-            const params = new URLSearchParams(selectedHotel);
-            params.set('guests', guests); // Add guests param
-            window.location.href = `/hotel_booking.html?${params.toString()}`;
-          });
+            const selectBtn = hotelCard.querySelector('.select-hotel-btn');
+            selectBtn.addEventListener('click', () => {
+              // Select the first room type by default for simplicity
+              const selectedRoom = hotel.room_types[0];
+              const selectedHotel = {
+                hotel_id: hotel.hotel_id,
+                name: hotel.name,
+                location: hotel.location,
+                roomType: selectedRoom.type,
+                price: selectedRoom.price,
+                checkin_time: hotel.checkin_time,
+                checkout_time: hotel.checkout_time
+              };
+              localStorage.setItem('selectedHotel', JSON.stringify(selectedHotel));
+              const urlParams = new URLSearchParams(window.location.search);
+              const guests = urlParams.get('guests') || '1';
+              const checkinDate = urlParams.get('checkinDate') || '';
+              const checkoutDate = urlParams.get('checkoutDate') || '';
+              const params = new URLSearchParams(selectedHotel);
+              params.set('guests', guests); // Add guests param
+              params.set('checkinDate', checkinDate); // Add checkinDate param
+              params.set('checkoutDate', checkoutDate); // Add checkoutDate param
+              window.location.href = `/hotel_booking.html?${params.toString()}`;
+            });
         });
       }
     }
