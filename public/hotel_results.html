@@ -8,6 +8,19 @@
     <link rel="stylesheet" href="/css/booking-steps.css" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+      /* Override link styles in header to be white and no underline */
+      .flights-header-bar a {
+        color: white !important;
+        text-decoration: none !important;
+        font-weight: 500;
+        font-family: 'Mundial', sans-serif !important;
+      }
+      .flights-header-bar a:hover,
+      .flights-header-bar a:focus {
+        text-decoration: underline !important;
+      }
+    </style>
   </head>
   <body>
     <!-- Top Header Bar -->
@@ -20,9 +33,9 @@
             <a href="hotels.html">Hotels</a>
             <a href="#">Holidays</a>
             <a href="#" id="myBookingsBtn">My Bookings</a>
-            <div class="auth-buttons" style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
-              <a href="login.html" style="color: white; text-decoration: none; font-weight: 500;">Login</a>
-              <a href="register.html" style="color: white; text-decoration: none; font-weight: 500;">Register</a>
+            <div class="auth-buttons">
+              <a href="login.html" id="loginLink">Login</a>
+              <a href="register.html" id="registerLink">Register</a>
             </div>
           </nav>
         </div>
@@ -92,6 +105,64 @@
           ? '<i class="fas fa-times"></i> Close Search' 
           : '<i class="fas fa-search"></i> Modify Search';
       });
+    </script>
+    <script>
+      // Check login state and toggle header links
+      async function checkLoginState() {
+        try {
+          const response = await fetch('/api/me', { credentials: 'include', cache: 'no-store' });
+          if (response.ok) {
+            const user = await response.json();
+            if (user && user.username) {
+              const authButtonsDiv = document.querySelector('.auth-buttons');
+              authButtonsDiv.innerHTML = `
+                <span class="welcome-user"><i class="fas fa-user"></i> Welcome <strong>${user.username}</strong></span>
+                <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+              `;
+              const logoutBtn = document.getElementById('logoutBtn');
+              logoutBtn.addEventListener('click', async () => {
+                try {
+                  const logoutResponse = await fetch('/api/logout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include'
+                  });
+                  if (logoutResponse.ok) {
+                    window.location.reload();
+                  } else {
+                    alert('Logout failed. Please try again.');
+                  }
+                } catch (error) {
+                  alert('An error occurred during logout.');
+                }
+              });
+            } else {
+              // Not logged in
+              const authButtonsDiv = document.querySelector('.auth-buttons');
+              authButtonsDiv.innerHTML = `
+                <a href="login.html" id="loginLink" style="color: white; text-decoration: none; font-weight: 500;">Login</a>
+                <a href="register.html" id="registerLink" style="color: white; text-decoration: none; font-weight: 500;">Register</a>
+              `;
+            }
+          } else {
+            // Not logged in
+            const authButtonsDiv = document.querySelector('.auth-buttons');
+            authButtonsDiv.innerHTML = `
+              <a href="login.html" id="loginLink" style="color: white; text-decoration: none; font-weight: 500;">Login</a>
+              <a href="register.html" id="registerLink" style="color: white; text-decoration: none; font-weight: 500;">Register</a>
+            `;
+          }
+        } catch (error) {
+          console.error('Error checking login state:', error);
+          const authButtonsDiv = document.querySelector('.auth-buttons');
+          authButtonsDiv.innerHTML = `
+            <a href="login.html" id="loginLink" style="color: white; text-decoration: none; font-weight: 500;">Login</a>
+            <a href="register.html" id="registerLink" style="color: white; text-decoration: none; font-weight: 500;">Register</a>
+          `;
+        }
+      }
+
+      checkLoginState();
     </script>
     <script src="/js/hotel_results.js"></script>
   </body>

@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const bookingsContainer = document.getElementById('bookingsContainer');
+    const hotelBookingsContainer = document.getElementById('hotelBookingsContainer');
     const filterSelect = document.getElementById('bookingFilter');
     const refreshButton = document.getElementById('refreshBookings');
 
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+        const hotelBookings = JSON.parse(localStorage.getItem('hotelBookings')) || [];
         const filterValue = filterSelect ? filterSelect.value : 'all';
 
         // Filter bookings by logged-in username
@@ -43,28 +45,62 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (filteredBookings.length === 0) {
             bookingsContainer.innerHTML = '<p>No bookings found.</p>';
-            return;
+        } else {
+            bookingsContainer.innerHTML = filteredBookings.map(booking => `
+                <div class="booking-card">
+                    <div class="booking-header">
+                        <h3>${booking.flight.airline} ${booking.flight.flightNumber}</h3>
+                        <span class="booking-status">${booking.status || 'Confirmed'}</span>
+                    </div>
+                    <div class="booking-details">
+                        <p><strong>From:</strong> ${booking.flight.departure}</p>
+                        <p><strong>To:</strong> ${booking.flight.destination}</p>
+                        <p><strong>Date:</strong> ${new Date(booking.flight.departureDate).toLocaleDateString()}</p>
+                        <p><strong>Passenger:</strong> ${booking.passengerName}</p>
+                    </div>
+                    <div class="booking-actions">
+                        <button class="btn btn-secondary" onclick="location.href='/receipt.html?booking=${booking.id}'">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        bookingsContainer.innerHTML = filteredBookings.map(booking => `
-            <div class="booking-card">
-                <div class="booking-header">
-                    <h3>${booking.flight.airline} ${booking.flight.flightNumber}</h3>
-                    <span class="booking-status">${booking.status || 'Confirmed'}</span>
+        // Filter hotel bookings by logged-in username
+        let userHotelBookings = hotelBookings;
+        if (username) {
+            userHotelBookings = hotelBookings.filter(b => b.username === username);
+        } else {
+            userHotelBookings = [];
+        }
+
+        if (!hotelBookingsContainer) return;
+
+        if (userHotelBookings.length === 0) {
+            hotelBookingsContainer.innerHTML = '<p>No hotel bookings found.</p>';
+        } else {
+            hotelBookingsContainer.innerHTML = userHotelBookings.map(booking => `
+                <div class="booking-card">
+                    <div class="booking-header">
+                        <h3>${booking.hotel.name}</h3>
+                        <span class="booking-status">Confirmed</span>
+                    </div>
+                    <div class="booking-details">
+                        <p><strong>Location:</strong> ${booking.hotel.location}</p>
+                        <p><strong>Room Type:</strong> ${booking.hotel.roomType}</p>
+                        <p><strong>Check-in:</strong> ${booking.hotel.checkin_time}</p>
+                        <p><strong>Check-out:</strong> ${booking.hotel.checkout_time}</p>
+                        <p><strong>Total Price:</strong> MYR ${booking.totalPrice.toFixed(2)}</p>
+                    </div>
+                    <div class="booking-actions">
+                        <button class="btn btn-secondary" onclick="location.href='/hotel_receipt.html?booking=${booking.id}'">
+                            View Details
+                        </button>
+                    </div>
                 </div>
-                <div class="booking-details">
-                    <p><strong>From:</strong> ${booking.flight.departure}</p>
-                    <p><strong>To:</strong> ${booking.flight.destination}</p>
-                    <p><strong>Date:</strong> ${new Date(booking.flight.departureDate).toLocaleDateString()}</p>
-                    <p><strong>Passenger:</strong> ${booking.passengerName}</p>
-                </div>
-                <div class="booking-actions">
-                    <button class="btn btn-secondary" onclick="location.href='/receipt.html?booking=${booking.id}'">
-                        View Details
-                    </button>
-                </div>
-            </div>
-        `).join('');
+            `).join('');
+        }
     }
 
     if (filterSelect) {

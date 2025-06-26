@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hotel Booking Receipt | travelgo</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/receipt.css" />
+  <link rel="stylesheet" href="/css/index-style.css" />
+</head>
+<body>
+  <header class="flights-header-bar">
+    <div class="container flights-header-container">
+      <div class="flights-route">
+        <div class="logo"><a href="index.html"><img src="/images/travelgo.png" class="flights-logo" /></a></div>
+        <nav style="display: flex; align-items: center; gap: 20px; width: 100%;">
+          <a href="index.html">Flights</a>
+          <a href="hotels.html">Hotels</a>
+          <a href="package.html">Holidays</a>
+          <a href="#" id="myBookingsBtn">My Bookings</a>
+          <div class="auth-buttons" style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
+            <a href="login.html" style="color: white; text-decoration: none; font-weight: 500;">Login</a>
+            <a href="register.html" style="color: white; text-decoration: none; font-weight: 500;">Register</a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div id="receiptContainer" class="receipt-container">
+      <p>Loading hotel booking receipt...</p>
+    </div>
+    <div class="receipt-actions">
+      <a href="/profile.html" class="btn btn-secondary">
+        <i class="fas fa-list"></i> Manage Bookings
+      </a>
+      <button onclick="window.print()" class="btn btn-secondary">
+        <i class="fas fa-print"></i> Print Receipt
+      </button>
+    </div>
+  </div>
+
+  <script>
+    async function loadHotelReceipt() {
+      const container = document.getElementById('receiptContainer');
+      const urlParams = new URLSearchParams(window.location.search);
+      const bookingId = urlParams.get('booking');
+
+      if (!bookingId) {
+        container.innerHTML = '<p>Booking ID is missing.</p>';
+        return;
+      }
+
+      try {
+        // First try to get hotelBookingData from localStorage
+        const bookingIdNum = Number(bookingId);
+        const bookings = JSON.parse(localStorage.getItem('hotelBookings')) || [];
+        let booking = bookings.find(b => b.id === bookingIdNum);
+
+        if (!booking) {
+          // Fallback to fetch from backend API
+          const response = await fetch(`/api/hotelBookings/${bookingId}`);
+          if (!response.ok) {
+            container.innerHTML = '<p>Error loading hotel booking details.</p>';
+            return;
+          }
+          booking = await response.json();
+        }
+
+        // Generate HTML for the hotel receipt
+        let receiptHTML = `
+          <div class="receipt-header">
+            <h2><i class="fas fa-check-circle"></i> Hotel Booking Confirmed!</h2>
+            <p class="booking-reference">Booking Reference: <strong>${booking.id}</strong></p>
+          </div>
+
+          <div class="receipt-section">
+            <h3><i class="fas fa-user"></i> Guest Details</h3>
+            <p><strong>Name:</strong> ${booking.guestName}</p>
+            <p><strong>Email:</strong> ${booking.guestEmail}</p>
+            <p><strong>Phone:</strong> ${booking.guestPhone}</p>
+            <p><strong>Address:</strong> ${booking.guestAddress}, ${booking.guestCity}, ${booking.guestCountry}</p>
+          </div>
+
+          <div class="receipt-section">
+            <h3><i class="fas fa-hotel"></i> Hotel Details</h3>
+            <p><strong>Hotel Name:</strong> ${booking.hotel.name}</p>
+            <p><strong>Location:</strong> ${booking.hotel.location}</p>
+            <p><strong>Room Type:</strong> ${booking.hotel.roomType}</p>
+            <p><strong>Check-in:</strong> ${booking.hotel.checkin_time}</p>
+            <p><strong>Check-out:</strong> ${booking.hotel.checkout_time}</p>
+          </div>
+
+          <div class="receipt-section">
+            <h3><i class="fas fa-concierge-bell"></i> Additional Services</h3>
+            <p><strong>Room Preferences:</strong> ${booking.additionalServices.roomPreferences || 'None'}</p>
+            <p><strong>Extra Bed:</strong> ${booking.additionalServices.extraBed || '0'}</p>
+            <p><strong>Airport Pickup:</strong> ${booking.additionalServices.airportPickup ? 'Yes' : 'No'}</p>
+            ${booking.additionalServices.specialRequests ? `<p><strong>Special Requests:</strong> ${booking.additionalServices.specialRequests}</p>` : ''}
+          </div>
+
+          <div class="receipt-section">
+            <h3><i class="fas fa-credit-card"></i> Payment Summary</h3>
+            <p><strong>Total Price:</strong> MYR ${booking.totalPrice?.toFixed(2) || '0.00'}</p>
+            <p><strong>Payment Method:</strong> Credit Card ending in ${booking.payment?.cardNumber?.slice(-4) || '****'}</p>
+            <p><strong>Booking Date:</strong> ${new Date().toLocaleString()}</p>
+          </div>
+        `;
+
+        container.innerHTML = receiptHTML;
+      } catch (error) {
+        container.innerHTML = '<p>Error loading hotel booking details.</p>';
+        console.error('Error loading hotel booking details:', error);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadHotelReceipt);
+  </script>
+  <script src="/js/hotel_booking.js"></script>
+</body>
+</html>

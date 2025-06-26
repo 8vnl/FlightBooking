@@ -328,8 +328,8 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem('hotelBookings', JSON.stringify(bookings));
         localStorage.setItem('hotelBookingData', JSON.stringify(bookingData));
 
-        // Redirect to receipt page after successful booking
-        window.location.href = `/receipt.html?booking=${bookingId}`;
+        // Redirect to hotel_receipt page after successful booking
+        window.location.href = `/hotel_receipt.html?booking=${bookingId}`;
       });
 
       showStep(currentStep);
