@@ -163,6 +163,7 @@ nav {
 nav a {
   color: white;
   text-decoration: none;
+  font-family: var(--font-family);
   font-weight: 500;
 }
 
