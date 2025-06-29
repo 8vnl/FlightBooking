@@ -53,9 +53,9 @@
   </header>
 
   <div class="container">
-    <div id="receiptContainer" class="receipt-container">
-      <p>Loading booking receipt...</p>
-    </div>
+<div id="receiptContainer" class="receipt-container">
+  <div class="loader"></div>
+</div>
     <div class="receipt-actions">
       <button id="viewBoardingPassBtn" class="btn btn-primary" style="display:none;">
         <i class="fas fa-plane"></i> View Boarding Passes
@@ -93,102 +93,111 @@
       return details;
     }
 
-    async function loadReceipt() {
-      const container = document.getElementById('receiptContainer');
-      const urlParams = new URLSearchParams(window.location.search);
-      const bookingId = urlParams.get('booking');
+async function loadReceipt() {
+  const container = document.getElementById('receiptContainer');
+  const urlParams = new URLSearchParams(window.location.search);
+  const bookingId = urlParams.get('booking');
 
-      if (!bookingId) {
-        container.innerHTML = '<p>Booking ID is missing.</p>';
+  if (!bookingId) {
+    container.innerHTML = '<p>Booking ID is missing.</p>';
+    return;
+  }
+
+  const startTime = Date.now();
+
+  try {
+    // First try to get bookingData from localStorage
+    const bookingIdNum = Number(bookingId);
+    const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+    let booking = bookings.find(b => b.id === bookingIdNum);
+
+    if (!booking) {
+      // Fallback to fetch from backend API
+      const response = await fetch(`/api/bookings/${bookingId}`);
+      if (!response.ok) {
+        container.innerHTML = '<p>Error loading booking details.</p>';
         return;
       }
-
-      try {
-        // First try to get bookingData from localStorage
-        const bookingIdNum = Number(bookingId);
-        const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
-        let booking = bookings.find(b => b.id === bookingIdNum);
-
-        if (!booking) {
-          // Fallback to fetch from backend API
-          const response = await fetch(`/api/bookings/${bookingId}`);
-          if (!response.ok) {
-            container.innerHTML = '<p>Error loading booking details.</p>';
-            return;
-          }
-          booking = await response.json();
-        }
-
-        // Generate HTML for the receipt
-        let receiptHTML = `
-          <div class="receipt-header">
-            <h2><i class="fas fa-check-circle"></i> Booking Confirmed!</h2>
-            <p class="booking-reference">Booking Reference: <strong>${booking.id}</strong></p>
-          </div>
-
-          <div class="receipt-section">
-            <h3><i class="fas fa-users"></i> Passengers</h3>
-            <div class="passengers-list">
-        `;
-
-        // Add each passenger
-        booking.passengers.forEach((passenger, index) => {
-          receiptHTML += `
-            <div class="passenger-item">
-              <h4>Passenger ${index + 1}</h4>
-              <p><strong>Name:</strong> ${formatPassengerName(passenger)}</p>
-              <p><strong>Passport:</strong> ${passenger.passportNumber}</p>
-              <p><strong>Nationality:</strong> ${passenger.nationality}</p>
-            </div>
-          `;
-        });
-
-        receiptHTML += `
-            </div>
-          </div>
-
-          <div class="receipt-section">
-            <h3><i class="fas fa-plane"></i> Flight Details</h3>
-            ${formatFlightDetails(booking.flight)}
-          </div>
-
-          <div class="receipt-section">
-            <h3><i class="fas fa-concierge-bell"></i> Additional Services</h3>
-            <p><strong>Meal:</strong> ${booking.additionalServices.mealSelection || 'None'}</p>
-            <p><strong>Extra Baggage:</strong> ${booking.additionalServices.baggageSelection || '0'} bags</p>
-            <p><strong>Priority Boarding:</strong> ${booking.additionalServices.priorityBoarding ? 'Yes' : 'No'}</p>
-            ${booking.additionalServices.specialRequests ? `<p><strong>Special Requests:</strong> ${booking.additionalServices.specialRequests}</p>` : ''}
-          </div>
-
-          <div class="receipt-section">
-            <h3><i class="fas fa-credit-card"></i> Payment Summary</h3>
-            <p><strong>Total Price:</strong> MYR ${booking.totalPrice?.toFixed(2) || '0.00'}</p>
-            <p><strong>Payment Method:</strong> Credit Card ending in ${booking.payment?.cardNumber?.slice(-4) || '****'}</p>
-            <p><strong>Booking Date:</strong> ${new Date().toLocaleString()}</p>
-          </div>
-        `;
-
-        container.innerHTML = receiptHTML;
-
-        // Show boarding pass button if flight is upcoming
-        const viewBtn = document.getElementById('viewBoardingPassBtn');
-        viewBtn.style.display = 'inline-block';
-        viewBtn.onclick = () => {
-          window.location.href = `/boarding-pass.html?booking=${booking.id}`;
-        };
-      } catch (error) {
-        container.innerHTML = '<p>Error loading booking details.</p>';
-        console.error('Error loading booking details:', error);
-      }
-
-      // this case for package bookings
-      if (booking.type === 'package') {
-        // Remove package booking handling to avoid hotel errors
-      }
-      
+      booking = await response.json();
     }
 
-    document.addEventListener('DOMContentLoaded', loadReceipt);
+    // Generate HTML for the receipt
+    let receiptHTML = `
+      <div class="receipt-header">
+        <h2><i class="fas fa-check-circle"></i> Booking Confirmed!</h2>
+        <p class="booking-reference">Booking Reference: <strong>${booking.id}</strong></p>
+      </div>
+
+      <div class="receipt-section">
+        <h3><i class="fas fa-users"></i> Passengers</h3>
+        <div class="passengers-list">
+    `;
+
+    // Add each passenger
+    booking.passengers.forEach((passenger, index) => {
+      receiptHTML += `
+        <div class="passenger-item">
+          <h4>Passenger ${index + 1}</h4>
+          <p><strong>Name:</strong> ${formatPassengerName(passenger)}</p>
+          <p><strong>Passport:</strong> ${passenger.passportNumber}</p>
+          <p><strong>Nationality:</strong> ${passenger.nationality}</p>
+        </div>
+      `;
+    });
+
+    receiptHTML += `
+        </div>
+      </div>
+
+      <div class="receipt-section">
+        <h3><i class="fas fa-plane"></i> Flight Details</h3>
+        ${formatFlightDetails(booking.flight)}
+      </div>
+
+      <div class="receipt-section">
+        <h3><i class="fas fa-concierge-bell"></i> Additional Services</h3>
+        <p><strong>Meal:</strong> ${booking.additionalServices.mealSelection || 'None'}</p>
+        <p><strong>Extra Baggage:</strong> ${booking.additionalServices.baggageSelection || '0'} bags</p>
+        <p><strong>Priority Boarding:</strong> ${booking.additionalServices.priorityBoarding ? 'Yes' : 'No'}</p>
+        ${booking.additionalServices.specialRequests ? `<p><strong>Special Requests:</strong> ${booking.additionalServices.specialRequests}</p>` : ''}
+      </div>
+
+      <div class="receipt-section">
+        <h3><i class="fas fa-credit-card"></i> Payment Summary</h3>
+        <p><strong>Total Price:</strong> MYR ${booking.totalPrice?.toFixed(2) || '0.00'}</p>
+        <p><strong>Payment Method:</strong> Credit Card ending in ${booking.payment?.cardNumber?.slice(-4) || '****'}</p>
+        <p><strong>Booking Date:</strong> ${new Date().toLocaleString()}</p>
+      </div>
+    `;
+
+    const elapsed = Date.now() - startTime;
+    const delay = 3000; // 3 seconds
+    const waitTime = elapsed < delay ? delay - elapsed : 0;
+
+    setTimeout(() => {
+      container.innerHTML = receiptHTML;
+
+      // Show boarding pass button if flight is upcoming
+      const viewBtn = document.getElementById('viewBoardingPassBtn');
+      viewBtn.style.display = 'inline-block';
+      viewBtn.onclick = () => {
+        window.location.href = `/boarding-pass.html?booking=${booking.id}`;
+      };
+    }, waitTime);
+
+  } catch (error) {
+    container.innerHTML = '<p>Error loading booking details.</p>';
+    console.error('Error loading booking details:', error);
+  }
+
+  // this case for package bookings
+  if (booking.type === 'package') {
+    // Remove package booking handling to avoid hotel errors
+  }
+  
+}
+
+document.addEventListener('DOMContentLoaded', loadReceipt);
   </script>
   <script src="/js/booking.js"></script>
   <script src="/js/main.js"></script>
