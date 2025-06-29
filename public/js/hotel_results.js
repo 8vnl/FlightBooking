@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
               </ul>
             </div>
             <div class="hotel-card-right">
-              <button class="select-hotel-btn btn-primary">Select</button>
+              <button class="select-hotel-btn">Select</button>
             </div>
           `;
 

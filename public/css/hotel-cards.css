@@ -1,0 +1,178 @@
+/* Hotel Card Styles - similar to flight cards */
+.hotel-card {
+  display: flex;
+  font-family: 'Mundial', sans-serif;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 16px;
+  padding: 28px 32px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+  background-color: #ffffff;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid rgba(224, 227, 231, 0.6);
+  gap: 24px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hotel-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #3498db, #3b82f6);
+}
+
+.hotel-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* Hotel Card Sections */
+.hotel-card-left,
+.hotel-card-center,
+.hotel-card-right {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+/* Left Section - Hotel Info */
+.hotel-card-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 150px;
+}
+
+.hotel-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2d3748;
+  letter-spacing: -0.5px;
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  margin-bottom: 8px;
+}
+
+.hotel-location {
+  font-size: 1.1rem;
+  color: #4a5568;
+  margin-top: 4px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hotel-amenities {
+  font-size: 0.95rem;
+  color: #718096;
+  margin-top: 12px;
+  font-weight: 500;
+  max-width: 300px;
+}
+
+/* Center Section - Room Types */
+.hotel-card-center {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-grow: 1;
+  font-size: 1rem;
+  color: #4a5568;
+  font-weight: 600;
+  gap: 10px;
+  padding: 0 20px;
+}
+
+.room-types-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.room-types-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.room-types-list li {
+  margin-bottom: 4px;
+}
+
+/* Right Section - Select Button */
+.hotel-card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 120px;
+}
+
+.select-hotel-btn {
+  background: #1c5da7;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.select-hotel-btn:hover {
+  background: #0d4689;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hotel-card {
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    align-items: stretch;
+  }
+  
+  .hotel-card::before {
+    width: 100%;
+    height: 4px;
+  }
+  
+  .hotel-card-left,
+  .hotel-card-center,
+  .hotel-card-right {
+    width: 100%;
+    align-items: flex-start;
+  }
+  
+  .hotel-card-center {
+    padding: 20px 0;
+    border-top: 1px dashed #e2e8f0;
+    border-bottom: 1px dashed #e2e8f0;
+    margin: 10px 0;
+  }
+  
+  .hotel-card-right {
+    align-items: flex-start;
+  }
+}
+
+/* Limit width of hotels container and center it */
+.hotels-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Add padding to search-header to avoid edge */
+.search-header {
+  padding: 0 48px;
+}
