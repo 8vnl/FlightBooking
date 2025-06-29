@@ -1,46 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hotel Results | travelgo</title>
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/booking-steps.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <style>
-      /* Override link styles in header to be white and no underline */
-      .flights-header-bar a {
-        color: white !important;
-        text-decoration: none !important;
-        font-weight: 500;
-        font-family: 'Mundial', sans-serif !important;
-      }
-      .flights-header-bar a:hover,
-      .flights-header-bar a:focus {
-        text-decoration: underline !important;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Top Header Bar -->
-    <header class="flights-header-bar">
-      <div class="container flights-header-container">
-        <div class="flights-route">
-          <div class="logo"><a href="index.html"><img src="/images/travelgo.png" class="flights-logo" /></a></div>
-          <nav style="display: flex; align-items: center; gap: 20px; width: 100%;">
-            <a href="flights.html">Flights</a>
-            <a href="hotels.html">Hotels</a>
-            <a href="#">Holidays</a>
-            <a href="#" id="myBookingsBtn">My Bookings</a>
-            <div class="auth-buttons">
-              <a href="login.html" id="loginLink">Login</a>
-              <a href="register.html" id="registerLink">Register</a>
-            </div>
-          </nav>
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Hotel Results | travelgo</title>
+      <link rel="stylesheet" href="css/index-style.css" />
+      <link rel="stylesheet" href="css/hero-slide.css" />
+      <link rel="stylesheet" href="css/booking-steps.css" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    </head>
+    <body>
+      <!-- Top Header Bar -->
+      <header class="flights-header-bar">
+        <div class="flights-header-container">
+          <div class="flights-route">
+            <div class="logo"><a href="index.html"><img src="/images/travelgo.png" class="flights-logo" /></a></div>
+            <nav style="display: flex; align-items: center; gap: 20px; width: 100%;">
+              <a href="flights.html">Flights</a>
+              <a href="hotels.html">Hotels</a>
+              <a href="#">Holidays</a>
+              <a href="#" id="myBookingsBtn">My Bookings</a>
+              <div id="authButtonsContainer" class="auth-buttons" style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
+                <a href="login.html" class="btn-primary" style="text-decoration: none; font-weight: 500;">Login</a>
+                <a href="register.html" class="btn-primary" style="text-decoration: none; font-weight: 500;">Register</a>
+              </div>
+            </nav>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
     <section class="progression-bar-container">
       <nav class="booking-steps">
         <button class="step active">1 Hotel</button>

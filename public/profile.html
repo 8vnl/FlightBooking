@@ -1,43 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Bookings | travelgo</title>
-  <link rel="stylesheet" href="/css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="css/index-style.css" />
+  <link rel="stylesheet" href="css/hero-slide.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body>
-  <nav class="main-nav">
-    <a href="/" class="btn btn-secondary">
-      <i class="fas fa-arrow-left"></i> Back to Home
-    </a>
-    <h1><i class="fas fa-plane"></i> travelgo</h1>
-    <a href="flights.html" class="btn btn-secondary" style="margin-left: 10px;">
-      <i class="fas fa-search"></i> Find Flights
-    </a>
-    <button id="logoutBtn" class="btn btn-danger" style="margin-left: 10px;">
-      <i class="fas fa-sign-out-alt"></i> Logout
-    </button>
-  </nav>
+  <header class="flights-header-bar">
+    <div class="flights-header-container">
+      <div class="flights-route">
+        <div class="logo"><a href="index.html"><img src="/images/travelgo.png" class="flights-logo" /></a></div>
+        <nav style="display: flex; align-items: center; gap: 20px; width: 100%;">
+          <a href="index.html">Flights</a>
+          <a href="hotels.html">Hotels</a>
+          <a href="#" id="myBookingsBtn">My Bookings</a>
+          <div id="authButtonsContainer" class="auth-buttons" style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
+            <a href="login.html" class="btn-primary" style="text-decoration: none; font-weight: 500;">Login</a>
+            <a href="register.html" class="btn-primary" style="text-decoration: none; font-weight: 500;">Register</a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
 
   <div class="container">
-    <div class="profile-header">
+    <div class="profile-header" style="margin-top: 20px;">
       <h2><i class="fas fa-user"></i> My Bookings</h2>
-      <div class="filter-controls">
-        <select id="bookingFilter">
+      <div class="filter-controls" style="display: flex; gap: 10px; margin-top: 10px;">
+        <select id="bookingFilter" class="form-control" style="max-width: 200px;">
           <option value="all">All Bookings</option>
           <option value="upcoming">Upcoming</option>
           <option value="past">Past</option>
         </select>
-        <button id="refreshBookings" class="btn btn-secondary">
+        <button id="refreshBookings" class="btn-primary">
           <i class="fas fa-sync-alt"></i> Refresh
         </button>
       </div>
     </div>
     
-    <div id="bookingsContainer" class="bookings-container"></div>
+    <div id="bookingsContainer" class="bookings-container" style="margin-top: 20px;"></div>
 
     <h2 style="margin-top: 40px;"><i class="fas fa-hotel"></i> My Hotel Bookings</h2>
     <div id="hotelBookingsContainer" class="bookings-container"></div>
@@ -54,7 +58,7 @@
       <div class="selected-seat">
         Selected Seat: <span id="selectedSeatDisplay">None</span>
       </div>
-      <button id="confirmCheckin" class="btn btn-primary">
+      <button id="confirmCheckin" class="btn-primary">
         <i class="fas fa-check"></i> Confirm Check-in
       </button>
     </div>
@@ -67,7 +71,7 @@
       <div id="boardingPass" class="boarding-pass">
         <!-- Boarding pass will be generated here -->
       </div>
-      <button id="printBoardingPass" class="btn btn-primary">
+      <button id="printBoardingPass" class="btn-primary">
         <i class="fas fa-print"></i> Print Boarding Pass
       </button>
     </div>

@@ -1,8 +1,10 @@
+
 document.addEventListener('DOMContentLoaded', function() {
     const bookingsContainer = document.getElementById('bookingsContainer');
     const hotelBookingsContainer = document.getElementById('hotelBookingsContainer');
     const filterSelect = document.getElementById('bookingFilter');
     const refreshButton = document.getElementById('refreshBookings');
+    const authButtonsDiv = document.getElementById('authButtonsContainer');
 
     async function loadBookings() {
         // Fetch logged-in user info
@@ -12,9 +14,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 const user = await response.json();
                 username = user.username;
+                updateAuthButtons(user.username);
+            } else {
+                updateAuthButtons(null);
             }
         } catch (error) {
             console.error('Error fetching user info:', error);
+            updateAuthButtons(null);
         }
 
         const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
@@ -104,6 +110,39 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </div>
             `).join('');
+        }
+    }
+
+    function updateAuthButtons(username) {
+        if (!authButtonsDiv) return;
+        if (username) {
+            authButtonsDiv.innerHTML = `
+                <span><i class="fas fa-user"></i> Welcome <strong>${username}</strong></span>
+                <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+            `;
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async () => {
+                    try {
+                        const response = await fetch('/api/logout', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' }
+                        });
+                        if (response.ok) {
+                            window.location.href = 'login.html';
+                        } else {
+                            alert('Logout failed. Please try again.');
+                        }
+                    } catch (error) {
+                        alert('An error occurred during logout.');
+                    }
+                });
+            }
+        } else {
+            authButtonsDiv.innerHTML = `
+                <a href="login.html" class="btn-primary" style="text-decoration: none; font-weight: 500;">Login</a>
+                <a href="register.html" class="btn-primary" style="text-decoration: none; font-weight: 500;">Register</a>
+            `;
         }
     }
 
