@@ -52,33 +52,40 @@ document.addEventListener('DOMContentLoaded', function () {
                     const businessPrice = tripType === 'roundtrip' ? (flight.price + 50) * 1.5 : (flight.price + 50);
 
                     flightCard.innerHTML = `
-                        <div class="flight-card-left">
-                            <div class="departure-time">${departureTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                            <div class="departure-airport">${flight.departure_airport}</div>
-                        </div>
-                        <div class="flight-card-center">
-                            <div class="flight-duration">${duration}</div>
-                            <div class="flight-details-link"><a href="#">Flight details</a></div>
-                        </div>
-                        <div class="flight-card-right">
-                            <div class="arrival-time">${arrivalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                            <div class="arrival-airport">${flight.arrival_airport}</div>
-                            <div class="flight-number">
-                                <img src="${logoSrc}" alt="${flight.airline}" />
-                                <span>${flight.airline} ${flight.flight_number}</span>
+                        <div class="flight-card">
+                            <div class="flight-card-left">
+                                <div class="departure-time">${departureTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                <div class="departure-airport">${flight.departure_airport}</div>
+                            </div>
+                            <div class="flight-card-center">
+                                <div class="flight-duration">${duration}</div>
+                                <div class="flight-path">
+                                    <div class="flight-path-line"></div>
+                                </div>
+                                <div class="flight-details-link"><a href="#">Flight details</a></div>
+                            </div>
+                            <div class="flight-card-right">
+                                <div class="arrival-time">${arrivalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                <div class="arrival-airport">${flight.arrival_airport}</div>
+                                <div class="flight-number">
+                                    <img src="${logoSrc}" alt="${flight.airline}" />
+                                    <span>${flight.airline} ${flight.flight_number}</span>
+                                </div>
+                            </div>
+                            <div class="fare-classes">
+                                <div class="fare-class economy-class">
+                                    <div class="class-name">Economy</div>
+                                    <div class="price">MYR ${economyPrice.toFixed(2)}</div>
+                                    <div class="price-subtext">per passenger</div>
+                                </div>
+                                <div class="fare-class business-class">
+                                    ${randomSeats < 10 ? `<div class="seats-left-badge">${randomSeats} seats left</div>` : ''}
+                                    <div class="class-name">Business</div>
+                                    <div class="price">MYR ${businessPrice.toFixed(2)}</div>
+                                    <div class="price-subtext">per passenger</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="fare-classes">
-                            <div class="fare-class economy-class">
-                                <div class="class-name">Economy</div>
-                                <div class="price">MYR ${economyPrice.toFixed(2)}</div>
-                            </div>
-                            <div class="fare-class business-class">
-                                <div class="class-name">Business</div>
-                            <div class="price">MYR ${businessPrice.toFixed(2)}</div>
-                            <div class="seats-left-badge">${randomSeats} seats left</div>
-                        </div>
-                    </div>
                     `;
 
                     flightsContainer.appendChild(flightCard);
