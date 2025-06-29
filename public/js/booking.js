@@ -69,10 +69,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                             <div class="fare-class business-class">
                                 <div class="class-name">Business</div>
-                                <div class="price">MYR ${Math.round(flight.price * 1.7)}</div>
-                                <div class="seats-left-badge">${randomSeats} seats left</div>
-                            </div>
+                            <div class="price">MYR ${(flight.price + 50).toFixed(2)}</div>
+                            <div class="seats-left-badge">${randomSeats} seats left</div>
                         </div>
+                    </div>
                     `;
 
                     flightsContainer.appendChild(flightCard);
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             departureDate: flight.departure_time.split('T')[0], // Use flight's actual departure date
                             tripType: tripType,
                             returnDate: returnDate,
-                            price: flight.price
+                            price: fareClass === 'Business' ? flight.price + 50 : flight.price
                         };
                         // Add passengers count from URL params to selectedFlight if available
                         const urlParams = new URLSearchParams(window.location.search);
