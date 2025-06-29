@@ -54,16 +54,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     flightCard.innerHTML = `
                             <div class="flight-card-main" style="display:flex; flex-grow:1; gap:24px; align-items:center;">
                                 <div class="flight-card-left" style="min-width:120px; display:flex; flex-direction:column; align-items:flex-start; gap:8px;">
-                                    <div class="departure-time">${departureTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                    <div class="departure-time">${departureTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+                                    <div class="departure-airport">${flight.departure_airport}</div>
                                     <div class="departure-airport" style="display:flex; align-items:center; gap:6px;">
                                         <img src="${logoSrc}" alt="${flight.airline}" style="width:28px; height:28px; border-radius:4px; object-fit:contain;" />
                                         <span>${flight.airline}</span>
                                     </div>
-                                    <div class="departure-airport">${flight.departure_airport}</div>
                                 </div>
                                 <div class="flight-card-center" style="display:flex; flex-direction:column; align-items:center; flex-grow:1; gap:10px; position:relative; padding:0 20px;">
                                     <div class="flight-duration" style="font-size:1.05rem; color:#718096; font-weight:600; margin-bottom:4px; background:#f8fafc; padding:6px 12px; border-radius:20px; display:flex; align-items:center; gap:8px;">
-                                        🕒 ${duration} <span style="background:#22c55e; color:white; border-radius:12px; padding:2px 10px; font-size:0.8rem; font-weight:700; margin-left:12px;">Direct</span>
+                                        ${duration} <span style="background:#22c55e; color:white; border-radius:12px; padding:2px 10px; font-size:0.8rem; font-weight:700; margin-left:12px;">Direct</span>
                                     </div>
                                     <div class="flight-path" style="display:flex; align-items:center; width:100%; max-width:240px; margin:8px 0;">
                                         <div class="flight-path-line" style="flex-grow:1; height:2px; background:linear-gradient(to right, #e2e8f0, #cbd5e0, #e2e8f0); position:relative;">
@@ -74,8 +74,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="flight-details-link"><a href="#" style="color:#3b82f6; text-decoration:none; font-weight:600; font-size:0.95rem; display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:6px;">Flight details →</a></div>
                                 </div>
                                 <div class="flight-card-right" style="display:flex; flex-direction:column; align-items:flex-end; min-width:180px; gap:12px;">
-                                    <div class="arrival-time" style="font-size:1.8rem; font-weight:700; color:#2d3748; letter-spacing:-0.5px;">${arrivalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                                    <div class="arrival-airport" style="font-size:1.1rem; color:#4a5568; font-weight:600; display:flex; align-items:center; gap:6px;">🛬 ${flight.arrival_airport}</div>
+                                    <div class="arrival-time" style="font-size:1.8rem; font-weight:700; color:#2d3748; letter-spacing:-0.5px;">${arrivalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+                                    <div class="arrival-airport" style="font-size:1.1rem; color:#4a5568; font-weight:600; display:flex; align-items:center; gap:6px;">${flight.arrival_airport}</div>
                                     <div class="flight-number" style="display:flex; align-items:center; margin-top:16px; font-weight:600; font-size:1rem; color:#4a5568; gap:10px; background:#f8fafc; padding:8px 12px; border-radius:8px;">
                                         <span>${flight.flight_number}</span>
                                     </div>
