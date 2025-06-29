@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     const businessPrice = tripType === 'roundtrip' ? (flight.price + 50) * 1.5 : (flight.price + 50);
 
                     flightCard.innerHTML = `
-                        <div class="flight-card">
                             <div class="flight-card-left">
                                 <div class="departure-time">${departureTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                                 <div class="departure-airport">${flight.departure_airport}</div>
@@ -85,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="price-subtext">per passenger</div>
                                 </div>
                             </div>
-                        </div>
                     `;
 
                     flightsContainer.appendChild(flightCard);
