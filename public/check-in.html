@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Check-In | travelgo</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/boarding-pass.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    .seat-map {
+      display: grid;
+      grid-template-columns: repeat(6, 40px);
+      grid-gap: 8px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .seat {
+      width: 40px;
+      height: 40px;
+      background-color: #eee;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      user-select: none;
+    }
+    .seat.selected {
+      background-color: #4caf50;
+      color: white;
+    }
+    .seat.occupied {
+      background-color: #d9534f;
+      cursor: not-allowed;
+      color: white;
+    }
+    .seat-label {
+      text-align: center;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    .passenger-seat-selection {
+      margin-bottom: 30px;
+    }
+    .checkin-actions {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header class="flights-header-bar">
+    <div class="flights-header-container">
+      <div class="flights-route" style="align-items: center; gap: 20px;">
+        <a href="index.html" class="logo">
+          <img src="/images/travelgo.png" alt="travelgo logo" class="flights-logo" />
+        </a>
+        <h1 style="color: white; font-weight: 400; margin: 0; font-family: 'Mundial', sans-serif; font-size: 1.25rem;">Check-In</h1>
+        <button onclick="window.history.back()" class="btn btn-secondary" style="margin-left: auto;">
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="flightInfo" class="flight-details-card">
+      <h2>Flight Information</h2>
+      <div id="flightDetailsContent">
+        <!-- Flight details will be loaded here -->
+      </div>
+    </section>
+
+    <section id="passengerSeatSelectionContainer">
+      <!-- Passenger seat selection UI will be generated here -->
+    </section>
+
+    <div class="checkin-actions">
+      <button id="confirmCheckinBtn" class="btn btn-primary" disabled>
+        <i class="fas fa-check"></i> Confirm Check-In
+      </button>
+    </div>
+  </main>
+
+  <script src="/js/check-in.js"></script>
+</body>
+</html>

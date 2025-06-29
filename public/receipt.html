@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -183,6 +183,17 @@ async function loadReceipt() {
       viewBtn.onclick = () => {
         window.location.href = `/boarding-pass.html?booking=${booking.id}`;
       };
+
+      // Add check-in button for this booking
+      const checkinBtn = document.createElement('button');
+      checkinBtn.className = 'btn btn-primary';
+      checkinBtn.style.marginLeft = '10px';
+      checkinBtn.innerHTML = '<i class="fas fa-plane"></i> Check-In';
+      checkinBtn.onclick = () => {
+        window.location.href = `/check-in.html?booking=${booking.id}`;
+      };
+
+      viewBtn.parentNode.insertBefore(checkinBtn, viewBtn.nextSibling);
     }, waitTime);
 
   } catch (error) {
