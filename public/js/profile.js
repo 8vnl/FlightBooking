@@ -6,6 +6,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const refreshButton = document.getElementById('refreshBookings');
     const authButtonsDiv = document.getElementById('authButtonsContainer');
 
+    const airlineLogos = {
+        "Malaysia Airlines": "/images/airlines/MH.jpg",
+        "AirAsia": "/images/airlines/AK.jpg",
+        "Singapore Airlines": "/images/airlines/SQ.jpg",
+        "Philippine Airlines": "/images/airlines/PR.jpg",
+        "Thai Airways": "/images/airlines/TG.jpg",
+        "Garuda Indonesia": "/images/airlines/GA.jpg",
+        "Vietnam Airlines": "/images/airlines/VN.jpg",
+        "AirAsia Philippines": "/images/airlines/AK.jpg",
+        "Charter Airlines": "/images/airlines/TG.jpg",
+    };
+
     async function loadBookings() {
         // Fetch logged-in user info
         let username = null;
@@ -52,12 +64,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (filteredBookings.length === 0) {
             bookingsContainer.innerHTML = '<p>No bookings found.</p>';
         } else {
-            bookingsContainer.innerHTML = filteredBookings.map(booking => `
+            bookingsContainer.innerHTML = filteredBookings.map(booking => {
+                const logoSrc = airlineLogos[booking.flight.airline] || '';
+                return `
                 <div class="booking-card">
-                    <div class="booking-header">
-                        <h3>${booking.flight.airline} ${booking.flight.flightNumber}</h3>
-                        <span class="booking-status">${booking.status || 'Confirmed'}</span>
-                    </div>
+                <div class="booking-header">
+                    <h3>
+                      ${logoSrc ? `<img class="airline-logo" src="${logoSrc}" alt="${booking.flight.airline} logo" />` : ''}
+                      ${booking.flight.airline} ${booking.flight.flightNumber}
+                    </h3>
+                    <span class="booking-status">${booking.status || 'Confirmed'}</span>
+                </div>
                     <div class="booking-details">
                         <p><strong>From:</strong> ${booking.flight.departure}</p>
                         <p><strong>To:</strong> ${booking.flight.destination}</p>
@@ -74,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </button>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
 
         // Filter hotel bookings by logged-in username
