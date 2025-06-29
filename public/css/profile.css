@@ -18,7 +18,7 @@ body {
 }
 
 .profile-header {
-  border-bottom: 2px solid #007bff;
+  border-bottom: 2px solid #0d4689;
   padding-bottom: 15px;
   margin-bottom: 25px;
   display: flex;
@@ -28,9 +28,9 @@ body {
 }
 
 .profile-header h2 {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   margin: 0;
-  color: #007bff;
+  color: #0d4689;
 }
 
 .filter-controls {
