@@ -279,19 +279,19 @@
 }
 
 .class-name::before {
-  content: '';
-  display: inline-block;
+  content: none;
+  display: none;
   width: 12px;
   height: 12px;
   border-radius: 2px;
 }
 
 .economy-class .class-name::before {
-  background: #3b82f6;
+  background: none;
 }
 
 .business-class .class-name::before {
-  background: #fbbf24;
+  background: none;
 }
 
 .price {
