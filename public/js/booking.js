@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     "Charter Airlines": "/images/airlines/TG.jpg",
                 };
 
+                const urlParams = new URLSearchParams(window.location.search);
+                const tripType = urlParams.get('tripType') || 'one-way';
+
                 flights.forEach(flight => {
                     const flightCard = document.createElement('div');
                     flightCard.className = 'flight-card';
@@ -44,6 +47,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // Define randomSeats as a random number between 1 and 10
                     const randomSeats = Math.floor(Math.random() * 10) + 1;
+
+                    const economyPrice = tripType === 'roundtrip' ? flight.price * 1.5 : flight.price;
+                    const businessPrice = tripType === 'roundtrip' ? (flight.price + 50) * 1.5 : (flight.price + 50);
 
                     flightCard.innerHTML = `
                         <div class="flight-card-left">
@@ -65,11 +71,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="fare-classes">
                             <div class="fare-class economy-class">
                                 <div class="class-name">Economy</div>
-                                <div class="price">MYR ${flight.price.toFixed(2)}</div>
+                                <div class="price">MYR ${economyPrice.toFixed(2)}</div>
                             </div>
                             <div class="fare-class business-class">
                                 <div class="class-name">Business</div>
-                            <div class="price">MYR ${(flight.price + 50).toFixed(2)}</div>
+                            <div class="price">MYR ${businessPrice.toFixed(2)}</div>
                             <div class="seats-left-badge">${randomSeats} seats left</div>
                         </div>
                     </div>
@@ -92,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             departureDate: flight.departure_time.split('T')[0], // Use flight's actual departure date
                             tripType: tripType,
                             returnDate: returnDate,
-                            price: fareClass === 'Business' ? flight.price + 50 : flight.price
+                            price: (fareClass === 'Business' ? flight.price + 50 : flight.price) * (tripType === 'roundtrip' ? 1.5 : 1)
                         };
                         // Add passengers count from URL params to selectedFlight if available
                         const urlParams = new URLSearchParams(window.location.search);
@@ -429,7 +435,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Calculate base price
             let totalPrice = selectedFlight.price * passengerCount;
             if (selectedFlight.tripType === 'roundtrip') {
-                totalPrice *= 1.6; // Adjusted price for return trip
+                totalPrice *= 1.5; // Adjusted price for return trip
             }
 
             // Calculate addon prices
