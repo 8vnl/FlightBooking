@@ -387,4 +387,8 @@
     top: 8px;
     right: 8px;
   }
+
+  .class-name::before {
+    display: none;
+}
 }

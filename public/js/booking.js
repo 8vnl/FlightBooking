@@ -52,36 +52,50 @@ document.addEventListener('DOMContentLoaded', function () {
                     const businessPrice = tripType === 'roundtrip' ? (flight.price + 50) * 1.5 : (flight.price + 50);
 
                     flightCard.innerHTML = `
-                            <div class="flight-card-left">
-                                <div class="departure-time">${departureTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                                <div class="departure-airport">${flight.departure_airport}</div>
-                            </div>
-                            <div class="flight-card-center">
-                                <div class="flight-duration">${duration}</div>
-                                <div class="flight-path">
-                                    <div class="flight-path-line"></div>
+                            <div class="flight-card-main" style="display:flex; flex-grow:1; gap:24px; align-items:center;">
+                                <div class="flight-card-left" style="min-width:120px; display:flex; flex-direction:column; align-items:flex-start; gap:8px;">
+                                    <div class="departure-time">${departureTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                    <div class="departure-airport" style="display:flex; align-items:center; gap:6px;">
+                                        <img src="${logoSrc}" alt="${flight.airline}" style="width:28px; height:28px; border-radius:4px; object-fit:contain;" />
+                                        <span>${flight.airline}</span>
+                                    </div>
+                                    <div class="departure-airport">${flight.departure_airport}</div>
                                 </div>
-                                <div class="flight-details-link"><a href="#">Flight details</a></div>
-                            </div>
-                            <div class="flight-card-right">
-                                <div class="arrival-time">${arrivalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                                <div class="arrival-airport">${flight.arrival_airport}</div>
-                                <div class="flight-number">
-                                    <img src="${logoSrc}" alt="${flight.airline}" />
-                                    <span>${flight.airline} ${flight.flight_number}</span>
+                                <div class="flight-card-center" style="display:flex; flex-direction:column; align-items:center; flex-grow:1; gap:10px; position:relative; padding:0 20px;">
+                                    <div class="flight-duration" style="font-size:1.05rem; color:#718096; font-weight:600; margin-bottom:4px; background:#f8fafc; padding:6px 12px; border-radius:20px; display:flex; align-items:center; gap:8px;">
+                                        🕒 ${duration} <span style="background:#22c55e; color:white; border-radius:12px; padding:2px 10px; font-size:0.8rem; font-weight:700; margin-left:12px;">Direct</span>
+                                    </div>
+                                    <div class="flight-path" style="display:flex; align-items:center; width:100%; max-width:240px; margin:8px 0;">
+                                        <div class="flight-path-line" style="flex-grow:1; height:2px; background:linear-gradient(to right, #e2e8f0, #cbd5e0, #e2e8f0); position:relative;">
+                                            <div style="position:absolute; width:8px; height:8px; background:#3498db; border-radius:50%; top:-3px; left:0;"></div>
+                                            <div style="position:absolute; width:8px; height:8px; background:#3498db; border-radius:50%; top:-3px; right:0;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flight-details-link"><a href="#" style="color:#3b82f6; text-decoration:none; font-weight:600; font-size:0.95rem; display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:6px;">Flight details →</a></div>
+                                </div>
+                                <div class="flight-card-right" style="display:flex; flex-direction:column; align-items:flex-end; min-width:180px; gap:12px;">
+                                    <div class="arrival-time" style="font-size:1.8rem; font-weight:700; color:#2d3748; letter-spacing:-0.5px;">${arrivalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                    <div class="arrival-airport" style="font-size:1.1rem; color:#4a5568; font-weight:600; display:flex; align-items:center; gap:6px;">🛬 ${flight.arrival_airport}</div>
+                                    <div class="flight-number" style="display:flex; align-items:center; margin-top:16px; font-weight:600; font-size:1rem; color:#4a5568; gap:10px; background:#f8fafc; padding:8px 12px; border-radius:8px;">
+                                        <span>${flight.flight_number}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="fare-classes">
-                                <div class="fare-class economy-class">
-                                    <div class="class-name">Economy</div>
-                                    <div class="price">MYR ${economyPrice.toFixed(2)}</div>
-                                    <div class="price-subtext">per passenger</div>
+                            <div class="fare-classes" style="display:flex; gap:20px; margin-left:40px; min-width:300px;">
+                                <div class="fare-class economy-class" style="border-radius:12px; padding:18px 24px; min-width:140px; background-color:white; position:relative; cursor:pointer; transition:all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border:1px solid #e2e8f0; text-align:center; font-family:'Montserrat', sans-serif; font-weight:700; box-shadow:0 2px 8px rgba(0,0,0,0.05); color:#1e40af; background:linear-gradient(135deg, #f5f9ff, #ffffff);">
+                                    <div class="class-name" style="font-size:1.1rem; margin-bottom:10px; color:inherit; display:flex; align-items:center; justify-content:center; gap:6px;">
+                                        <span style="display:inline-block; width:12px; height:12px; border-radius:2px; background:#3b82f6;"></span> Economy
+                                    </div>
+                                    <div class="price" style="font-size:1.4rem; font-weight:800; color:inherit; margin-bottom:4px;">MYR ${economyPrice.toFixed(2)}</div>
+                                    <div class="price-subtext" style="font-size:0.75rem; color:#718096; font-weight:500;">per passenger</div>
                                 </div>
-                                <div class="fare-class business-class">
-                                    ${randomSeats < 10 ? `<div class="seats-left-badge">${randomSeats} seats left</div>` : ''}
-                                    <div class="class-name">Business</div>
-                                    <div class="price">MYR ${businessPrice.toFixed(2)}</div>
-                                    <div class="price-subtext">per passenger</div>
+                                <div class="fare-class business-class" style="border-radius:12px; padding:18px 24px; min-width:140px; background-color:white; position:relative; cursor:pointer; transition:all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border:1px solid #e2e8f0; text-align:center; font-family:'Montserrat', sans-serif; font-weight:700; box-shadow:0 2px 8px rgba(0,0,0,0.05); color:#b45309; background:linear-gradient(135deg, #fffcf5, #ffffff);">
+                                    ${randomSeats < 10 ? `<div class="seats-left-badge" style="position:absolute; top:-8px; right:-8px; background:linear-gradient(to right, #ef4444, #dc2626); color:white; font-size:0.7rem; font-weight:700; padding:6px 10px; border-radius:20px; white-space:nowrap; box-shadow:0 2px 8px rgba(239, 68, 68, 0.3); z-index:1;">${randomSeats} seats left</div>` : ''}
+                                    <div class="class-name" style="font-size:1.1rem; margin-bottom:10px; color:inherit; display:flex; align-items:center; justify-content:center; gap:6px;">
+                                        <span style="display:inline-block; width:12px; height:12px; border-radius:2px; background:#fbbf24;"></span> Business
+                                    </div>
+                                    <div class="price" style="font-size:1.4rem; font-weight:800; color:inherit; margin-bottom:4px;">MYR ${businessPrice.toFixed(2)}</div>
+                                    <div class="price-subtext" style="font-size:0.75rem; color:#718096; font-weight:500;">per passenger</div>
                                 </div>
                             </div>
                     `;
