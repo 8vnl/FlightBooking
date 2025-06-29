@@ -56,7 +56,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p><strong>From:</strong> ${booking.flight.departure}</p>
                         <p><strong>To:</strong> ${booking.flight.destination}</p>
                         <p><strong>Date:</strong> ${new Date(booking.flight.departureDate).toLocaleDateString()}</p>
-                        <p><strong>Passenger:</strong> ${booking.passengerName}</p>
+<p><strong>Passenger:</strong> ${
+    booking.passengers && booking.passengers.length > 0
+        ? booking.passengers[0].firstName + ' ' + booking.passengers[0].lastName
+        : 'Unknown'
+}</p>
                     </div>
                     <div class="booking-actions">
                         <button class="btn btn-secondary" onclick="location.href='/receipt.html?booking=${booking.id}'">
