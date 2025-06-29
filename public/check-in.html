@@ -10,8 +10,8 @@
   <style>
     .seat-map {
       display: grid;
-      grid-template-columns: repeat(6, 40px);
-      grid-gap: 8px;
+      grid-template-columns: repeat(7, 40px); /* Added one more column for the aisle */
+      grid-gap: 12px;
       justify-content: center;
       margin: 20px 0;
     }
@@ -26,6 +26,15 @@
       justify-content: center;
       font-weight: bold;
       user-select: none;
+    }
+    .aisle {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      visibility: hidden; /* Makes the space but keeps the grid alignment */
     }
     .seat.selected {
       background-color: #4caf50;

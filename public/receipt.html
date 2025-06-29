@@ -171,7 +171,7 @@ async function loadReceipt() {
     `;
 
     const elapsed = Date.now() - startTime;
-    const delay = 3000; // 3 seconds
+    const delay = 2000; // 2 seconds
     const waitTime = elapsed < delay ? delay - elapsed : 0;
 
     setTimeout(() => {

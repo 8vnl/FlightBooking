@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const selectedSeats = new Array(booking.passengers.length).fill(null);
 
   // Create seat map UI for each passenger
+  // Create seat map UI for each passenger
   booking.passengers.forEach((passenger, index) => {
     const passengerDiv = document.createElement('div');
     passengerDiv.className = 'passenger-seat-selection';
@@ -69,9 +70,58 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const seatMapDiv = passengerDiv.querySelector('.seat-map');
 
-    // Render seats
+    // Render seats with aisle
     for (let row = 1; row <= seatRows; row++) {
-      for (let colIndex = 0; colIndex < seatCols; colIndex++) {
+      // Left side seats (A, B, C)
+      for (let colIndex = 0; colIndex < 3; colIndex++) {
+        const seatId = seatLetters[colIndex] + row;
+        const seatDiv = document.createElement('div');
+        seatDiv.className = 'seat';
+        seatDiv.textContent = seatId;
+
+        if (occupiedSeats.has(seatId)) {
+          seatDiv.classList.add('occupied');
+        }
+
+        seatDiv.addEventListener('click', () => {
+          if (seatDiv.classList.contains('occupied')) return;
+
+          // Deselect previously selected seat for this passenger
+          const prevSelectedSeat = selectedSeats[index];
+          if (prevSelectedSeat) {
+            const prevSeatDiv = seatMapDiv.querySelector('.seat.selected');
+            if (prevSeatDiv) prevSeatDiv.classList.remove('selected');
+          }
+
+          // Check if seat is already selected by another passenger
+          if (selectedSeats.includes(seatId)) {
+            alert('This seat is already selected by another passenger.');
+            return;
+          }
+
+          // Select this seat
+          seatDiv.classList.add('selected');
+          selectedSeats[index] = seatId;
+          document.getElementById('selectedSeat-' + index).textContent = seatId;
+
+          // Enable confirm button if all passengers have selected seats
+          if (selectedSeats.every(seat => seat !== null)) {
+            confirmCheckinBtn.disabled = false;
+          } else {
+            confirmCheckinBtn.disabled = true;
+          }
+        });
+
+        seatMapDiv.appendChild(seatDiv);
+      }
+      
+      // Aisle space
+      const aisleDiv = document.createElement('div');
+      aisleDiv.className = 'aisle';
+      seatMapDiv.appendChild(aisleDiv);
+      
+      // Right side seats (D, E, F)
+      for (let colIndex = 3; colIndex < 6; colIndex++) {
         const seatId = seatLetters[colIndex] + row;
         const seatDiv = document.createElement('div');
         seatDiv.className = 'seat';
