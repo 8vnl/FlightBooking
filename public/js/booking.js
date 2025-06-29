@@ -256,14 +256,6 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <option value="Prefer not to say">Prefer not to say</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="frequentFlyerProgram${i}">Frequent Flyer Program (Optional)</label>
-                            <input type="text" id="frequentFlyerProgram${i}" />
-                        </div>
-                        <div class="form-group">
-                            <label for="frequentFlyerNumber${i}">Frequent Flyer Number (Optional)</label>
-                            <input type="text" id="frequentFlyerNumber${i}" />
-                        </div>
                     </div>
                 `;
                 passengerDetailsContainer.appendChild(passengerForm);
@@ -462,8 +454,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     nationality: document.getElementById(`passengerNationality${i}`).value,
                     dateOfBirth: document.getElementById(`passengerDOB${i}`).value,
                     gender: document.getElementById(`passengerGender${i}`).value,
-                    frequentFlyerProgram: document.getElementById(`frequentFlyerProgram${i}`).value,
-                    frequentFlyerNumber: document.getElementById(`frequentFlyerNumber${i}`).value
                 });
             }
 
