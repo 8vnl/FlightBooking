@@ -293,6 +293,55 @@ app.post('/api/logout', (req, res) => {
 
 // Other existing routes and server start code remain unchanged
 
+// Change password endpoint using old password verification
+app.post('/api/change-password', (req, res) => {
+    const { username, oldPassword, newPassword } = req.body;
+
+    if (!username || !oldPassword || !newPassword) {
+        return res.status(400).json({ error: 'Username, old password, and new password are required' });
+    }
+
+    const query = `SELECT * FROM users WHERE username = ?`;
+    db.get(query, [username], (err, user) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        bcrypt.compare(oldPassword, user.password, (err, result) => {
+            if (err) {
+                console.error('Error comparing passwords:', err);
+                return res.status(500).json({ error: 'Error comparing passwords' });
+            }
+            if (!result) {
+                return res.status(401).json({ error: 'Old password is incorrect' });
+            }
+
+            // Hash new password
+            const saltRounds = 10;
+            bcrypt.hash(newPassword, saltRounds, (err, hashedPassword) => {
+                if (err) {
+                    console.error('Error hashing new password:', err);
+                    return res.status(500).json({ error: 'Error hashing new password' });
+                }
+
+                // Update password in database
+                const updateQuery = `UPDATE users SET password = ? WHERE username = ?`;
+                db.run(updateQuery, [hashedPassword, username], function(err) {
+                    if (err) {
+                        console.error('Error updating password:', err);
+                        return res.status(500).json({ error: 'Error updating password' });
+                    }
+                    res.json({ message: 'Password changed successfully' });
+                });
+            });
+        });
+    });
+});
+
 // Start server
 app.listen(port, () => {
     console.log(`Flight Booking System running at http://localhost:${port}`);

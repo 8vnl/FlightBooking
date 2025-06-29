@@ -59,6 +59,28 @@
     </form>
     <p id="message" class="message" style="margin-top: 10px;"></p>
     <p style="margin-top: 15px;">Don't have an account? <a href="register.html">Register here</a></p>
+    <p style="margin-top: 15px;">
+      <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+    </p>
+
+    <!-- Forgot Password Form (hidden by default) -->
+    <form id="forgotPasswordForm" style="display: none; margin-top: 20px;">
+      <h3>Change Password</h3>
+      <div class="form-group">
+        <label for="fpUsername">Username:</label>
+        <input type="text" id="fpUsername" name="fpUsername" required />
+      </div>
+      <div class="form-group">
+        <label for="oldPassword">Old Password:</label>
+        <input type="password" id="oldPassword" name="oldPassword" required />
+      </div>
+      <div class="form-group">
+        <label for="newPassword">New Password:</label>
+        <input type="password" id="newPassword" name="newPassword" required />
+      </div>
+      <button type="submit" class="btn-primary">Change Password</button>
+      <p id="forgotPasswordMessage" class="message" style="margin-top: 10px;"></p>
+    </form>
   </section>
 
   <script src="/js/main.js"></script>
@@ -96,6 +118,61 @@
       } catch (error) {
         message.style.color = 'red';
         message.textContent = 'An error occurred. Please try again.';
+      }
+    });
+
+    // Forgot Password toggle and submit logic
+    const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+    const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+    const forgotPasswordMessage = document.getElementById('forgotPasswordMessage');
+
+    forgotPasswordLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (forgotPasswordForm.style.display === 'none') {
+        forgotPasswordForm.style.display = 'block';
+      } else {
+        forgotPasswordForm.style.display = 'none';
+      }
+      forgotPasswordMessage.textContent = '';
+    });
+
+    forgotPasswordForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      forgotPasswordMessage.textContent = '';
+
+      const username = forgotPasswordForm.fpUsername.value.trim();
+      const oldPassword = forgotPasswordForm.oldPassword.value;
+      const newPassword = forgotPasswordForm.newPassword.value;
+
+      if (!username || !oldPassword || !newPassword) {
+        forgotPasswordMessage.style.color = 'red';
+        forgotPasswordMessage.textContent = 'Please fill in all fields.';
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/change-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, oldPassword, newPassword })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          forgotPasswordMessage.style.color = 'green';
+          forgotPasswordMessage.textContent = data.message || 'Password changed successfully.';
+          forgotPasswordForm.reset();
+          setTimeout(() => {
+            forgotPasswordForm.style.display = 'none';
+          }, 2000);
+        } else {
+          forgotPasswordMessage.style.color = 'red';
+          forgotPasswordMessage.textContent = data.error || 'Failed to change password.';
+        }
+      } catch (error) {
+        forgotPasswordMessage.style.color = 'red';
+        forgotPasswordMessage.textContent = 'An error occurred. Please try again.';
       }
     });
   </script>
