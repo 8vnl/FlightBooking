@@ -19,7 +19,7 @@ const predefinedFlights = [
         arrival_times: ['11:30', '17:30', '23:30'],
         price: 140.00,
         available_seats: 170,
-        aircraft_type: 'Boeing 777'
+        aircraft_type: 'Comac C919'
     },
     {
         flight_number: 'AK200',
@@ -41,7 +41,7 @@ const predefinedFlights = [
         arrival_times: ['09:30', '15:30', '21:30'],
         price: 145.00,
         available_seats: 170,
-        aircraft_type: 'Boeing 777'
+        aircraft_type: 'Comac C919'
     },
     {
         flight_number: 'SQ101',
@@ -173,7 +173,7 @@ const predefinedFlights = [
         arrival_times: ['09:30', '15:30', '21:30'],
         price: 120.00,
         available_seats: 170,
-        aircraft_type: 'Boeing 777'
+        aircraft_type: 'Comac C919'
     },
     {
         flight_number: 'TG407',
@@ -184,7 +184,7 @@ const predefinedFlights = [
         arrival_times: ['11:30', '17:30', '23:30'],
         price: 130.00,
         available_seats: 170,
-        aircraft_type: 'Boeing 777'
+        aircraft_type: 'Comac C919'
     },
     {
         flight_number: 'AK126',
@@ -327,7 +327,7 @@ const predefinedFlights = [
         arrival_times: ['11:00', '17:00', '23:00'],
         price: 150.00,
         available_seats: 150,
-        aircraft_type: 'Airbus A330'
+        aircraft_type: 'Airbus A321'
     },
     {
         flight_number: 'GA460',
@@ -338,7 +338,7 @@ const predefinedFlights = [
         arrival_times: ['12:00', '18:00', '00:00'],
         price: 130.00,
         available_seats: 140,
-        aircraft_type: 'Boeing 777'
+        aircraft_type: 'Comac C919'
     },
     {
         flight_number: 'PR794',
@@ -349,7 +349,7 @@ const predefinedFlights = [
         arrival_times: ['10:00', '16:00', '22:00'],
         price: 155.00,
         available_seats: 150,
-        aircraft_type: 'Airbus A330'
+        aircraft_type: 'Airbus A321'
     },
     {
         flight_number: 'GA461',
@@ -360,7 +360,7 @@ const predefinedFlights = [
         arrival_times: ['11:00', '17:00', '23:00'],
         price: 135.00,
         available_seats: 140,
-        aircraft_type: 'Boeing 777'
+        aircraft_type: 'Comac C919'
     },
     {
         flight_number: 'PR795',
@@ -371,7 +371,7 @@ const predefinedFlights = [
         arrival_times: ['10:00', '16:00', '22:00'],
         price: 145.00,
         available_seats: 150,
-        aircraft_type: 'Airbus A330'
+        aircraft_type: 'Airbus A321'
     },
     {
         flight_number: 'MH203',
@@ -382,7 +382,7 @@ const predefinedFlights = [
         arrival_times: ['11:00', '17:00', '23:00'],
         price: 140.00,
         available_seats: 140,
-        aircraft_type: 'Boeing 777'
+        aircraft_type: 'Comac C919'
     },
     {
         flight_number: 'MH204',
@@ -393,7 +393,7 @@ const predefinedFlights = [
         arrival_times: ['11:30', '17:30', '23:30'],
         price: 145.00,
         available_seats: 140,
-        aircraft_type: 'Boeing 777'
+        aircraft_type: 'Comac C919'
     },
     {
         flight_number: 'PR796',
@@ -404,7 +404,7 @@ const predefinedFlights = [
         arrival_times: ['12:30', '18:30', '00:30'],
         price: 150.00,
         available_seats: 150,
-        aircraft_type: 'Airbus A330'
+        aircraft_type: 'Airbus A321'
     },
     {
         flight_number: 'VN323',
@@ -415,7 +415,7 @@ const predefinedFlights = [
         arrival_times: ['12:00', '18:00', '00:00'],
         price: 120.00,
         available_seats: 150,
-        aircraft_type: 'Airbus A330'
+        aircraft_type: 'Airbus A321'
     },
     {
         flight_number: 'GA462',
@@ -426,7 +426,7 @@ const predefinedFlights = [
         arrival_times: ['13:00', '19:00', '01:00'],
         price: 130.00,
         available_seats: 140,
-        aircraft_type: 'Boeing 777'
+        aircraft_type: 'Comac C919'
     },
     {
         flight_number: 'VN324',
@@ -437,7 +437,7 @@ const predefinedFlights = [
         arrival_times: ['11:00', '17:00', '23:00'],
         price: 125.00,
         available_seats: 150,
-        aircraft_type: 'Airbus A330'
+        aircraft_type: 'Airbus A321'
     },
     {
         flight_number: 'GA463',
@@ -448,7 +448,7 @@ const predefinedFlights = [
         arrival_times: ['12:00', '18:00', '00:00'],
         price: 135.00,
         available_seats: 140,
-        aircraft_type: 'Boeing 777'
+        aircraft_type: 'Comac C919'
     },
     {
         flight_number: 'VN325',
