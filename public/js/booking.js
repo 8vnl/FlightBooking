@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                         <span>${flight.airline}</span>
                                     </div>
                                 </div>
+
                                 <div class="flight-card-center" style="display:flex; flex-direction:column; align-items:center; flex-grow:1; gap:10px; position:relative; padding:0 20px;">
                                     <div class="flight-duration" style="font-size:1.05rem; color:#718096; font-weight:600; margin-bottom:4px; background:#f8fafc; padding:6px 12px; border-radius:20px; display:flex; align-items:center; gap:8px;">
                                         ${duration} <span style="background:#22c55e; color:white; border-radius:12px; padding:2px 10px; font-size:0.8rem; font-weight:700; margin-left:12px;">Direct</span>
@@ -78,8 +79,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                             <div style="position:absolute; width:8px; height:8px; background:#3498db; border-radius:50%; top:-3px; right:0;"></div>
                                         </div>
                                     </div>
-                                    <div class="flight-details-link"><a href="#" style="color:#3b82f6; text-decoration:none; font-weight:600; font-size:0.95rem; display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:6px;">Flight details →</a></div>
+                                    <div class="aircraft-type" style="color:#3b82f6; font-weight:600; font-size:0.95rem; display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:6px;">${flight.aircraft_type}</div>
                                 </div>
+                                
                                 <div class="flight-card-right" style="display:flex; flex-direction:column; align-items:flex-end; min-width:180px; gap:12px;">
                                     <div class="arrival-time" style="font-size:1.8rem; font-weight:700; color:#2d3748; letter-spacing:-0.5px;">${arrivalTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
                                     <div class="arrival-airport" style="font-size:1.1rem; color:#4a5568; font-weight:600; display:flex; align-items:center; gap:6px;">${flight.arrival_airport}</div>
