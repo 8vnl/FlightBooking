@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const startTime = Date.now();
-        const MIN_DELAY = 1500; // Minimum time to show loader in ms
+        const MIN_DELAY = 1500; 
 
         fetch(url)
             .then(response => response.json())
