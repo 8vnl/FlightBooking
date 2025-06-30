@@ -959,7 +959,7 @@ body {
 
 /* Footer */
 .site-footer {
-  background-color: var(--secondary-color);
+  background-color: var(--primary-color);
   color: white;
   padding: 40px 20px 20px;
   margin-top: 60px;
