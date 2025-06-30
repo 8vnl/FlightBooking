@@ -6,56 +6,63 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to fetch and display flights with optional filters
     function fetchFlights(filters = {}) {
+        const flightsContainer = document.getElementById('flightsContainer');
+        flightsContainer.innerHTML = '<div class="loader"></div>'; // Show loader immediately
+
         let url = '/api/flights';
         const params = new URLSearchParams(filters);
         if ([...params].length > 0) {
             url += '?' + params.toString();
         }
+
+        const startTime = Date.now();
+        const MIN_DELAY = 1500; // Minimum time to show loader in ms
+
         fetch(url)
             .then(response => response.json())
             .then(flights => {
-                if (flights.length === 0) {
-                    flightsContainer.innerHTML = '<p>No flights available.</p>';
-                    return;
-                }
-                flightsContainer.innerHTML = ''; // Clear previous flights
+                const elapsed = Date.now() - startTime;
+                const remainingDelay = Math.max(MIN_DELAY - elapsed, 0);
 
-                const airlineLogos = {
-                    "Malaysia Airlines": "/images/airlines/MH.jpg",
-                    "AirAsia": "/images/airlines/AK.jpg",
-                    "Singapore Airlines": "/images/airlines/SQ.jpg",
-                    "Philippine Airlines": "/images/airlines/PR.jpg",
-                    "Thai Airways": "/images/airlines/TG.jpg",
-                    "Garuda Indonesia": "/images/airlines/GA.jpg",
-                    "Vietnam Airlines": "/images/airlines/VN.jpg",
-                    "AirAsia Philippines": "/images/airlines/AK.jpg",
-                    "Charter Airlines": "/images/airlines/TG.jpg",
-                };
+                setTimeout(() => {
+                    flightsContainer.innerHTML = ''; // Clear loader
 
-                const urlParams = new URLSearchParams(window.location.search);
-                const tripType = urlParams.get('tripType') || 'one-way';
+                    if (flights.length === 0) {
+                        flightsContainer.innerHTML = '<p>No flights available.</p>';
+                        return;
+                    }
 
-                flights.forEach(flight => {
-                    const flightCard = document.createElement('div');
-                    flightCard.className = 'flight-card';
+                    const airlineLogos = {
+                        "Malaysia Airlines": "/images/airlines/MH.jpg",
+                        "AirAsia": "/images/airlines/AK.jpg",
+                        "Singapore Airlines": "/images/airlines/SQ.jpg",
+                        "Philippine Airlines": "/images/airlines/PR.jpg",
+                        "Thai Airways": "/images/airlines/TG.jpg",
+                        "Garuda Indonesia": "/images/airlines/GA.jpg",
+                        "Vietnam Airlines": "/images/airlines/VN.jpg",
+                        "AirAsia Philippines": "/images/airlines/AK.jpg"
+                    };
 
-                    const departureTime = new Date(flight.departure_time);
-                    const arrivalTime = new Date(flight.arrival_time);
-                    const duration = calculateDuration(departureTime, arrivalTime);
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const tripType = urlParams.get('tripType') || 'one-way';
 
-                    const logoSrc = airlineLogos[flight.airline] || "/images/default-airline-logo.png";
+                    flights.forEach(flight => {
+                        const flightCard = document.createElement('div');
+                        flightCard.className = 'flight-card';
+                        const departureTime = new Date(flight.departure_time);
+                        const arrivalTime = new Date(flight.arrival_time);
+                        const duration = calculateDuration(departureTime, arrivalTime);
+                        const logoSrc = airlineLogos[flight.airline] || "/images/default-airline-logo.png";
+                        const randomSeats = Math.floor(Math.random() * 10) + 1;
+                        const economyPrice = tripType === 'roundtrip' ? flight.price * 1.5 : flight.price;
+                        const businessPrice = tripType === 'roundtrip' ? (flight.price + 50) * 1.5 : (flight.price + 50);
 
-                    // Define randomSeats as a random number between 1 and 10
-                    const randomSeats = Math.floor(Math.random() * 10) + 1;
-
-                    const economyPrice = tripType === 'roundtrip' ? flight.price * 1.5 : flight.price;
-                    const businessPrice = tripType === 'roundtrip' ? (flight.price + 50) * 1.5 : (flight.price + 50);
-
-                    flightCard.innerHTML = `
+                        flightCard.innerHTML = `
+                            <!-- Flight Card HTML as before -->
                             <div class="flight-card-main" style="display:flex; flex-grow:1; gap:24px; align-items:center;">
                                 <div class="flight-card-left" style="min-width:120px; display:flex; flex-direction:column; align-items:flex-start; gap:8px;">
                                     <div class="departure-time">${departureTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
-                                    <div class="departure-airport">${flight.departure_airport}</div>
+                                    <div class="departure-airport">🛫 ${flight.departure_airport}</div>
                                     <div class="departure-airport" style="display:flex; align-items:center; gap:6px;">
                                         <img src="${logoSrc}" alt="${flight.airline}" style="width:28px; height:28px; border-radius:4px; object-fit:contain;" />
                                         <span>${flight.airline}</span>
@@ -98,45 +105,45 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <div class="price-subtext" style="font-size:0.75rem; color:#718096; font-weight:500;">per passenger</div>
                                 </div>
                             </div>
-                    `;
+                        `;
 
-                    flightsContainer.appendChild(flightCard);
+                        flightsContainer.appendChild(flightCard);
 
-                    const economyDiv = flightCard.querySelector('.economy-class');
-                    const businessDiv = flightCard.querySelector('.business-class');
+                        const economyDiv = flightCard.querySelector('.economy-class');
+                        const businessDiv = flightCard.querySelector('.business-class');
 
-                    function selectFlight(fareClass) {
-                        const tripType = new URLSearchParams(window.location.search).get('tripType') || 'one-way';
-                        const returnDate = new URLSearchParams(window.location.search).get('returnDate') || '';
-                        const selectedFlight = {
-                            flightNumber: flight.flight_number,
-                            airline: flight.airline,
-                            fareClass: fareClass,
-                            departure: flight.departure_airport,
-                            destination: flight.arrival_airport,
-                            departureDate: flight.departure_time.split('T')[0], // Use flight's actual departure date
-                            tripType: tripType,
-                            returnDate: returnDate,
-                            price: (fareClass === 'Business' ? flight.price + 50 : flight.price) * (tripType === 'roundtrip' ? 1.5 : 1)
-                        };
-                        // Add passengers count from URL params to selectedFlight if available
-                        const urlParams = new URLSearchParams(window.location.search);
-                        const passengers = urlParams.get('passengers') || '1';
-                        selectedFlight.passengers = passengers;
-                        const params = new URLSearchParams(selectedFlight);
-                        window.location.href = `/booking.html?${params.toString()}`;
-                    }
+                        function selectFlight(fareClass) {
+                            const tripType = new URLSearchParams(window.location.search).get('tripType') || 'one-way';
+                            const returnDate = new URLSearchParams(window.location.search).get('returnDate') || '';
+                            const selectedFlight = {
+                                flightNumber: flight.flight_number,
+                                airline: flight.airline,
+                                fareClass: fareClass,
+                                departure: flight.departure_airport,
+                                destination: flight.arrival_airport,
+                                departureDate: flight.departure_time.split('T')[0],
+                                tripType: tripType,
+                                returnDate: returnDate,
+                                price: (fareClass === 'Business' ? flight.price + 50 : flight.price) * (tripType === 'roundtrip' ? 1.5 : 1)
+                            };
+                            const urlParams = new URLSearchParams(window.location.search);
+                            const passengers = urlParams.get('passengers') || '1';
+                            selectedFlight.passengers = passengers;
+                            const params = new URLSearchParams(selectedFlight);
+                            window.location.href = `/booking.html?${params.toString()}`;
+                        }
 
-                    economyDiv.addEventListener('click', () => selectFlight('Economy'));
-                    businessDiv.addEventListener('click', () => selectFlight('Business'));
-                });
+                        economyDiv.addEventListener('click', () => selectFlight('Economy'));
+                        businessDiv.addEventListener('click', () => selectFlight('Business'));
+                    });
+                }, remainingDelay);
             })
             .catch(error => {
                 flightsContainer.innerHTML = '<p>Failed to load flights.</p>';
                 console.error('Error loading flights:', error);
             });
     }
-
+    
     // On flights.html, read search parameters from URL query and fetch flights
     if (flightsContainer) {
         const urlParams = new URLSearchParams(window.location.search);

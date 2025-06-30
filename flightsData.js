@@ -606,7 +606,7 @@ const predefinedFlights = [
     },
     {
         flight_number: 'CH100',
-        airline: 'Charter Airlines',
+        airline: 'Thai Airways',
         departure_airport: 'Batam',
         arrival_airport: 'Bangkok',
         departure_times: ['10:30', '16:30', '22:30'],
