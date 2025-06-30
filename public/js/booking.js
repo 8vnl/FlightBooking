@@ -107,6 +107,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                         `;
 
+                        flightCard.classList.add('fade-in');
+
                         flightsContainer.appendChild(flightCard);
 
                         const economyDiv = flightCard.querySelector('.economy-class');
