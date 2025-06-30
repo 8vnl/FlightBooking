@@ -614,8 +614,128 @@ const predefinedFlights = [
         price: 1.00,
         available_seats: 150,
         aircraft_type: 'Airbus A320'
+    },
+    {
+        flight_number: 'CH101',
+        airline: 'Thai Airways',
+        departure_airport: 'Batam',
+        arrival_airport: 'Singapore',
+        departure_times: ['09:00', '15:00', '21:00'],
+        arrival_times: ['10:30', '16:30', '22:30'],
+        price: 50.00,
+        available_seats: 150,
+        aircraft_type: 'Airbus A320'
+    },
+    {
+        flight_number: 'AK130',
+        airline: 'AirAsia',
+        departure_airport: 'Batam',
+        arrival_airport: 'Kuala Lumpur',
+        departure_times: ['08:00', '14:00', '20:00'],
+        arrival_times: ['09:30', '15:30', '21:30'],
+        price: 60.00,
+        available_seats: 160,
+        aircraft_type: 'Airbus A320'
+    },
+    {
+        flight_number: 'GA470',
+        airline: 'Garuda Indonesia',
+        departure_airport: 'Batam',
+        arrival_airport: 'Jakarta',
+        departure_times: ['07:30', '13:30', '19:30'],
+        arrival_times: ['09:00', '15:00', '21:00'],
+        price: 70.00,
+        available_seats: 140,
+        aircraft_type: 'Boeing 737'
+    },
+    {
+        flight_number: 'CH102',
+        airline: 'Thai Airways',
+        departure_airport: 'Bangkok',
+        arrival_airport: 'Batam',
+        departure_times: ['11:00', '17:00', '23:00'],
+        arrival_times: ['13:00', '19:00', '01:00'],
+        price: 55.00,
+        available_seats: 150,
+        aircraft_type: 'Airbus A320'
+    },
+    {
+        flight_number: 'CH103',
+        airline: 'Thai Airways',
+        departure_airport: 'Singapore',
+        arrival_airport: 'Batam',
+        departure_times: ['10:00', '16:00', '22:00'],
+        arrival_times: ['11:30', '17:30', '23:30'],
+        price: 45.00,
+        available_seats: 150,
+        aircraft_type: 'Airbus A320'
+    },
+    {
+        flight_number: 'AK131',
+        airline: 'AirAsia',
+        departure_airport: 'Kuala Lumpur',
+        arrival_airport: 'Batam',
+        departure_times: ['09:00', '15:00', '21:00'],
+        arrival_times: ['10:30', '16:30', '22:30'],
+        price: 65.00,
+        available_seats: 160,
+        aircraft_type: 'Airbus A320'
+    },
+    {
+        flight_number: 'GA471',
+        airline: 'Garuda Indonesia',
+        departure_airport: 'Jakarta',
+        arrival_airport: 'Batam',
+        departure_times: ['08:30', '14:30', '20:30'],
+        arrival_times: ['10:00', '16:00', '22:00'],
+        price: 75.00,
+        available_seats: 140,
+        aircraft_type: 'Boeing 737'
+    },
+    {
+        flight_number: 'VN330',
+        airline: 'Vietnam Airlines',
+        departure_airport: 'Ho Chi Minh City',
+        arrival_airport: 'Batam',
+        departure_times: ['09:00', '15:00', '21:00'],
+        arrival_times: ['10:30', '16:30', '22:30'],
+        price: 80.00,
+        available_seats: 150,
+        aircraft_type: 'Airbus A320'
+    },
+    {
+        flight_number: 'VN331',
+        airline: 'Vietnam Airlines',
+        departure_airport: 'Batam',
+        arrival_airport: 'Ho Chi Minh City',
+        departure_times: ['08:00', '14:00', '20:00'],
+        arrival_times: ['09:30', '15:30', '21:30'],
+        price: 80.00,
+        available_seats: 150,
+        aircraft_type: 'Airbus A320'
+    },
+    {
+        flight_number: 'PR800',
+        airline: 'Philippine Airlines',
+        departure_airport: 'Manila',
+        arrival_airport: 'Batam',
+        departure_times: ['07:30', '13:30', '19:30'],
+        arrival_times: ['09:00', '15:00', '21:00'],
+        price: 85.00,
+        available_seats: 160,
+        aircraft_type: 'Airbus A321'
+    },
+    {
+        flight_number: 'PR801',
+        airline: 'Philippine Airlines',
+        departure_airport: 'Batam',
+        arrival_airport: 'Manila',
+        departure_times: ['08:30', '14:30', '20:30'],
+        arrival_times: ['10:00', '16:00', '22:00'],
+        price: 85.00,
+        available_seats: 160,
+        aircraft_type: 'Airbus A321'
     }
-        
 ];
 
 module.exports = predefinedFlights;
