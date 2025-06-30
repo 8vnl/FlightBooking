@@ -8,43 +8,20 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="/css/receipt.css" />
   <link rel="stylesheet" href="/css/index-style.css" />
-  <style>
-    /* Remove max-width override to keep header centered */
-    .flights-header-container {
-      max-width: 1200px !important;
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-    }
-    /* Remove position relative from flights-route */
-    .flights-route {
-      position: static;
-    }
-    /* Style auth-buttons to align right with border and padding */
-    .auth-buttons {
-      position: static !important;
-      margin-left: auto !important;
-      background-color: transparent !important;
-      padding: 0 15px !important;
-      height: auto !important;
-      display: flex !important;
-      align-items: center !important;
-      gap: 10px !important;
-      border-left: 1px solid rgba(255,255,255,0.2) !important;
-    }
   </style>
 </head>
 <body>
   <header class="flights-header-bar">
-    <div class="container flights-header-container">
+    <div class="flights-header-container">
       <div class="flights-route">
-        <img src="/images/travelgo.png" class="flights-logo" alt="TravelGo Logo" />
+        <a href="index.html"><img src="/images/travelgo.png" class="flights-logo" alt="TravelGo Logo" /></a>
         <nav style="display: flex; align-items: center; gap: 20px; width: 100%;">
           <a href="index.html">Flights</a>
           <a href="hotels.html">Hotels</a>
           <a href="#" id="myBookingsBtn">My Bookings</a>
-          <div class="auth-buttons" style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
-            <a href="login.html" style="color: white; text-decoration: none; font-weight: 500;">Login</a>
-            <a href="register.html" style="color: white; text-decoration: none; font-weight: 500;">Register</a>
+          <div id="authButtonsContainer" class="auth-buttons" style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
+            <a href="login.html" class="btn-primary" style="text-decoration: none; font-weight: 500;">Login</a>
+            <a href="register.html" class="btn-primary" style="text-decoration: none; font-weight: 500;">Register</a>
           </div>
         </nav>
       </div>
