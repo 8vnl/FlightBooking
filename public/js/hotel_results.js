@@ -12,35 +12,43 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       if (hotelsContainer) {
-        if (filteredHotels.length === 0) {
-          hotelsContainer.innerHTML = '<p>No hotels available.</p>';
-          return;
-        }
-        hotelsContainer.innerHTML = ''; // Clear previous hotels
+        hotelsContainer.innerHTML = '<div class="loader"></div>'; // Show loader immediately
 
-        filteredHotels.forEach(hotel => {
-          const hotelCard = document.createElement('div');
-          hotelCard.className = 'hotel-card';
+        const startTime = Date.now();
+        const MIN_DELAY = 1500;
 
-          // Create left, center, right sections similar to flight cards
-          hotelCard.innerHTML = `
-            <div class="hotel-card-left">
-              <h3 class="hotel-name">${hotel.name}</h3>
-              <p class="hotel-location">${hotel.location}</p>
-              <p class="hotel-amenities">Amenities: ${hotel.amenities.join(', ')}</p>
-            </div>
-            <div class="hotel-card-center">
-              <p class="room-types-title">Room Types & Prices:</p>
-              <ul class="room-types-list">
-                ${hotel.room_types.map(room => `<li>${room.type} - MYR ${room.price.toFixed(2)} (${room.available_rooms} rooms available)</li>`).join('')}
-              </ul>
-            </div>
-            <div class="hotel-card-right">
-              <button class="select-hotel-btn">Select</button>
-            </div>
-          `;
+        setTimeout(() => {
+          if (filteredHotels.length === 0) {
+            hotelsContainer.innerHTML = '<p>No hotels available.</p>';
+            return;
+          }
+          hotelsContainer.innerHTML = ''; // Clear loader
 
-          hotelsContainer.appendChild(hotelCard);
+          filteredHotels.forEach(hotel => {
+            const hotelCard = document.createElement('div');
+            hotelCard.className = 'hotel-card';
+
+            // Create left, center, right sections similar to flight cards
+            hotelCard.innerHTML = `
+              <div class="hotel-card-left">
+                <h3 class="hotel-name">${hotel.name}</h3>
+                <p class="hotel-location">${hotel.location}</p>
+                <p class="hotel-amenities">Amenities: ${hotel.amenities.join(', ')}</p>
+              </div>
+              <div class="hotel-card-center">
+                <p class="room-types-title">Room Types & Prices:</p>
+                <ul class="room-types-list">
+                  ${hotel.room_types.map(room => `<li>${room.type} - MYR ${room.price.toFixed(2)} (${room.available_rooms} rooms available)</li>`).join('')}
+                </ul>
+              </div>
+              <div class="hotel-card-right">
+                <button class="select-hotel-btn">Select</button>
+              </div>
+            `;
+
+            hotelCard.classList.add('fade-in');
+
+            hotelsContainer.appendChild(hotelCard);
 
             const selectBtn = hotelCard.querySelector('.select-hotel-btn');
             selectBtn.addEventListener('click', () => {
@@ -66,7 +74,8 @@ document.addEventListener('DOMContentLoaded', function () {
               params.set('checkoutDate', checkoutDate); // Add checkoutDate param
               window.location.href = `/hotel_booking.html?${params.toString()}`;
             });
-        });
+          });
+        }, MIN_DELAY);
       }
     }
 
