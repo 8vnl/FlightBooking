@@ -93,7 +93,7 @@ body {
 }
 
 footer {
-  background-color: #0a3d62;
+  background-color: var(--accent-color);
   color: white;
   padding: 40px 0 20px;
   box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
