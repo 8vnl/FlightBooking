@@ -611,7 +611,7 @@ const predefinedFlights = [
         arrival_airport: 'Bangkok',
         departure_times: ['10:30', '16:30', '22:30'],
         arrival_times: ['12:00', '18:00', '00:00'],
-        price: 1.00,
+        price: 15.00,
         available_seats: 150,
         aircraft_type: 'Airbus A320'
     },
