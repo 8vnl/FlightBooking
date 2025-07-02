@@ -8,4 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (returnDateInput) {
         returnDateInput.setAttribute('min', today);
     }
+    // For hotels.html check-in and check-out dates
+    const checkinDateInput = document.getElementById('checkinDate');
+    const checkoutDateInput = document.getElementById('checkoutDate');
+    if (checkinDateInput) {
+        checkinDateInput.setAttribute('min', today);
+    }
+    if (checkoutDateInput) {
+        checkoutDateInput.setAttribute('min', today);
+    }
 });
