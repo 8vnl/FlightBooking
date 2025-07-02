@@ -306,38 +306,51 @@ nav a {
 
 /* Footer */
 footer {
-  background: var(--accent-color);
+  background-color: var(--accent-color);
   color: white;
-  padding: 40px 20px;
-  font-size: 0.9rem;
+  padding: 40px 0 20px;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
 }
 
 .footer-columns {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 0 20px;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+  margin: 0 15px 20px;
 }
 
 .footer-column h4 {
-  font-size: 1rem;
-  margin-bottom: 10px;
-  font-weight: 600;
+  margin-bottom: 15px;
+  font-weight: 700;
+  border-bottom: 2px solid rgba(255,255,255,0.2);
+  padding-bottom: 8px;
 }
 
 .footer-column a {
-  display: block;
   color: white;
   text-decoration: none;
-  margin-bottom: 5px;
+  display: block;
+  margin-bottom: 8px;
+  transition: color 0.3s;
+}
+
+.footer-column a:hover {
+  color: #aad4ff;
 }
 
 .copyright {
-  margin-top: 30px;
-  font-size: 0.8rem;
-  color: #ccc;
   text-align: center;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  padding-top: 20px;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  opacity: 0.8;
 }
 
 @media (max-width: 600px) {
