@@ -1,0 +1,169 @@
+body {
+  font-family: 'Mundial', 'Arial', sans-serif;
+  color: #333;
+  line-height: 1.6;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.flights-header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+}
+
+.flights-route {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.flights-logo {
+  height: 40px;
+}
+
+.auth-buttons {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+}
+
+.company-profile-info {
+  padding: 60px 20px;
+  max-width: 1000px;
+  margin: 40px auto 80px;
+  text-align: center;
+}
+
+.heading-primary {
+  font-size: 3.2rem;
+  font-weight: 900;
+  margin-bottom: 25px;
+  color: #3178c6;
+}
+
+.heading-secondary {
+  font-size: 2.4rem;
+  font-weight: 900;
+  margin-bottom: 20px;
+  color: #205081;
+  margin-top: 50px;
+}
+
+.news-item {
+  background-color: #e9f1fb;
+  border: 1px solid #c3d1e8;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 700px;
+  text-align: left;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.news-item:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.news-item h3 {
+  color: #205081;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.news-item p {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.placeholder-text {
+  font-style: italic;
+  color: #666;
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+footer {
+  background-color: var(--accent-color, #205081);
+  color: white;
+  padding: 40px 0 20px;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+}
+
+.footer-columns {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 0 20px;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+  margin: 0 15px 20px;
+}
+
+.footer-column h4 {
+  margin-bottom: 15px;
+  font-weight: 700;
+  border-bottom: 2px solid rgba(255,255,255,0.2);
+  padding-bottom: 8px;
+}
+
+.footer-column a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 8px;
+  transition: color 0.3s;
+}
+
+.footer-column a:hover {
+  color: #aad4ff;
+}
+
+.copyright {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .heading-primary {
+    font-size: 2.2rem;
+  }
+  .heading-secondary {
+    font-size: 1.6rem;
+  }
+  .hero {
+    height: 400px;
+  }
+  .footer-column {
+    min-width: 150px;
+  }
+  .news-item {
+    padding: 15px;
+    margin: 15px 10px;
+    max-width: 100%;
+  }
+}
