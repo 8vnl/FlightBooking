@@ -50,20 +50,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
               </div>
               <div class="hotel-card-center">
-                <p class="room-types-title">Available Rooms</p>
                 <div class="room-types-cards">
                   ${hotel.room_types.map((room, index) => `
-                    <div class="room-type-card ${room.type.toLowerCase().replace(/\\s+/g, '-')}-room${index === 0 ? ' selected' : ''}" data-room-index="${index}">
+                    <div class="room-type-card ${room.type.toLowerCase().replace(/\\s+/g, '-')}-room" data-room-index="${index}">
                       <div class="room-type-name">${room.type}</div>
                       <div class="room-type-price">MYR ${room.price.toFixed(2)}</div>
                       <div class="room-type-availability">${room.available_rooms} rooms left</div>
-                      <div class="room-type-select">Select</div>
                     </div>
                   `).join('')}
                 </div>
-              </div>
-              <div class="hotel-card-right">
-                <button class="select-hotel-btn">Book Now</button>
               </div>
             `;
             hotelCard.classList.add('fade-in');

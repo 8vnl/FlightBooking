@@ -134,15 +134,21 @@
 
 /* Room Types Cards - similar to flight fare classes */
 .room-types-cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  display: flex;
+  gap: 24px;
   margin-left: 0;
-  justify-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  width: 100%;
 }
 
-.room-types-cards > .room-type-card:nth-child(odd):last-child {
-  grid-column: 1 / -1;
+.room-type-card {
+  flex: 1 1 0;
+  max-width: none;
+  min-width: 0;
+  text-align: center;
 }
 
 .room-type-card {
