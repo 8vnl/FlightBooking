@@ -89,9 +89,14 @@
       </div>
 
       <div style="display: flex; align-items: center; justify-content: space-between;">
-        <div class="radio-group" style="margin: 0;">
-          <label><input type="radio" name="tripType" value="one-way" checked /> One Way</label>
-          <label><input type="radio" name="tripType" value="roundtrip" /> Round Trip</label>
+        <div class="glass-radio-group">
+          <input type="radio" name="tripType" id="glass-one-way" value="one-way" checked />
+          <label for="glass-one-way">One Way</label>
+
+          <input type="radio" name="tripType" id="glass-roundtrip" value="roundtrip" />
+          <label for="glass-roundtrip">Round Trip</label>
+
+          <div class="glass-glider"></div>
         </div>
         <button type="submit" class="btn-primary" style="margin: 0;">
           Search Flights
