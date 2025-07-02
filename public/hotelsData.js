@@ -63,6 +63,32 @@ const predefinedHotels = [
     amenities: ['Free WiFi', 'Pool', 'Spa'],
     checkin_time: '15:00',
     checkout_time: '11:00'
+  },
+  {
+    hotel_id: 'H105',
+    name: 'Hanoi Heritage Hotel',
+    location: 'Hanoi',
+    room_types: [
+      { type: 'Standard', price: 75.00, available_rooms: 30 },
+      { type: 'Deluxe', price: 120.00, available_rooms: 15 },
+      { type: 'Suite', price: 170.00, available_rooms: 5 }
+    ],
+    amenities: ['Free WiFi', 'Gym', 'Restaurant'],
+    checkin_time: '14:00',
+    checkout_time: '12:00'
+  },
+  {
+    hotel_id: 'H106',
+    name: 'Aston Resort Batam',
+    location: 'Batam',
+    room_types: [
+      { type: 'Standard', price: 60.00, available_rooms: 50 },
+      { type: 'Deluxe', price: 100.00, available_rooms: 25 },
+      { type: 'Suite', price: 150.00, available_rooms: 10 }
+    ],
+    amenities: ['Free WiFi', 'Pool', 'Spa'],
+    checkin_time: '12:00',
+    checkout_time: '12:00'
   }
 ];
 
