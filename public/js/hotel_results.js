@@ -32,47 +32,76 @@ document.addEventListener('DOMContentLoaded', function () {
             hotelCard.innerHTML = `
               <div class="hotel-card-left">
                 <h3 class="hotel-name">${hotel.name}</h3>
-                <p class="hotel-location">${hotel.location}</p>
-                <p class="hotel-amenities">Amenities: ${hotel.amenities.join(', ')}</p>
+                <p class="hotel-location">
+                  <svg class="location-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  ${hotel.location}
+                </p>
+                <div class="hotel-timings">
+                  <span class="check-in-out">Check-in: ${hotel.checkin_time}</span>
+                  <span class="check-in-out">Check-out: ${hotel.checkout_time}</span>
+                </div>
+                <div class="hotel-amenities">
+                  ${hotel.amenities.map(amenity => `
+                    <span class="amenity-badge">${amenity}</span>
+                  `).join('')}
+                </div>
               </div>
               <div class="hotel-card-center">
-                <p class="room-types-title">Room Types & Prices:</p>
-                <ul class="room-types-list">
-                  ${hotel.room_types.map(room => `<li>${room.type} - MYR ${room.price.toFixed(2)} (${room.available_rooms} rooms available)</li>`).join('')}
-                </ul>
+                <p class="room-types-title">Available Rooms</p>
+                <div class="room-types-cards">
+                  ${hotel.room_types.map((room, index) => `
+                    <div class="room-type-card ${room.type.toLowerCase().replace(/\\s+/g, '-')}-room${index === 0 ? ' selected' : ''}" data-room-index="${index}">
+                      <div class="room-type-name">${room.type}</div>
+                      <div class="room-type-price">MYR ${room.price.toFixed(2)}</div>
+                      <div class="room-type-availability">${room.available_rooms} rooms left</div>
+                      <div class="room-type-select">Select</div>
+                    </div>
+                  `).join('')}
+                </div>
               </div>
               <div class="hotel-card-right">
-                <button class="select-hotel-btn">Select</button>
+                <button class="select-hotel-btn">Book Now</button>
               </div>
             `;
-
             hotelCard.classList.add('fade-in');
 
             hotelsContainer.appendChild(hotelCard);
 
-            const selectBtn = hotelCard.querySelector('.select-hotel-btn');
-            selectBtn.addEventListener('click', () => {
-              // Select the first room type by default for simplicity
-              const selectedRoom = hotel.room_types[0];
-              const selectedHotel = {
-                hotel_id: hotel.hotel_id,
-                name: hotel.name,
-                location: hotel.location,
-                roomType: selectedRoom.type,
-                price: selectedRoom.price,
-                checkin_time: hotel.checkin_time,
-                checkout_time: hotel.checkout_time
-              };
-              localStorage.setItem('selectedHotel', JSON.stringify(selectedHotel));
-              const urlParams = new URLSearchParams(window.location.search);
-              const guests = urlParams.get('guests') || '1';
-              const checkinDate = urlParams.get('checkinDate') || '';
-              const checkoutDate = urlParams.get('checkoutDate') || '';
-              const params = new URLSearchParams(selectedHotel);
-              params.set('guests', guests); // Add guests param
-              params.set('checkinDate', checkinDate); // Add checkinDate param
-              params.set('checkoutDate', checkoutDate); // Add checkoutDate param
-              window.location.href = `/hotel_booking.html?${params.toString()}`;
+            // Room type card selection logic
+            const roomTypeCards = hotelCard.querySelectorAll('.room-type-card');
+
+            roomTypeCards.forEach(card => {
+              card.addEventListener('click', () => {
+                // Remove selected class from all cards
+                roomTypeCards.forEach(c => c.classList.remove('selected'));
+                // Add selected class to clicked card
+                card.classList.add('selected');
+                // Get selected room index
+                const selectedRoomIndex = parseInt(card.getAttribute('data-room-index'));
+                const selectedRoom = hotel.room_types[selectedRoomIndex];
+                const selectedHotel = {
+                  hotel_id: hotel.hotel_id,
+                  name: hotel.name,
+                  location: hotel.location,
+                  roomType: selectedRoom.type,
+                  price: selectedRoom.price,
+                  checkin_time: hotel.checkin_time,
+                  checkout_time: hotel.checkout_time
+                };
+                localStorage.setItem('selectedHotel', JSON.stringify(selectedHotel));
+                const urlParams = new URLSearchParams(window.location.search);
+                const guests = urlParams.get('guests') || '1';
+                const checkinDate = urlParams.get('checkinDate') || '';
+                const checkoutDate = urlParams.get('checkoutDate') || '';
+                const params = new URLSearchParams(selectedHotel);
+                params.set('guests', guests); // Add guests param
+                params.set('checkinDate', checkinDate); // Add checkinDate param
+                params.set('checkoutDate', checkoutDate); // Add checkoutDate param
+                window.location.href = `/hotel_booking.html?${params.toString()}`;
+              });
             });
           });
         }, MIN_DELAY);

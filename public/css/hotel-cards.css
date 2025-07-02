@@ -132,6 +132,89 @@
   background: #0d4689;
 }
 
+/* Room Types Cards - similar to flight fare classes */
+.room-types-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-left: 0;
+  justify-items: center;
+}
+
+.room-types-cards > .room-type-card:nth-child(odd):last-child {
+  grid-column: 1 / -1;
+}
+
+.room-type-card {
+  border-radius: 12px;
+  padding: 18px 24px;
+  min-width: 140px;
+  background-color: white;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  font-family: 'Mundial', sans-serif;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.room-type-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Example room type variations */
+.standard-room {
+  border-color: rgba(59, 130, 246, 0.3);
+  background: linear-gradient(135deg, #f5f9ff, #ffffff);
+  color: #1e40af;
+}
+
+.deluxe-room {
+  border-color: rgba(251, 191, 36, 0.3);
+  background: linear-gradient(135deg, #fffcf5, #ffffff);
+  color: #b45309;
+}
+
+.room-type-name {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.room-type-price {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: inherit;
+  margin-bottom: 4px;
+}
+
+.room-type-availability {
+  font-size: 0.75rem;
+  color: #718096;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .room-types-cards {
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .room-type-card {
+    width: 100%;
+    padding: 16px;
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .hotel-card {
