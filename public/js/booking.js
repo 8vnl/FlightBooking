@@ -117,20 +117,29 @@ document.addEventListener('DOMContentLoaded', function () {
                         const businessDiv = flightCard.querySelector('.business-class');
 
                         function selectFlight(fareClass) {
-                            const tripType = new URLSearchParams(window.location.search).get('tripType') || 'one-way';
-                            const returnDate = new URLSearchParams(window.location.search).get('returnDate') || '';
+                            const urlParams = new URLSearchParams(window.location.search);
+                            const tripType = urlParams.get('tripType') || 'one-way';
+                            const returnDate = urlParams.get('returnDate') || '';
+                            // Use searched departureDate from URL params or localStorage instead of flight.departure_time
+                            let searchedDepartureDate = urlParams.get('departureDate');
+                            if (!searchedDepartureDate) {
+                                const storedFlight = localStorage.getItem('selectedFlight');
+                                if (storedFlight) {
+                                    const flightStored = JSON.parse(storedFlight);
+                                    searchedDepartureDate = flightStored.departureDate;
+                                }
+                            }
                             const selectedFlight = {
                                 flightNumber: flight.flight_number,
                                 airline: flight.airline,
                                 fareClass: fareClass,
                                 departure: flight.departure_airport,
                                 destination: flight.arrival_airport,
-                                departureDate: flight.departure_time.split('T')[0],
+                                departureDate: searchedDepartureDate || flight.departure_time.split('T')[0],
                                 tripType: tripType,
                                 returnDate: returnDate,
                                 price: (fareClass === 'Business' ? flight.price + 50 : flight.price) * (tripType === 'roundtrip' ? 1.5 : 1)
                             };
-                            const urlParams = new URLSearchParams(window.location.search);
                             const passengers = urlParams.get('passengers') || '1';
                             selectedFlight.passengers = passengers;
                             const params = new URLSearchParams(selectedFlight);
@@ -214,6 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 price: parseFloat(urlParams.get('price')) || 0,
                 passengers: parseInt(urlParams.get('passengers')) || 1
             };
+            console.log('DEBUG: selectedFlight.departureDate:', selectedFlight.departureDate);
             flightInfoDiv.innerHTML = `
                 <p><strong>${selectedFlight.airline} ${selectedFlight.flightNumber} - ${selectedFlight.fareClass}</strong></p>
                 <p>From: ${selectedFlight.departure}</p>
@@ -232,15 +242,26 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             const routeDateSpan = document.getElementById('routeDate');
             if (routeDateSpan) {
-                const dateObj = new Date(selectedFlight.departureDate);
-                const options = { weekday: 'short', day: 'numeric', month: 'short' };
-                const formattedDate = new Intl.DateTimeFormat('en-US', options).format(dateObj);
-                routeDateSpan.innerHTML = `<i class="far fa-calendar-alt"></i> ${formattedDate}`;
+                let dateToFormat = selectedFlight.departureDate;
+                if (!dateToFormat) {
+                    // Fallback to localStorage if departureDate is missing
+                    const storedFlight = localStorage.getItem('selectedFlight');
+                    if (storedFlight) {
+                        const flight = JSON.parse(storedFlight);
+                        dateToFormat = flight.departureDate;
+                    }
+                }
+                if (dateToFormat) {
+                    const dateObj = new Date(dateToFormat);
+                    const options = { weekday: 'short', day: 'numeric', month: 'short' };
+                    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(dateObj);
+                    routeDateSpan.innerHTML = `<i class="far fa-calendar-alt"></i> ${formattedDate}`;
+                }
             }
             const routePassengersSpan = document.getElementById('routePassengers');
             if (routePassengersSpan) {
-                const passengersText = selectedFlight.passengers === 1 ? '1 Passenger' : `${selectedFlight.passengers} Passengers`;
-                routePassengersSpan.innerHTML = `<i class="fas fa-user"></i> ${passengersText}`;
+                // Change to show only the number to match flights.html header
+                routePassengersSpan.innerHTML = `<i class="fas fa-user"></i> ${selectedFlight.passengers}`;
             }
 
             // Generate passenger detail forms based on number of passengers
